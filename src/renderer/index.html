@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"/>
+  <title>FreeNameConvention</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ══ TITLE BAR ════════════════════════════════════════════════════════════ -->
+<header class="titlebar">
+  <div class="titlebar-left">
+    <svg class="app-icon" viewBox="0 0 64 64" width="20" height="20">
+      <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#0288d1"/>
+      </linearGradient></defs>
+      <path d="M32 4 L58 14 L58 34 C58 48 46 58 32 62 C18 58 6 48 6 34 L6 14 Z" fill="url(#sg)"/>
+      <polyline points="20,32 28,41 46,24" fill="none" stroke="#fff"
+                stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="app-name">FreeNameConvention</span>
+  </div>
+  <div class="titlebar-center">
+    <span id="guardian-badge" class="badge badge-stopped">
+      <span class="badge-dot"></span>
+      <span id="guardian-badge-label">Guardião parado</span>
+    </span>
+  </div>
+  <div class="titlebar-right">
+    <button id="btn-guardian-toggle" class="btn-guardian">▶ Iniciar</button>
+  </div>
+</header>
+
+<!-- ══ NAVIGATION ════════════════════════════════════════════════════════════ -->
+<nav class="sidebar">
+  <button class="nav-btn active" data-page="folders" title="Minhas Pastas">
+    <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+    <span>Pastas</span>
+  </button>
+  <button class="nav-btn" data-page="normatives" title="Normativas">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-9-6h6v2H9zm0-4h6v2H9z"/></svg>
+    <span>Normas</span>
+  </button>
+  <button class="nav-btn" data-page="validate" title="Validar nome">
+    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+    <span>Validar</span>
+  </button>
+  <button class="nav-btn" data-page="log" title="Registro">
+    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+    <span>Registro</span>
+  </button>
+  <button class="nav-btn" data-page="settings" title="Configurações">
+    <svg viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+    <span>Config.</span>
+  </button>
+  <button class="nav-btn" data-page="help" title="Ajuda">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+    <span>Ajuda</span>
+  </button>
+</nav>
+
+<!-- ══ MAIN CONTENT ══════════════════════════════════════════════════════════ -->
+<main class="content">
+
+  <!-- ── FOLDERS PAGE ──────────────────────────────────────────────────────── -->
+  <section id="page-folders" class="page active">
+    <div class="page-header">
+      <h1>Minhas Pastas</h1>
+      <button id="btn-add-folder" class="btn btn-primary">+ Adicionar Pasta</button>
+    </div>
+    <div id="folders-empty" class="empty-state-hero" style="display:none">
+      <div class="hero-shield">🛡</div>
+      <h2>Proteja seus arquivos</h2>
+      <p>Adicione uma pasta e escolha uma normativa para garantir que todos os arquivos seguem o padrão correto de nomenclatura.</p>
+      <button id="btn-add-folder-empty" class="btn btn-primary btn-hero">+ Adicionar minha primeira pasta</button>
+    </div>
+    <div id="folders-list" class="folders-list"></div>
+  </section>
+
+  <!-- ── NORMATIVAS PAGE ───────────────────────────────────────────────────── -->
+  <section id="page-normatives" class="page">
+    <div class="page-header">
+      <h1>Normativas e Boas Práticas</h1>
+      <input type="text" id="normative-search" class="search-input" placeholder="🔍 Buscar: ISO, NF-e, LGPD..."/>
+    </div>
+    <p class="norm-page-intro">Escolha a normativa do seu setor para aplicar automaticamente o padrão correto de nomenclatura nas suas pastas.</p>
+    <div id="normatives-categories" class="norm-page-categories"></div>
+  </section>
+
+  <!-- ── VALIDATE PAGE ─────────────────────────────────────────────────────── -->
+  <section id="page-validate" class="page">
+    <div class="page-header"><h1>Validar Nome de Arquivo</h1></div>
+    <div class="validate-box">
+      <div class="input-row">
+        <input type="text" id="validate-input" class="validate-input"
+               placeholder="Ex.: PRC-0042-v02-20260301  ou  NFS-12345678000199-20260301-0000001"/>
+        <select id="validate-folder" class="select-field">
+          <option value="">Todas as pastas</option>
+        </select>
+        <button id="btn-validate" class="btn btn-primary">Verificar</button>
+      </div>
+      <div id="validate-result" class="validate-result" style="display:none"></div>
+      <div id="validate-suggestion" class="suggestion-box" style="display:none">
+        <div class="suggestion-label">💡 <strong>Sugestão de nome em conformidade:</strong></div>
+        <div id="suggestion-name" class="suggestion-name"></div>
+        <div class="suggestion-actions">
+          <button id="btn-copy-suggestion" class="btn btn-outline btn-sm">📋 Copiar e usar este nome</button>
+          <span class="suggestion-hint">O nome sugerido usa os valores encontrados no arquivo original preenchendo o padrão exigido.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LOG PAGE ──────────────────────────────────────────────────────────── -->
+  <section id="page-log" class="page">
+    <div class="page-header">
+      <h1>Registro de Violações</h1>
+      <div class="btn-group">
+        <button id="btn-log-export" class="btn btn-outline">Exportar CSV</button>
+        <button id="btn-log-clear"  class="btn btn-danger-outline">Limpar Registro</button>
+      </div>
+    </div>
+    <div id="log-empty" class="empty-state" style="display:none">
+      <p>Nenhuma violação registrada. Ótimo trabalho! 🎉</p>
+    </div>
+    <div id="log-table-wrap" class="log-table-wrap">
+      <table class="log-table">
+        <thead><tr><th>Data/Hora</th><th>Arquivo</th><th>Pasta</th><th>Ação</th></tr></thead>
+        <tbody id="log-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SETTINGS PAGE ─────────────────────────────────────────────────────── -->
+  <section id="page-settings" class="page">
+    <div class="page-header"><h1>Configurações</h1></div>
+    <div class="settings-card">
+      <h2>Idioma da Interface</h2>
+      <select id="lang-select" class="select-field select-md">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+        <option value="he">עברית</option>
+      </select>
+    </div>
+    <div class="settings-card">
+      <h2>🔐 Segurança</h2>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">Senha de administrador</div>
+          <div id="pw-status" class="settings-hint"></div>
+        </div>
+        <div class="btn-group">
+          <button id="btn-set-password"    class="btn btn-outline">Definir senha</button>
+          <button id="btn-change-password" class="btn btn-outline" style="display:none">Alterar</button>
+          <button id="btn-remove-password" class="btn btn-danger-outline" style="display:none">Remover</button>
+        </div>
+      </div>
+      <div class="settings-row" style="margin-top:0.75rem;align-items:flex-start">
+        <div>
+          <div class="settings-label">Nome do administrador</div>
+          <div class="settings-hint">Identifica quem é responsável por esta configuração. Aparece nos relatórios.</div>
+        </div>
+        <div class="cred-input-row">
+          <input type="text" id="admin-username" class="text-field" placeholder="Ex.: Ana Lima — TI" style="min-width:180px"/>
+          <button id="btn-save-admin-user" class="btn btn-outline btn-sm">Salvar</button>
+        </div>
+      </div>
+      <div class="settings-row" style="margin-top:0.5rem">
+        <div>
+          <div class="settings-label">Arquivo de configuração</div>
+          <div class="settings-hint">Restringe o acesso ao usuário atual e SYSTEM</div>
+        </div>
+        <button id="btn-protect-config" class="btn btn-outline">Proteger agora</button>
+      </div>
+    </div>
+    <div class="settings-card">
+      <h2>🚀 Iniciar com o Windows</h2>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">Executar Guardião ao iniciar o Windows</div>
+          <div class="settings-hint">Utiliza o Agendador de Tarefas com privilégio elevado</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="autostart-toggle"/>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-row subtle-row">
+        <span class="settings-label">Usuário atual</span>
+        <span id="current-user-label" class="settings-hint"></span>
+      </div>
+      <div class="runas-section">
+        <label class="radio-option">
+          <input type="radio" name="runas-mode" value="current" checked/>
+          <span>Usar usuário atual (recomendado)</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="runas-mode" value="other"/>
+          <span>Usar outra conta (RunAs)</span>
+        </label>
+        <div id="runas-creds" class="runas-creds" style="display:none">
+          <div class="cred-row">
+            <label for="runas-username">Nome de usuário Windows</label>
+            <div class="cred-input-row">
+              <input type="text" id="runas-username" class="text-field" placeholder="Ex.: EMPRESA\joao.silva"/>
+              <button id="btn-test-user" class="btn btn-outline btn-sm">Verificar</button>
+            </div>
+            <span id="runas-user-feedback" class="cred-feedback"></span>
+          </div>
+          <div class="cred-row">
+            <label for="runas-password">Senha Windows</label>
+            <input type="password" id="runas-password" class="text-field" placeholder="Senha da conta selecionada"/>
+          </div>
+        </div>
+      </div>
+      <div id="autostart-feedback" class="settings-feedback"></div>
+    </div>
+    <div class="settings-card">
+      <h2>🔔 Alertas e Notificações</h2>
+      <p class="settings-hint">Seja avisado imediatamente quando o Guardião detectar um arquivo fora do padrão.</p>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">Notificação do Windows</div>
+          <div class="settings-hint">Exibe um balão de alerta na bandeja do sistema ao detectar violação.</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="desktop-notif-toggle" checked/>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-row" style="margin-top:1rem">
+        <div>
+          <div class="settings-label">Alertas por e-mail</div>
+          <div class="settings-hint">Envia um e-mail ao endereço configurado quando ocorrer uma violação.</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="email-alert-toggle"/>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="email-config-form" class="email-config-form" style="display:none">
+        <div class="email-form-row">
+          <label>E-mail de destino dos alertas</label>
+          <input type="email" id="alert-email" class="text-field" placeholder="ti@suaempresa.com.br"/>
+        </div>
+        <details class="email-smtp-details">
+          <summary>⚙️ Configurações SMTP <span class="help-tip" title="SMTP é o protocolo de envio de e-mail. Use as configurações do seu serviço de e-mail (Gmail, Outlook, servidor próprio, etc.).">?</span></summary>
+          <div class="email-smtp-grid">
+            <div class="email-form-row">
+              <label>Servidor SMTP</label>
+              <input type="text" id="smtp-host" class="text-field" placeholder="smtp.gmail.com"/>
+            </div>
+            <div class="email-form-row">
+              <label>Porta <span class="settings-hint" style="display:inline">(587 = TLS, 465 = SSL)</span></label>
+              <input type="number" id="smtp-port" class="text-field" value="587" placeholder="587"/>
+            </div>
+            <div class="email-form-row">
+              <label>Usuário remetente (e-mail)</label>
+              <input type="email" id="smtp-user" class="text-field" placeholder="seuemail@gmail.com"/>
+            </div>
+            <div class="email-form-row">
+              <label>Senha do e-mail remetente</label>
+              <input type="password" id="smtp-pass" class="text-field" placeholder="Senha ou App Password"/>
+            </div>
+          </div>
+          <div class="email-smtp-hint">💡 No Gmail: ative a <em>Verificação em 2 etapas</em> e gere uma <strong>Senha de App</strong> em minhaconta.google.com/seguranca.</div>
+          <div class="email-smtp-actions">
+            <button id="btn-test-email" class="btn btn-outline btn-sm">📨 Enviar e-mail de teste</button>
+            <span id="email-test-feedback" class="settings-feedback"></span>
+          </div>
+        </details>
+        <button id="btn-save-email-config" class="btn btn-primary btn-sm" style="margin-top:0.75rem">Salvar configurações de e-mail</button>
+        <span id="email-save-feedback" class="settings-feedback" style="margin-left:8px"></span>
+      </div>
+    </div>
+    <div class="settings-card">
+      <h2>💬 Sugestões e Problemas</h2>
+      <p class="settings-hint">Encontrou um problema ou tem uma sugestão? Envie diretamente para a equipe.</p>
+      <button id="btn-feedback" class="btn btn-outline">Enviar sugestão</button>
+    </div>    <div class="settings-card" style="border-left:3px solid #43a047">
+      <h2>💚 Doações — Ajude quem precisa</h2>
+      <p class="settings-hint">
+        O FreeNameConvention é 100% gratuito e open source (MIT).<br>
+        Se esta ferramenta ajudou sua empresa, considere doar para uma instituição de sua escolha.
+      </p>
+      <div class="donate-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:0.75rem;font-size:.88rem">
+        <div><strong>🇧🇷 Brasil</strong></div><div></div>
+        <a href="#" class="donate-link" data-url="https://aacd.org.br/doe">AACD — Reabilitação e inclusão</a>
+        <a href="#" class="donate-link" data-url="https://graacc.org.br/como-ajudar">GRAACC — Câncer infantil</a>
+        <a href="#" class="donate-link" data-url="https://www.fadc.org.br/como-ajudar">Fundação Abrinq — Direitos da criança</a>
+        <a href="#" class="donate-link" data-url="https://www.msf.org.br/doe">MSF Brasil — Ajuda humanitária</a>
+        <a href="#" class="donate-link" data-url="https://www.pastoraldacrianca.org.br/como-ajudar">Pastoral da Criança — Nutrição infantil</a>
+        <a href="#" class="donate-link" data-url="https://www.institutoayrtonsenna.org.br/doe">Inst. Ayrton Senna — Educação</a>
+        <a href="#" class="donate-link" data-url="https://apaebrasil.org.br/como-ajudar">APAE Brasil — Deficiência intelectual</a>
+        <div></div>
+        <div style="grid-column:1/-1;margin-top:4px"><strong>🇮🇱 Israel</strong></div>
+        <a href="#" class="donate-link" data-url="https://www.leket.org/en/donate/">Leket Israel — Resgate alimentar</a>
+        <div></div>
+      </div>
+      <p class="settings-hint" style="margin-top:0.75rem;font-size:.78rem;color:var(--text-muted)">
+        Todas as instituições seguem padrões internacionais de transparência (Microsoft Give guidelines).
+      </p>
+    </div>  </section>
+
+  <!-- ── HELP PAGE ─────────────────────────────────────────────────── -->
+  <section id="page-help" class="page">
+    <div class="page-header">
+      <h1>❓ Ajuda — FreeNameConvention</h1>
+      <div class="help-tab-bar">
+        <button class="help-tab active" data-htab="quickstart">🚀 Início Rápido</button>
+        <button class="help-tab" data-htab="tokens">🔤 Tokens</button>
+        <button class="help-tab" data-htab="builder">🔧 Construtor</button>
+        <button class="help-tab" data-htab="fiscal">📑 Fiscal BR</button>
+        <button class="help-tab" data-htab="faq">❓ FAQ</button>
+      </div>
+    </div>
+
+    <!-- Quick Start -->
+    <div id="htab-quickstart" class="help-panel active">
+      <div class="help-steps">
+        <div class="help-step">
+          <div class="help-step-num">1</div>
+          <div class="help-step-body">
+            <div class="help-step-title">📁 Adicione uma pasta</div>
+            <div class="help-step-desc">Clique em <strong>+ Adicionar Pasta</strong> na página de Pastas (ou <kbd>Ctrl+N</kbd>). Escolha o diretório que deseja monitorar. O assistente abre automaticamente.</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">2</div>
+          <div class="help-step-body">
+            <div class="help-step-title">📐 Escolha uma normativa (ou crie seu padrão)</div>
+            <div class="help-step-desc">O assistente exibe as normativas disponíveis. Escolha a do seu setor — ex.: <strong>NF-e (SEFAZ)</strong> para documentos fiscais, <strong>ISO 9001</strong> para qualidade. Se nenhuma servir, escolha <strong>Padrão próprio</strong> e use o Construtor de Padrão.</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">3</div>
+          <div class="help-step-body">
+            <div class="help-step-title">▶ Inicie o Guardião</div>
+            <div class="help-step-desc">Clique em <strong>▶ Iniciar</strong> na barra superior (ou <kbd>Ctrl+G</kbd>). O Guardião passa a monitorar todas as pastas habilitadas em tempo real usando chokidar.</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">4</div>
+          <div class="help-step-body">
+            <div class="help-step-title">⚠️ Quando um arquivo não conformes é detectado</div>
+            <div class="help-step-desc">Uma janela nativa do Windows aparece com o nome do arquivo, exemplos válidos e uma <strong>sugestão automática de nome em conformidade</strong>. Você pode renomear com 1 clique, mover para quarentena ou ignorar. Alertas também chegam por notificação do Windows e/ou e-mail.</div>
+          </div>
+        </div>
+      </div>
+      <div class="help-tip-box">
+        <strong>💡 Dica rápida:</strong> Use a página <strong>Validar</strong> para testar o nome de um arquivo antes de salvá-lo na pasta monitorada. O sistema sugere automaticamente o nome correto.
+      </div>
+    </div>
+
+    <!-- Tokens Reference -->
+    <div id="htab-tokens" class="help-panel" style="display:none">
+      <p class="help-intro">Tokens são os blocos de construção de um padrão. Escreva-os entre <code>{</code> e <code>}</code> no modo avançado ou use o Construtor visual.</p>
+      <table class="help-token-table">
+        <thead><tr><th>Token</th><th>O que aceita</th><th>Exemplo de resultado</th></tr></thead>
+        <tbody>
+          <tr><td><code>{TEXT}</code></td><td>Qualquer texto alfanumérico (letras, números, hífen, underscore)</td><td>TI, Financeiro, RH-SP</td></tr>
+          <tr><td><code>{TEXT:N}</code></td><td>Texto com exatamente N caracteres</td><td><code>{TEXT:3}</code> → TI2</td></tr>
+          <tr><td><code>{NUM:N}</code></td><td>Número com exatamente N dígitos</td><td><code>{NUM:4}</code> → 0042</td></tr>
+          <tr><td><code>{DATE}</code></td><td>Data no formato AAAA-MM-DD</td><td>2026-03-15</td></tr>
+          <tr><td><code>{DATE:YYYYMMDD}</code></td><td>Data compacta SEM hífens</td><td>20260315</td></tr>
+          <tr><td><code>{DATE:DD-MM-YYYY}</code></td><td>Data brasileira com hífens</td><td>15-03-2026</td></tr>
+          <tr><td><code>{DATE:DD/MM/YYYY}</code></td><td>Data brasileira com barras</td><td>15/03/2026</td></tr>
+          <tr><td><code>{DATE:YYYY-MM}</code></td><td>Ano e mês</td><td>2026-03</td></tr>
+          <tr><td><code>{DATE:MM-YYYY}</code></td><td>Mês e ano</td><td>03-2026</td></tr>
+          <tr><td><code>{DATE:YYYY}</code></td><td>Somente ano</td><td>2026</td></tr>
+          <tr><td><code>{CNPJ}</code></td><td>CNPJ brasileiro — 14 dígitos sem pontuação</td><td>12345678000199</td></tr>
+          <tr><td><code>{CPF}</code></td><td>CPF brasileiro — 11 dígitos sem pontuação</td><td>12345678901</td></tr>
+          <tr><td><code>{VERSION}</code></td><td>Versão do documento</td><td>v01, v1.3, v02</td></tr>
+          <tr><td><code>{ENUM:A|B|C}</code></td><td>Um dos valores listados (case-insensitive)</td><td><code>{ENUM:NF|NFS|NFC}</code> → NF</td></tr>
+          <tr><td><code>{HASH:N}</code></td><td>Hash hexadecimal com N caracteres</td><td><code>{HASH:8}</code> → a1b2c3d4</td></tr>
+          <tr><td><code>{UUID}</code></td><td>UUID v4 completo</td><td>550e8400-e29b-41d4-a716-446655440000</td></tr>
+          <tr><td><code>{ANY}</code></td><td>Qualquer sequência de caracteres</td><td>qualquer-coisa</td></tr>
+          <tr><td><code>texto-fixo</code></td><td>Texto literal (sem chaves) — deve aparecer exato</td><td>DANFE, NF, PRC</td></tr>
+        </tbody>
+      </table>
+      <div class="help-tip-box">
+        <strong>Separadores:</strong> Use <code>-</code> hífen, <code>_</code> underscore ou <code>.</code> ponto entre os tokens. O separador faz parte do padrão — <code>DANFE-{CNPJ}</code> só aceita hífen entre DANFE e o CNPJ.
+      </div>
+    </div>
+
+    <!-- Builder Guide -->
+    <div id="htab-builder" class="help-panel" style="display:none">
+      <p class="help-intro">O <strong>Construtor de Padrão</strong> permite criar regras de nomenclatura visualmente, sem digitar tokens manualmente.</p>
+      <div class="help-builder-steps">
+        <div class="help-builder-row">
+          <div class="help-builder-num">1</div>
+          <div>
+            <strong>Abra o Construtor</strong><br/>
+            Na pasta, clique em <em>Editar → Opções avançadas → Construtor de Padrão</em>, ou via menu <em>Ferramentas → Construtor de Padrão Personalizado</em>.
+          </div>
+        </div>
+        <div class="help-builder-row">
+          <div class="help-builder-num">2</div>
+          <div>
+            <strong>Adicione elementos</strong><br/>
+            Clique em <em>+ Adicionar elemento</em>. Escolha o tipo (CNPJ, Data, Número, Texto, Lista de opções, etc.). Cada bloco pode ter um separador <code>-</code> <code>_</code> <code>.</code> configurável.
+          </div>
+        </div>
+        <div class="help-builder-row">
+          <div class="help-builder-num">3</div>
+          <div>
+            <strong>Configure cada elemento</strong><br/>
+            <ul>
+              <li><strong>Número sequencial:</strong> clique no botão <code>4d</code> para alterar a quantidade de dígitos</li>
+              <li><strong>Lista de opções:</strong> clique em ⋯ para definir os valores possíveis, ex.: <code>NF|NFS|NFC</code></li>
+              <li><strong>Hash / Texto tamanho fixo:</strong> clique em ⋯ para definir N
+              </li>
+              <li><strong>Texto fixo (literal):</strong> digite diretamente no campo do bloco</li>
+            </ul>
+          </div>
+        </div>
+        <div class="help-builder-row">
+          <div class="help-builder-num">4</div>
+          <div>
+            <strong>Modo avançado (opcional)</strong><br/>
+            Ative <em>Modo avançado</em> para editar o padrão técnico diretamente. Útil para copiar/colar padrões prontos de documentos da normativa.
+          </div>
+        </div>
+      </div>
+      <div class="help-examples-grid">
+        <div class="help-example-card">
+          <div class="hec-title">🧧 NF-e fiscal</div>
+          <code>NF-{DATE:YYYY-MM-DD}-{CNPJ}-{NUM:9}-{ENUM:NF|NFS|NFC}</code>
+          <div class="hec-result">NF-2026-03-01-12345678000199-000123456-NF</div>
+        </div>
+        <div class="help-example-card">
+          <div class="hec-title">📋 Procedimento ISO 9001</div>
+          <code>PRC-{NUM:4}-{VERSION}-{DATE:YYYYMMDD}</code>
+          <div class="hec-result">PRC-0042-v02-20260301</div>
+        </div>
+        <div class="help-example-card">
+          <div class="hec-title">👤 Holerite CLT</div>
+          <code>HOL-{CNPJ}-{CPF}-{DATE:YYYY-MM}</code>
+          <div class="hec-result">HOL-12345678000199-12345678901-2026-03</div>
+        </div>
+        <div class="help-example-card">
+          <div class="hec-title">🔒 Incidente de Segurança</div>
+          <code>{ENUM:CRIT|HIGH|MED|LOW}-INC-{NUM:8}-{DATE:YYYYMMDD}</code>
+          <div class="hec-result">HIGH-INC-20260001-20260301</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fiscal BR -->
+    <div id="htab-fiscal" class="help-panel" style="display:none">
+      <p class="help-intro">Padrões para documentos fiscais brasileiros conforme as especificações da SEFAZ e Receita Federal.</p>
+      <div class="help-fiscal-table-wrap">
+        <table class="help-token-table">
+          <thead><tr><th>Documento</th><th>Padrão</th><th>Exemplo válido</th><th>Token data</th></tr></thead>
+          <tbody>
+            <tr><td><strong>DANFE (PDF)</strong></td><td><code>DANFE-{CNPJ}-{DATE:YYYYMMDD}-{NUM:9}</code></td><td>DANFE-12345678000199-20260301-000123456</td><td>⚠ Data SEM hífens</td></tr>
+            <tr><td><strong>NF-e simplificado</strong></td><td><code>NF-{DATE:YYYY-MM-DD}-{CNPJ}-{NUM:9}-{ENUM:NF|NFS|NFC}</code></td><td>NF-2026-03-01-12345678000199-000123456-NF</td><td>✅ Data COM hífens</td></tr>
+            <tr><td><strong>NF-e XML (chave 44d)</strong></td><td><code>{NUM:44}-nfe</code></td><td>35260312345678000199550010000000011123456789-nfe</td><td>—</td></tr>
+            <tr><td><strong>NFS-e (serviços)</strong></td><td><code>NFS-{CNPJ}-{DATE:YYYYMMDD}-{NUM:7}</code></td><td>NFS-12345678000199-20260301-0000001</td><td></td></tr>
+            <tr><td><strong>CT-e (transporte)</strong></td><td><code>{NUM:44}-cte</code></td><td>35260312345678000199570010000000011987654321-cte</td><td></td></tr>
+            <tr><td><strong>SPED / ECD</strong></td><td><code>ECD-{CNPJ}-{DATE:YYYY}</code></td><td>ECD-12345678000199-2025</td><td></td></tr>
+            <tr><td><strong>EFD ICMS/IPI</strong></td><td><code>EFDICMS-{CNPJ}-{DATE:YYYYMMDD}</code></td><td>EFDICMS-12345678000199-20260228</td><td></td></tr>
+            <tr><td><strong>eSocial</strong></td><td><code>ESOCIAL-{ENUM:S1000|S1200|S2200}-{CNPJ}-{DATE:YYYYMMDD}</code></td><td>ESOCIAL-S1200-12345678000199-20260301</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="help-tip-box">
+        <strong>⚠ Atenção — DANFE vs NF-e:</strong> O token <code>{DATE:YYYYMMDD}</code> exige data <strong>SEM hífens</strong>: <code>20260301</code>. O token <code>{DATE:YYYY-MM-DD}</code> exige data <strong>COM hífens</strong>: <code>2026-03-01</code>. Esses padrões são diferentes e não são intercambiáveis.
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div id="htab-faq" class="help-panel" style="display:none">
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>O Guardião bloqueia a edição de arquivos já existentes?</summary>
+          <p>Não. O Guardião monitora apenas <strong>arquivos novos</strong> (evento <code>add</code> do sistema). Arquivos já existentes na pasta no momento em que o Guardião inicia não são verificados.</p>
+        </details>
+        <details class="faq-item">
+          <summary>O que é a pasta <code>_NONCOMPLIANT</code>?</summary>
+          <p>Quando a ação é <em>Mover para quarentena</em> ou <em>Bloquear</em>, arquivos fora do padrão são movidos automaticamente para esta subpasta. A pasta é criada com acesso restrito ao grupo <strong>Administrators</strong> e <strong>SYSTEM</strong> usando <code>icacls</code>. Você pode definir uma pasta de quarentena personalizada em cada pasta monitorada.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Posso ter múltiplos padrões por pasta?</summary>
+          <p>Sim! Uma pasta pode ter vêrios padrões ativos. Um arquivo é válido se corresponder a <strong>qualquer um</strong> dos padrões. Útil quando a pasta recebe arquivos de tipos diferentes, como PDF e XML.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como filtrar apenas alguns tipos de arquivo?</summary>
+          <p>No modal <strong>Editar</strong> da pasta, na seção <em>Extensões de arquivo monitoradas</em>, adicione as extensões desejadas (ex.: <code>.pdf</code>, <code>.xml</code>). Arquivos de outros tipos serão ignorados pelo Guardião.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como exportar e importar as configurações?</summary>
+          <p>Use o menu <strong>Arquivo → Exportar Configuração</strong> para salvar todas as pastas e padrões em um arquivo <code>.json</code>. Use <strong>Arquivo → Importar Configuração</strong> para carregar em outro computador.</p>
+        </details>
+        <details class="faq-item">
+          <summary>O CNPJ deve ter pontuação no nome do arquivo?</summary>
+          <p><strong>Não.</strong> O token <code>{CNPJ}</code> espera 14 dígitos <strong>sem</strong> pontos, barras ou hífens: <code>12345678000199</code>. Nomes de arquivo não devem conter <code>/</code> pois esse caractere é reservado pelo sistema.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como receber alerta por e-mail?</summary>
+          <p>Em <strong>Configurações → Alertas e Notificações</strong>, ative <em>Alertas por e-mail</em> e preencha o servidor SMTP. Para Gmail, ative a verificação em 2 etapas e gere uma <em>Senha de App</em> em minhaconta.google.com/seguranca.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Posso usar o Guardião sem o aplicativo aberto?</summary>
+          <p>Sim. O aplicativo fica na bandeja do sistema (system tray) mesmo com a janela fechada. Configure <strong>Iniciar com o Windows</strong> em Configurações para que o Guardião inicie automaticamente.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ MODAL: Add Folder Wizard ═════════════════════════════════════════════ -->
+<div id="modal-wizard" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="wizard-box">
+    <!-- Step indicator -->
+    <div class="wizard-top">
+      <div class="wizard-steps-nav">
+        <div class="wstep done" data-n="1">
+          <div class="wstep-bubble">✓</div>
+          <div class="wstep-label">Pasta</div>
+        </div>
+        <div class="wstep-line"></div>
+        <div class="wstep active" data-n="2">
+          <div class="wstep-bubble">2</div>
+          <div class="wstep-label">Normativa</div>
+        </div>
+        <div class="wstep-line"></div>
+        <div class="wstep" data-n="3">
+          <div class="wstep-bubble">3</div>
+          <div class="wstep-label">Confirmar</div>
+        </div>
+      </div>
+      <button class="modal-close" data-close="modal-wizard">✕</button>
+    </div>
+    <!-- Selected folder banner -->
+    <div class="wizard-folder-banner">
+      <span class="wfb-icon">📁</span>
+      <span id="wizard-folder-display" class="wfb-path"></span>
+    </div>
+    <!-- STEP 2: Pick normative -->
+    <div id="wizard-step-2" class="wizard-body">
+      <div class="wizard-step-title">Qual padrão de nomenclatura usar?</div>
+      <div class="wizard-step-sub">Escolha a normativa do seu setor. Em dúvida? Comece com <strong>ISO 9001</strong> — serve para qualquer empresa.</div>
+      <input type="text" id="wizard-norm-search" class="wizard-search"
+             placeholder="🔍  Buscar: ISO, NF-e, LGPD, HIPAA..."/>
+      <div id="wizard-norm-container" class="wizard-norm-container"></div>
+    </div>
+    <!-- STEP 3: Preview & confirm -->
+    <div id="wizard-step-3" class="wizard-body" style="display:none">
+      <div id="wizard-selected-summary" class="wizard-selected-summary"></div>
+      <div class="wizard-examples-row">
+        <div class="wizard-ex-col">
+          <div class="wex-header wex-valid">✅ Serão ACEITOS</div>
+          <div id="wizard-valid-ex" class="wex-list"></div>
+        </div>
+        <div class="wizard-ex-col">
+          <div class="wex-header wex-invalid">❌ Serão RECUSADOS</div>
+          <div id="wizard-invalid-ex" class="wex-list">
+            <div class="ex-chip ex-bad">relatorio_final_v3.pdf</div>
+            <div class="ex-chip ex-bad">Novo Documento.docx</div>
+            <div class="ex-chip ex-bad">scan001.pdf</div>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-action-sect">
+        <div class="wact-title">Quando encontrar um arquivo fora do padrão, o Guardião deve:</div>
+        <label class="wact-opt">
+          <input type="radio" name="w-action" value="log" checked/>
+          <div class="wact-body">
+            <span class="wact-icon">📝</span>
+            <div>
+              <div class="wact-label">Apenas registrar</div>
+              <div class="wact-hint">O arquivo fica no lugar. A violação é anotada no Registro.</div>
+            </div>
+          </div>
+        </label>
+        <label class="wact-opt">
+          <input type="radio" name="w-action" value="quarantine"/>
+          <div class="wact-body">
+            <span class="wact-icon">📦</span>
+            <div>
+              <div class="wact-label">Mover para quarentena</div>
+              <div class="wact-hint">O arquivo é movido para a subpasta _NONCOMPLIANT automaticamente.</div>
+            </div>
+          </div>
+        </label>
+      </div>
+      <details class="wizard-advanced" id="wizard-advanced-sect">
+        <summary>⚙ Opções avançadas — ver padrões que serão aplicados</summary>
+        <div id="wizard-patterns-preview" class="wzd-patterns-preview"></div>
+      </details>
+    </div>
+    <!-- Wizard footer -->
+    <div class="wizard-footer">
+      <button id="btn-wizard-back" class="btn btn-outline">← Voltar</button>
+      <button id="btn-wizard-next" class="btn btn-primary" disabled>Avançar →</button>
+      <button id="btn-wizard-finish" class="btn btn-primary" style="display:none">✓ Iniciar monitoramento</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Edit Folder ══════════════════════════════════════════════════ -->
+<div id="modal-edit" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal-box modal-edit-box">
+    <div class="modal-header">
+      <h2 id="edit-title">Editar Pasta</h2>
+      <button class="modal-close" data-close="modal-edit">✕</button>
+    </div>
+    <div class="modal-body modal-edit-body">
+      <div id="edit-path-display" class="edit-path-display"></div>
+      <!-- Identidade da pasta -->
+      <div class="edit-sect">
+        <div class="edit-sect-label">🏷️ Identidade da pasta <span class="settings-hint" style="font-weight:normal">— como você quer organizar e identificar esta pasta</span></div>
+        <div class="folder-meta-grid">
+          <div class="folder-meta-row">
+            <label>Apelido / Nome amigável <span class="settings-hint" style="font-weight:normal">(aparece no cartão)</span></label>
+            <input type="text" id="edit-folder-label-input" class="text-field" placeholder="Ex.: NF-e Mensais — Financeiro"/>
+          </div>
+          <div class="folder-meta-row">
+            <label>Propósito / Descrição <span class="settings-hint" style="font-weight:normal">(lembrete sobre o uso desta pasta)</span></label>
+            <textarea id="edit-folder-purpose" class="text-field text-area-sm" rows="2" placeholder="Ex.: Armazena NF-e emitidas pelo CNPJ 12.345.678/0001-95. Responsabilidade do Financeiro."></textarea>
+          </div>
+          <div class="folder-meta-row two-col">
+            <div>
+              <label>Responsável</label>
+              <input type="text" id="edit-folder-owner" class="text-field" placeholder="Ex.: Ana Lima"/>
+            </div>
+            <div>
+              <label>Departamento</label>
+              <input type="text" id="edit-folder-dept" class="text-field" placeholder="Ex.: Financeiro"/>
+            </div>
+          </div>
+          <div class="folder-meta-row two-col">
+            <div>
+              <label>Nível de alerta <span class="help-tip" title="Urgência das notificações quando houver violação nesta pasta. Crítico = envia e-mail mesmo que e-mail global esteja desligado.">?</span></label>
+              <select id="edit-folder-priority" class="select-field">
+                <option value="info">ℹ️ Informativo</option>
+                <option value="medium" selected>⚠️ Atenção</option>
+                <option value="high">🔴 Alto</option>
+                <option value="critical">🚨 Crítico</option>
+              </select>
+            </div>
+            <div>
+              <label>Cor do cartão</label>
+              <div id="edit-folder-color-wrap" class="color-swatch-row"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Normativa aplicada -->
+      <div class="edit-sect">
+        <div class="edit-sect-label">Normativa aplicada</div>
+        <div class="edit-norm-row">
+          <div id="edit-norm-display" class="edit-norm-display">Nenhuma normativa</div>
+          <button id="btn-edit-change-norm" class="btn btn-outline btn-sm">Trocar normativa</button>
+        </div>
+      </div>
+      <!-- Padrões ativos -->
+      <div class="edit-sect">
+        <div class="edit-sect-label">
+          Padrões de nome ativos
+          <span id="edit-pattern-badge" class="edit-count-badge">0</span>
+        </div>
+        <div id="edit-patterns-list" class="edit-patterns-list"></div>
+        <div id="edit-no-pats-msg" class="edit-no-pats-msg" style="display:none">
+          ⚠️ Sem padrões configurados. O Guardião não monitorará esta pasta.
+        </div>
+      </div>
+      <!-- Extensões monitoradas -->
+      <div class="edit-sect">
+        <div class="edit-sect-label">
+          Extensões de arquivo monitoradas
+          <span class="help-tip" title="Filtre quais tipos de arquivo serão verificados. Por padrão, todos os arquivos são monitorados. Adicione extensões específicas como .pdf .docx .xml para monitorar somente esses tipos.">?</span>
+        </div>
+        <div id="edit-extensions-wrap" class="ext-filter-wrap">
+          <!-- chips rendered by app.js -->
+        </div>
+        <div class="ext-add-row">
+          <input type="text" id="edit-ext-input" class="text-field text-field-sm" placeholder=".pdf   .docx   .xml" />
+          <button id="btn-edit-add-ext" class="btn btn-outline btn-sm">+ Adicionar</button>
+          <button id="btn-edit-all-ext" class="btn btn-outline btn-sm">✅ Todos</button>
+        </div>
+        <div class="settings-hint" style="margin-top:4px">Ex.: .pdf .docx .xlsx .xml — clique em <strong>Todos</strong> para monitorar qualquer tipo de arquivo.</div>
+      </div>
+      <!-- Ação -->
+      <div class="edit-sect">
+        <div class="edit-sect-label">Quando detectar violação:</div>
+        <div class="edit-action-opts">
+          <label class="wact-opt compact">
+            <input type="radio" name="edit-action" value="log"/>
+            <div class="wact-body"><span>📝</span><span>Apenas registrar</span></div>
+          </label>
+          <label class="wact-opt compact">
+            <input type="radio" name="edit-action" value="quarantine"/>
+            <div class="wact-body"><span>📦</span><span>Mover para quarentena</span></div>
+          </label>
+          <label class="wact-opt compact">
+            <input type="radio" name="edit-action" value="block"/>
+            <div class="wact-body"><span>🚫</span><span>Bloquear (quarentena imediata)</span></div>
+          </label>
+        </div>
+      </div>
+      <!-- Pasta de quarentena personalizada -->
+      <div id="edit-quarantine-section" class="edit-sect edit-quarantine-sect" style="display:none">
+        <div class="edit-sect-label">📦 Pasta de quarentena <span class="settings-hint" style="font-weight:normal">(onde mover arquivos não conformes)</span></div>
+        <div class="settings-hint" style="margin-bottom:8px">Por padrão os arquivos são movidos para <strong>_NONCOMPLIANT</strong> dentro da pasta monitorada. Defina um caminho diferente se precisar centralizar em outra pasta.</div>
+        <div class="ext-add-row">
+          <input type="text" id="edit-quarantine-path" class="text-field" placeholder="Deixe vazio para usar _NONCOMPLIANT"/>
+          <button id="btn-edit-quarantine-browse" class="btn btn-outline btn-sm">📂 Procurar</button>
+        </div>
+      </div>
+      <!-- Opções avançadas -->
+      <details class="edit-advanced" id="edit-advanced">
+        <summary class="edit-advanced-summary">⚙ Opções avançadas</summary>
+        <div class="edit-advanced-body">
+          <button id="btn-edit-builder" class="btn btn-outline btn-sm">
+            🔧 Construtor de padrão personalizado
+          </button>
+          <div class="edit-lock-block" style="margin-top:8px">
+            <button id="btn-edit-lock-folder" class="btn btn-outline btn-sm">
+              🔒 Bloquear acesso à pasta
+            </button>
+            <button id="btn-edit-unlock-folder" class="btn btn-outline btn-sm" style="display:none">
+              🔓 Restaurar permissões da pasta
+            </button>
+            <div class="settings-hint" style="margin-top:4px">Usa <code>icacls</code> para restringir o acesso à pasta somente ao usuário atual, Administrators e SYSTEM. Requer privilégio de administrador.</div>
+          </div>
+          <div id="edit-script-block" class="edit-script-block" style="display:none">
+            <button id="btn-edit-export-script" class="btn btn-outline btn-sm">
+              📥 Visualizar / Exportar script PowerShell
+            </button>
+            <div class="edit-script-hint">Permite monitorar esta pasta sem o app instalado.</div>
+          </div>
+        </div>
+      </details>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" data-close="modal-edit">Cancelar</button>
+      <button id="btn-edit-save" class="btn btn-primary">Salvar alterações</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Normative Picker (for "Trocar normativa") ═════════════════════ -->
+<div id="modal-norm-picker" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal-box modal-picker-box">
+    <div class="modal-header">
+      <h2>Escolher normativa</h2>
+      <button class="modal-close" data-close="modal-norm-picker">✕</button>
+    </div>
+    <div class="picker-body">
+      <input type="text" id="picker-search" class="search-input"
+             style="width:100%;margin-bottom:12px" placeholder="🔍  Buscar normativa..."/>
+      <div id="picker-norm-container" class="wizard-norm-container picker-compact"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" data-close="modal-norm-picker">Cancelar</button>
+      <button id="btn-picker-apply" class="btn btn-primary" disabled>Aplicar normativa</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Pattern Builder ═══════════════════════════════════════════════ -->
+<div id="modal-builder" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal-box modal-builder-box">
+    <div class="modal-header">
+      <h2>Construtor de Padrão de Nome</h2>
+      <button class="modal-close" data-close="modal-builder">✕</button>
+    </div>
+    <p class="modal-desc">Monte o padrão clicando nos elementos abaixo. O exemplo mostrará como os arquivos devem ser nomeados.</p>
+    <div id="builder-parts" class="builder-parts"></div>
+    <button id="btn-add-part" class="btn btn-outline btn-sm">+ Adicionar elemento</button>
+    <div class="builder-preview-box">
+      <div class="preview-label">Exemplo de como ficará o arquivo</div>
+      <div id="builder-preview" class="builder-preview">—</div>
+      <div class="preview-sublabel">O padrão aceita arquivos como este</div>
+    </div>
+    <label class="advanced-toggle">
+      <input type="checkbox" id="advanced-toggle"/>
+      <span>Modo avançado (mostrar padrão técnico)</span>
+    </label>
+    <div id="advanced-raw" class="advanced-raw" style="display:none">
+      <label for="raw-pattern-input">Padrão (edição direta)</label>
+      <input type="text" id="raw-pattern-input" class="text-field mono-field"/>
+    </div>
+    <div class="modal-footer">
+      <button id="btn-builder-cancel" class="btn btn-outline" data-close="modal-builder">Cancelar</button>
+      <button id="btn-builder-insert" class="btn btn-primary">Inserir Padrão</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Password ══════════════════════════════════════════════════════ -->
+<div id="modal-password" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal-box modal-sm">
+    <div class="modal-header">
+      <h2 id="pw-modal-title">Verificação de Senha</h2>
+      <button class="modal-close" data-close="modal-password">✕</button>
+    </div>
+    <div id="pw-modal-body">
+      <div class="form-group" id="pw-current-group" style="display:none">
+        <label for="pw-current">Senha atual</label>
+        <input type="password" id="pw-current" class="text-field" placeholder="Senha atual" autocomplete="current-password"/>
+      </div>
+      <div class="form-group" id="pw-new-group" style="display:none">
+        <label for="pw-new">Nova senha</label>
+        <input type="password" id="pw-new" class="text-field" placeholder="Nova senha" autocomplete="new-password"/>
+        <div id="pw-strength-bar" class="pw-strength-bar"><div id="pw-strength-fill" class="pw-strength-fill"></div></div>
+        <div id="pw-strength-label" class="pw-strength-label"></div>
+      </div>
+      <div class="form-group" id="pw-confirm-group" style="display:none">
+        <label for="pw-confirm">Confirmar senha</label>
+        <input type="password" id="pw-confirm" class="text-field" placeholder="Confirmar senha" autocomplete="new-password"/>
+      </div>
+      <div id="pw-error" class="form-error" style="display:none"></div>
+      <div id="pw-lock-info" class="lock-info" style="display:none">
+        <svg viewBox="0 0 24 24" width="20"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" fill="currentColor"/></svg>
+        <span id="pw-lock-msg"></span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="btn-pw-cancel" class="btn btn-outline" data-close="modal-password">Cancelar</button>
+      <button id="btn-pw-ok" class="btn btn-primary">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: Normative Detail (browse) ══════════════════════════════════════ -->
+<div id="modal-normative" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <h2 id="norm-modal-title">Normativa</h2>
+      <div class="modal-header-actions">
+        <a id="norm-official-link" href="#" class="btn btn-outline btn-sm" style="display:none">🔗 Norma oficial</a>
+        <button class="modal-close" data-close="modal-normative">✕</button>
+      </div>
+    </div>
+    <div id="norm-modal-body" class="norm-modal-body"></div>
+    <div class="modal-footer">
+      <select id="norm-folder-select" class="select-field">
+        <option value="">Selecionar pasta...</option>
+      </select>
+      <button id="btn-norm-apply" class="btn btn-primary">Usar padrões desta norma</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ════════════════════════════════════════════════════════════════ -->
+<div id="toast-container" class="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

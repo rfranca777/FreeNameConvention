@@ -1,0 +1,72 @@
+{
+  "name": "free-name-convention",
+  "version": "2.0.0",
+  "description": "Open-source file naming compliance guardian — Enforce international normative naming standards on your folders. Free forever.",
+  "main": "src/main.js",
+  "author": "FreeNameConvention Community",
+  "license": "MIT",
+  "homepage": "https://github.com/freenameconvention/FreeNameConvention",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freenameconvention/FreeNameConvention.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "start:service": "electron . --service",
+    "build": "electron-builder --win --x64",
+    "build:installer": "electron-builder --win --x64 --config.win.target=nsis",
+    "lint": "echo \"No lint configured yet\""
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "electron-store": "^8.2.0",
+    "nodemailer": "^8.0.1",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-builder": "^24.13.0"
+  },
+  "build": {
+    "appId": "com.freenameconvention.guardian",
+    "productName": "FreeNameConvention",
+    "copyright": "Copyright © 2026 FreeNameConvention Community — MIT License",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopIcon": true,
+      "createStartMenuShortcut": true,
+      "installerSidebar": null,
+      "license": "LICENSE"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "LICENSE",
+      "README.md"
+    ],
+    "extraResources": [
+      {
+        "from": "scripts/",
+        "to": "scripts/",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
