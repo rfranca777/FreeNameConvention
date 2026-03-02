@@ -3,7 +3,7 @@
 const { app, BrowserWindow, ipcMain, Tray, Menu, dialog, shell, nativeImage, Notification } = require('electron');
 const path    = require('path');
 const fs      = require('fs');
-const { v4: uuidv4 } = require('uuid');
+const crypto  = require('crypto');
 
 const adminGuard = require('./service/admin-guard');
 const Guardian   = require('./service/guardian');
@@ -287,7 +287,7 @@ ipc('config:getAll', () => {
 
 ipc('config:addFolder', (_, folderPath) => {
   const cfg = getConfig();
-  const id  = uuidv4();
+  const id  = crypto.randomUUID();
   const label = path.basename(folderPath) || folderPath;
   cfg.folders[id] = {
     id, path: folderPath, label,
@@ -622,7 +622,7 @@ ipc('config:exportConfig', async () => {
   });
   if (!savePath) return { ok: false, error: 'Cancelado' };
   try {
-    const exportData = { version: '2.0', exportedAt: new Date().toISOString(), folders: cfg.folders, language: cfg.language };
+    const exportData = { version: '3.0', exportedAt: new Date().toISOString(), folders: cfg.folders, language: cfg.language };
     fs.writeFileSync(savePath, JSON.stringify(exportData, null, 2), 'utf8');
     return { ok: true, path: savePath };
   } catch (e) { return { ok: false, error: e.message }; }
@@ -717,9 +717,9 @@ ipc('folder:unlockAccess', async (_, folderId) => {
   }
 });
 
-// Shell
+// Shell — STRIDE-T: strict URL scheme whitelist to prevent command injection
 ipc('shell:openUrl', (_, url) => {
-  if (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://'))) {
+  if (typeof url === 'string' && /^(https?:|mailto:)/i.test(url)) {
     shell.openExternal(url);
     return { ok: true };
   }

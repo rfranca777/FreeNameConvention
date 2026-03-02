@@ -1,9 +1,13 @@
 {
   "name": "free-name-convention",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Open-source file naming compliance guardian — Enforce international normative naming standards on your folders. Free forever.",
   "main": "src/main.js",
-  "author": "FreeNameConvention Community",
+  "author": {
+    "name": "Rafael França",
+    "email": "rafael.franca@live.com",
+    "url": "https://github.com/freenameconvention"
+  },
   "license": "MIT",
   "homepage": "https://github.com/freenameconvention/FreeNameConvention",
   "repository": {
@@ -19,9 +23,7 @@
   },
   "dependencies": {
     "chokidar": "^3.6.0",
-    "electron-store": "^8.2.0",
-    "nodemailer": "^8.0.1",
-    "uuid": "^9.0.1"
+    "nodemailer": "^8.0.1"
   },
   "devDependencies": {
     "electron": "^32.0.0",

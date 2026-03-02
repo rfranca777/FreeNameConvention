@@ -32,60 +32,100 @@ const FOLDER_COLORS = [
   { name: 'Padrão',   value: '' },
 ];
 
-// ══ NORMATIVE CATEGORIES (for wizard and normatives page) ════════════════════
+// ══ NORMATIVE CATEGORIES — organized by REGION / COUNTRY ═════════════════════
 const NORM_CATEGORIES = [
-  { id: 'quality',   label: 'Qualidade & Gestão',        emoji: '📋', color: 'var(--cat-quality)',
-    normIds: ['iso9001','iso13485','iso27001','iso15489','iso14001','iso19650','abnt_nbr','internal_generic'] },
-  { id: 'fiscal_br', label: 'Fiscal Brasileiro',         emoji: '🧾', color: 'var(--cat-fiscal)',
-    normIds: ['nfe','nfse','cte','sped','esocial'] },
-  { id: 'financial', label: 'Financeiro & Auditoria',    emoji: '💰', color: 'var(--cat-financial)',
-    normIds: ['bacen4893','cvm','sox','pci_dss','finra'] },
-  { id: 'health',    label: 'Saúde',                     emoji: '🏥', color: 'var(--cat-health)',
-    normIds: ['anvisa','cfm1821','hipaa','fda21cfr11'] },
-  { id: 'legal',     label: 'Jurídico & Privacidade',    emoji: '⚖️', color: 'var(--cat-legal)',
-    normIds: ['lgpd','cnj065','gdpr','israel_privacy'] },
-  { id: 'hr',        label: 'RH & Trabalhista',          emoji: '👥', color: 'var(--cat-hr)',
-    normIds: ['clt_rh'] },
-  { id: 'gov',       label: 'Setor Público',             emoji: '🏛️', color: 'var(--cat-gov)',
-    normIds: ['conarq','decreto10278','israel_archives','dod5015'] },
-  { id: 'agro',      label: 'Agronegócio',               emoji: '🌾', color: 'var(--cat-other)',
-    normIds: ['mapa_agro'] },
+  { id: 'global', label: 'Global / ISO', emoji: '🌐', color: 'var(--cat-quality)',
+    normIds: ['iso9001','iso13485','iso15489','iso27001','iso14001','iso45001','iso19650','pci_dss','internal_generic'] },
+  { id: 'br', label: 'Brasil', emoji: '🇧🇷', color: 'var(--cat-fiscal)',
+    normIds: ['nfe','nfse','cte','sped','esocial','bacen4893','cvm','cfm1821','anvisa','lgpd','cnj065','clt_rh','conarq','decreto10278','abnt_nbr','mapa_agro'] },
+  { id: 'us', label: 'USA', emoji: '🇺🇸', color: 'var(--cat-financial)',
+    normIds: ['sox','hipaa','fda21cfr11','finra','dod5015','nist80053','ferpa'] },
+  { id: 'latam', label: 'Latin America', emoji: '🌎', color: 'var(--cat-other)',
+    normIds: ['cfdi_mx','lfpdppp_mx','afip_ar','dian_co','sii_cl','pipeda_ca'] },
+  { id: 'eu', label: 'European Union', emoji: '🇪🇺', color: 'var(--cat-legal)',
+    normIds: ['gdpr','eidas','nis2_eu','dora_eu','gobd_de','facturae_es','fatturapa_it','cnil_fr'] },
+  { id: 'uk', label: 'United Kingdom', emoji: '🇬🇧', color: 'var(--cat-quality)',
+    normIds: ['uk_gdpr'] },
+  { id: 'apac', label: 'Asia-Pacific', emoji: '🌏', color: 'var(--cat-health)',
+    normIds: ['appi_jp','privacy_au','apra_au','dpdp_in','pipa_kr','pipl_cn','pdpa_sg','pdpa_th'] },
+  { id: 'mena', label: 'Middle East', emoji: '🕌', color: 'var(--cat-gov)',
+    normIds: ['israel_archives','israel_privacy','pdpl_sa','difc_ae'] },
+  { id: 'africa', label: 'Africa', emoji: '🌍', color: 'var(--cat-other)',
+    normIds: ['popia_za','ndpr_ng','dpa_ke'] },
 ];
 
 // ══ NORMATIVE FRIENDLY DISPLAY CONFIG ════════════════════════════════════════
 const NORM_FRIENDLY = {
-  iso9001:         { emoji: '📋', short: 'ISO 9001',        desc: 'Gestão da qualidade — serve para qualquer empresa' },
-  iso13485:        { emoji: '🔬', short: 'ISO 13485',       desc: 'Dispositivos médicos — rastreabilidade de lotes' },
-  iso27001:        { emoji: '🔒', short: 'ISO 27001',       desc: 'Segurança da informação — classificação de documentos' },
-  iso15489:        { emoji: '🗂️', short: 'ISO 15489',      desc: 'Gestão de registros corporativos' },
-  iso14001:        { emoji: '🌿', short: 'ISO 14001',       desc: 'Meio ambiente — licenças e relatórios ambientais' },
-  iso19650:        { emoji: '🏗️', short: 'ISO 19650',      desc: 'Construção civil — projetos e modelos BIM' },
-  abnt_nbr:        { emoji: '📐', short: 'ABNT NBR 13531', desc: 'Projetos de edificações — arquitetura e engenharia' },
-  internal_generic:{ emoji: '✏️', short: 'Uso Geral',      desc: 'Padrão interno flexível para qualquer empresa' },
-  nfe:             { emoji: '🧾', short: 'NF-e (SEFAZ)',    desc: 'Nota Fiscal eletrônica — XML e DANFE' },
+  // ── Global / ISO ──
+  iso9001:         { emoji: '📋', short: 'ISO 9001',        desc: 'Quality Management — any organization' },
+  iso13485:        { emoji: '🔬', short: 'ISO 13485',       desc: 'Medical Devices QMS — batch traceability' },
+  iso15489:        { emoji: '🗂️', short: 'ISO 15489',      desc: 'Records Management — corporate filing' },
+  iso27001:        { emoji: '🔒', short: 'ISO 27001',       desc: 'Information Security — classification' },
+  iso14001:        { emoji: '🌿', short: 'ISO 14001',       desc: 'Environmental Management — licenses' },
+  iso45001:        { emoji: '🦺', short: 'ISO 45001',       desc: 'Occupational Health & Safety — OH&S' },
+  iso19650:        { emoji: '🏗️', short: 'ISO 19650',      desc: 'BIM — construction & engineering models' },
+  pci_dss:         { emoji: '💳', short: 'PCI DSS v4.0',    desc: 'Payment Card security — global' },
+  internal_generic:{ emoji: '✏️', short: 'Internal Policy', desc: 'Flexible templates for any company' },
+  // ── Brazil ──
+  nfe:             { emoji: '🧾', short: 'NF-e (SEFAZ)',    desc: 'Nota Fiscal eletrônica — XML & DANFE' },
   nfse:            { emoji: '🧾', short: 'NFS-e',           desc: 'Nota Fiscal de Serviços eletrônica' },
   cte:             { emoji: '🚛', short: 'CT-e',            desc: 'Conhecimento de Transporte eletrônico' },
-  sped:            { emoji: '📊', short: 'SPED',            desc: 'Escrituração digital — ECD, ECF, EFD' },
-  esocial:         { emoji: '👥', short: 'eSocial',         desc: 'Eventos trabalhistas e previdenciários' },
-  bacen4893:       { emoji: '🏦', short: 'BACEN 4.893',     desc: 'Política de segurança para bancos e fintechs' },
-  cvm:             { emoji: '📈', short: 'CVM 480',         desc: 'Companhias abertas — DFP, ITR e relatórios' },
-  sox:             { emoji: '🔍', short: 'SOX',             desc: 'Papéis de trabalho de auditoria — NYSE/NASDAQ' },
-  pci_dss:         { emoji: '💳', short: 'PCI DSS',         desc: 'Segurança de dados de pagamento com cartão' },
-  finra:           { emoji: '📉', short: 'FINRA 4511',      desc: 'Registros de broker-dealer — Wall Street' },
-  anvisa:          { emoji: '💊', short: 'ANVISA GMP',      desc: 'Boas Práticas de Fabricação — SOPs e lotes' },
-  cfm1821:         { emoji: '🏥', short: 'CFM 1.821',       desc: 'Prontuários eletrônicos e exames médicos' },
-  hipaa:           { emoji: '🔏', short: 'HIPAA',           desc: 'Registros de saúde — privacidade garantida (EUA)' },
-  fda21cfr11:      { emoji: '🔬', short: 'FDA 21 CFR 11',   desc: 'Registros farmacêuticos eletrônicos — FDA (EUA)' },
-  lgpd:            { emoji: '🛡️', short: 'LGPD',           desc: 'Proteção de dados pessoais — RIPD e incidentes' },
-  cnj065:          { emoji: '⚖️', short: 'CNJ 65/2008',    desc: 'Peças processuais com número NUP' },
-  gdpr:            { emoji: '🇪🇺', short: 'GDPR',          desc: 'Proteção de dados pessoais — União Europeia' },
-  israel_privacy:  { emoji: '🔐', short: 'Israel Privacy',  desc: 'Proteção de dados — Israel PPA' },
-  clt_rh:          { emoji: '👔', short: 'CLT / RH',        desc: 'Holerites, contratos e documentos trabalhistas' },
-  conarq:          { emoji: '🏛️', short: 'CONARQ',         desc: 'Arquivos públicos digitais — e-ARQ Brasil' },
-  decreto10278:    { emoji: '📄', short: 'Decreto 10.278',  desc: 'Digitalização de documentos públicos e privados' },
-  israel_archives: { emoji: '📜', short: 'Israel Archives', desc: 'Documentos de instituições públicas — Israel' },
-  dod5015:         { emoji: '🪖', short: 'DoD 5015.02',     desc: 'Gestão de registros — Defesa dos EUA' },
-  mapa_agro:       { emoji: '🌾', short: 'MAPA / SISLEGIS', desc: 'Rastreabilidade e certificação agropecuária' },
+  sped:            { emoji: '📊', short: 'SPED',            desc: 'Public Digital Bookkeeping — ECD/ECF/EFD' },
+  esocial:         { emoji: '👥', short: 'eSocial',         desc: 'Labor & social events — MTE/RFB' },
+  bacen4893:       { emoji: '🏦', short: 'BACEN 4.893',     desc: 'Cybersecurity policy — banks & fintechs' },
+  cvm:             { emoji: '📈', short: 'CVM 480',         desc: 'Publicly traded companies — DFP/ITR' },
+  cfm1821:         { emoji: '🏥', short: 'CFM 1.821',       desc: 'Electronic Medical Records — Brazil' },
+  anvisa:          { emoji: '💊', short: 'ANVISA GMP',      desc: 'Good Manufacturing Practices — pharma' },
+  lgpd:            { emoji: '🛡️', short: 'LGPD',           desc: 'Data Protection — Brazil (RIPD/DPIA)' },
+  cnj065:          { emoji: '⚖️', short: 'CNJ 65/2008',    desc: 'Judicial case numbering — NUP format' },
+  clt_rh:          { emoji: '👔', short: 'CLT / HR',        desc: 'Payslips, contracts & labor docs' },
+  conarq:          { emoji: '🏛️', short: 'CONARQ',         desc: 'Public archives — e-ARQ Brasil' },
+  decreto10278:    { emoji: '📄', short: 'Decree 10.278',   desc: 'Digitization of public/private docs' },
+  abnt_nbr:        { emoji: '📐', short: 'ABNT NBR 13531', desc: 'Building design — architecture & eng.' },
+  mapa_agro:       { emoji: '🌾', short: 'MAPA / SISLEGIS', desc: 'Agricultural traceability & certs' },
+  // ── USA ──
+  sox:             { emoji: '🔍', short: 'SOX',             desc: 'Sarbanes-Oxley — audit workpapers' },
+  hipaa:           { emoji: '🔏', short: 'HIPAA',           desc: 'Health records privacy — USA' },
+  fda21cfr11:      { emoji: '🔬', short: 'FDA 21 CFR 11',   desc: 'Electronic records — pharma/FDA' },
+  finra:           { emoji: '📉', short: 'FINRA 4511',      desc: 'Broker-dealer records — Wall Street' },
+  dod5015:         { emoji: '🪖', short: 'DoD 5015.02',     desc: 'US Defense records management' },
+  nist80053:       { emoji: '🛡️', short: 'NIST 800-53',    desc: 'Federal information security controls' },
+  ferpa:           { emoji: '🎓', short: 'FERPA',           desc: 'Student education records privacy' },
+  // ── Latin America ──
+  cfdi_mx:         { emoji: '🇲🇽', short: 'CFDI (SAT)',    desc: 'Mexico — electronic invoicing' },
+  lfpdppp_mx:      { emoji: '🔐', short: 'LFPDPPP',        desc: 'Mexico — data protection law' },
+  afip_ar:         { emoji: '🇦🇷', short: 'AFIP',          desc: 'Argentina — electronic invoicing' },
+  dian_co:         { emoji: '🇨🇴', short: 'DIAN',          desc: 'Colombia — electronic invoicing' },
+  sii_cl:          { emoji: '🇨🇱', short: 'SII DTE',       desc: 'Chile — electronic tax documents' },
+  pipeda_ca:       { emoji: '🇨🇦', short: 'PIPEDA',        desc: 'Canada — privacy & data protection' },
+  // ── Europe ──
+  gdpr:            { emoji: '🇪🇺', short: 'GDPR',          desc: 'EU Data Protection — DPIA/ROPA' },
+  eidas:           { emoji: '✍️', short: 'eIDAS',           desc: 'EU digital signatures & trust' },
+  nis2_eu:         { emoji: '🔐', short: 'NIS2',            desc: 'EU cybersecurity for critical infra' },
+  dora_eu:         { emoji: '🏦', short: 'DORA',            desc: 'EU digital resilience — finance' },
+  uk_gdpr:         { emoji: '🇬🇧', short: 'UK GDPR',       desc: 'UK data protection + DPA 2018' },
+  gobd_de:         { emoji: '🇩🇪', short: 'GoBD',          desc: 'Germany — tax document archiving' },
+  facturae_es:     { emoji: '🇪🇸', short: 'Factura-e',     desc: 'Spain — electronic invoicing' },
+  fatturapa_it:    { emoji: '🇮🇹', short: 'FatturaPA',     desc: 'Italy — electronic invoicing via SDI' },
+  cnil_fr:         { emoji: '🇫🇷', short: 'CNIL',          desc: 'France — data protection guidelines' },
+  // ── Asia-Pacific ──
+  appi_jp:         { emoji: '🇯🇵', short: 'APPI',          desc: 'Japan — personal information act' },
+  privacy_au:      { emoji: '🇦🇺', short: 'Privacy Act',   desc: 'Australia — privacy & NDB scheme' },
+  apra_au:         { emoji: '🏦', short: 'APRA CPS 234',   desc: 'Australia — prudential info security' },
+  dpdp_in:         { emoji: '🇮🇳', short: 'DPDP Act',      desc: 'India — digital personal data' },
+  pipa_kr:         { emoji: '🇰🇷', short: 'PIPA',          desc: 'South Korea — personal info act' },
+  pipl_cn:         { emoji: '🇨🇳', short: 'PIPL',          desc: 'China — personal info protection' },
+  pdpa_sg:         { emoji: '🇸🇬', short: 'PDPA',          desc: 'Singapore — personal data protection' },
+  pdpa_th:         { emoji: '🇹🇭', short: 'PDPA',          desc: 'Thailand — personal data protection' },
+  // ── Middle East ──
+  israel_archives: { emoji: '📜', short: 'IL Archives',    desc: 'Israel — state archives law' },
+  israel_privacy:  { emoji: '🔐', short: 'IL Privacy',     desc: 'Israel — privacy protection law' },
+  pdpl_sa:         { emoji: '🇸🇦', short: 'PDPL',          desc: 'Saudi Arabia — personal data law' },
+  difc_ae:         { emoji: '🇦🇪', short: 'DIFC DPL',      desc: 'UAE/DIFC — data protection law' },
+  // ── Africa ──
+  popia_za:        { emoji: '🇿🇦', short: 'POPIA',         desc: 'South Africa — personal info act' },
+  ndpr_ng:         { emoji: '🇳🇬', short: 'NDPR/NDPA',     desc: 'Nigeria — data protection' },
+  dpa_ke:          { emoji: '🇰🇪', short: 'DPA 2019',      desc: 'Kenya — data protection act' },
 };
 
 // ══ STATE ═══════════════════════════════════════════════════════════════════
@@ -1613,20 +1653,38 @@ function showAboutModal() {
         </svg>
       </div>
       <h2 style="margin:.5rem 0 .25rem">FreeNameConvention</h2>
-      <p style="color:var(--text-secondary);margin:0 0 .75rem">Versão 2.0 &nbsp;·&nbsp; Electron 32</p>
+      <p style="color:var(--text-secondary);margin:0 0 .75rem">v3.0 &nbsp;·&nbsp; Electron 32 &nbsp;·&nbsp; 60+ Normatives</p>
       <p style="font-size:.85rem;line-height:1.6;color:var(--text-secondary)">
-        Ferramenta para padronização e monitoramento<br>
-        de nomenclatura de arquivos corporativos.<br><br>
-        Suporte a normativas fiscais, ISO, RH, TI<br>
-        e padrões completamente personalizados.<br>
-        Compatível com contas de domínio (AD).<br><br>
-        <em>Guardião ativo em segundo plano</em>
+        Open-source file naming compliance guardian.<br>
+        Enforce international naming standards on your folders.<br><br>
+        60+ regulations from every continent: ISO, GDPR, HIPAA,<br>
+        NF-e, SOX, LGPD, APPI, POPIA, and many more.<br>
+        Compatible with domain accounts (AD).<br><br>
+        <em>Guardian running in the background</em>
       </p>
-      <div style="margin:1rem 0;padding:.75rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">
-        <div style="font-weight:600;margin-bottom:.5rem">💚 Doações — Ajude quem precisa</div>
-        <p style="font-size:.8rem;color:var(--text-secondary);margin:0 0 .5rem">
-          O FreeNameConvention é 100% gratuito e open source.<br>
-          Se puder, doe para uma instituição de sua escolha:
+      <div style="margin:.75rem 0;padding:.6rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">
+        <div style="font-weight:600;margin-bottom:.3rem">👨‍💻 Created by</div>
+        <p style="font-size:.8rem;color:var(--text-secondary);margin:0;line-height:1.7">
+          <strong>Rafael França</strong><br>
+          ✉️ <a href="#" class="about-donate-link" data-url="mailto:rafael.franca@live.com">rafael.franca@live.com</a><br>
+          📞 +55 11 91580-0911
+        </p>
+      </div>
+      <div style="margin:.5rem 0;padding:.6rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">
+        <div style="font-weight:600;margin-bottom:.3rem">🛡️ odefender Community</div>
+        <p style="font-size:.8rem;color:var(--text-secondary);margin:0 0 .3rem">
+          Join our open-source security community:
+        </p>
+        <div style="font-size:.8rem;line-height:1.7">
+          <a href="#" class="about-donate-link" data-url="https://github.com/freenameconvention">GitHub</a> ·
+          <a href="#" class="about-donate-link" data-url="https://github.com/freenameconvention/FreeNameConvention/discussions">Discussions</a>
+        </div>
+      </div>
+      <div style="margin:.5rem 0;padding:.6rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">
+        <div style="font-weight:600;margin-bottom:.3rem">💚 Donations — Help those in need</div>
+        <p style="font-size:.8rem;color:var(--text-secondary);margin:0 0 .3rem">
+          FreeNameConvention is 100% free & open source.<br>
+          Please consider donating to a charity of your choice:
         </p>
         <div style="font-size:.8rem;line-height:1.7">
           <a href="#" class="about-donate-link" data-url="https://aacd.org.br/doe">🇧🇷 AACD</a> ·

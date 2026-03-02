@@ -2,14 +2,14 @@
 
 /**
  * FreeNameConvention — Internationalization Engine
- * Supports: pt (Português), en (English), he (עברית)
+ * Supports: pt (Português), en (English), he (עברית), es (Español)
  * Hebrew triggers RTL layout automatically.
  */
 
 const fs   = require('fs');
 const path = require('path');
 
-const SUPPORTED = ['pt', 'en', 'he'];
+const SUPPORTED = ['pt', 'en', 'he', 'es'];
 const RTL_LANGS = ['he', 'ar'];
 
 let currentLang = 'pt';
@@ -79,7 +79,8 @@ function getLanguages() {
   return [
     { code: 'pt', name: 'Português', flag: '🇧🇷' },
     { code: 'en', name: 'English',   flag: '🇺🇸' },
-    { code: 'he', name: 'עברית',     flag: '🇮🇱' }
+    { code: 'he', name: 'עברית',     flag: '🇮🇱' },
+    { code: 'es', name: 'Español',   flag: '🇪🇸' }
   ];
 }
 
