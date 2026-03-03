@@ -38,6 +38,7 @@
   "scripts": {
     "start": "electron .",
     "start:service": "electron . --service",
+    "dist": "electron-builder --win --x64",
     "build": "electron-builder --win --x64",
     "build:installer": "electron-builder --win --x64 --config.win.target=nsis",
     "lint": "echo \"No lint configured yet\""
@@ -53,7 +54,7 @@
   "build": {
     "appId": "com.freenameconvention.guardian",
     "productName": "FreeNameConvention",
-    "copyright": "Copyright © 2026 FreeNameConvention Community — MIT License",
+    "copyright": "Copyright © 2026 Rafael França — ODefender Community — MIT License",
     "win": {
       "target": [
         {
@@ -70,9 +71,13 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
+      "shortcutName": "FreeNameConvention",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
       "installerSidebar": null,
       "license": "LICENSE"
     },
+    "artifactName": "${productName}-Setup-${version}.${ext}",
     "files": [
       "src/**/*",
       "assets/**/*",
