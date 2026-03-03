@@ -1,0 +1,84 @@
+name: CI — Syntax & Module Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: windows-latest
+    name: Syntax & Module Validation
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Syntax check — main.js
+        run: node --check src/main.js
+
+      - name: Syntax check — guardian.js
+        run: node --check src/service/guardian.js
+
+      - name: Syntax check — preload.js
+        run: node --check src/preload.js
+
+      - name: Syntax check — admin-guard.js
+        run: node --check src/service/admin-guard.js
+
+      - name: Syntax check — validator.js
+        run: node --check src/core/validator.js
+
+      - name: Syntax check — normatives.js
+        run: node --check src/core/normatives.js
+
+      - name: Module load test
+        run: |
+          node -e "
+          const v = require('./src/core/validator');
+          const n = require('./src/core/normatives');
+          const ag = require('./src/service/admin-guard');
+          const i18n = require('./src/core/i18n');
+          console.log('validator methods:', Object.keys(v).join(', '));
+          console.log('normatives count:', n.getAll().length);
+          console.log('admin-guard methods:', Object.keys(ag).join(', '));
+          i18n.loadLang('en');
+          console.log('i18n lang:', i18n.getLang());
+          console.log('ALL MODULE CHECKS PASSED');
+          "
+
+      - name: PBKDF2 round-trip test
+        run: |
+          node -e "
+          const ag = require('./src/service/admin-guard');
+          const hash = ag.hashPassword('test-password-ci');
+          const ok = ag.verifyPassword('test-password-ci', hash);
+          const fail = ag.verifyPassword('wrong', hash);
+          if (!ok) throw new Error('PBKDF2 verify failed for correct password');
+          if (fail) throw new Error('PBKDF2 verify passed for wrong password');
+          console.log('PBKDF2 round-trip: PASSED');
+          "
+
+      - name: Normatives integrity check
+        run: |
+          node -e "
+          const n = require('./src/core/normatives');
+          const all = n.getAll();
+          let errors = [];
+          for (const norm of all) {
+            if (!norm.id) errors.push('Missing id: ' + JSON.stringify(norm.name));
+            if (!norm.patterns || norm.patterns.length === 0) errors.push('No patterns: ' + norm.id);
+          }
+          if (errors.length > 0) { console.error(errors.join('\n')); process.exit(1); }
+          console.log('Normatives integrity: PASSED (' + all.length + ' normatives)');
+          "
