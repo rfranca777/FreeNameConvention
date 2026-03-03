@@ -4,15 +4,15 @@
 
 <h1>FreeNameConvention</h1>
 
-<p><strong>Open-source file naming compliance guardian for Windows</strong><br/>
+<p><strong>Open-source file naming compliance guardian for Windows Server &amp; Windows</strong><br/>
 Enforce 62 international normative naming standards on your folders — real-time monitoring, quarantine, and audit logging.<br/>
 ISO 27001 · GDPR · LGPD · HIPAA · SOX · NF-e · PCI-DSS · NIST · POPIA · PIPL · APPI · FERPA · eIDAS · DORA<br/>
-<em>Free forever. No subscription. No telemetry. 100% open-source.</em></p>
+<em>Designed for corporate file servers. Free forever. No subscription. No telemetry. 100% open-source.</em></p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-3.2.0-blue?style=for-the-badge)](https://github.com/rfranca777/FreeNameConvention/releases/tag/v3.2.0)
 [![Electron](https://img.shields.io/badge/Electron-32-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
-[![Platform](https://img.shields.io/badge/Platform-Windows_10%2F11-0078D4?style=for-the-badge&logo=windows&logoColor=white)](#-installation)
+[![Platform](https://img.shields.io/badge/Platform-Windows_Server_%7C_10%2F11-0078D4?style=for-the-badge&logo=windows&logoColor=white)](#-installation)
 [![Normatives](https://img.shields.io/badge/Normatives-62-FF6F00?style=for-the-badge)](#-normatives)
 [![Languages](https://img.shields.io/badge/Languages-4-success?style=for-the-badge)](#-languages)
 [![Downloads](https://img.shields.io/github/downloads/rfranca777/FreeNameConvention/total?style=for-the-badge&color=brightgreen&label=Downloads)](https://github.com/rfranca777/FreeNameConvention/releases)
@@ -25,7 +25,13 @@ ISO 27001 · GDPR · LGPD · HIPAA · SOX · NF-e · PCI-DSS · NIST · POPIA ·
 
 <br/>
 
-[⬇️ Download Installer](https://github.com/rfranca777/FreeNameConvention/releases/latest) · [📖 How It Works](#-how-it-works) · [📋 62 Normatives](#-normatives) · [🌐 4 Languages](#-languages) · [🔐 Security](#-security) · [❓ FAQ](#-frequently-asked-questions-faq)
+[📖 How It Works](#-how-it-works) · [📋 62 Normatives](#-normatives) · [🌐 4 Languages](#-languages) · [🔐 Security](#-security) · [❓ FAQ](#-frequently-asked-questions-faq)
+
+<br/>
+
+### ⬇️ [Download FreeNameConvention-Setup-3.2.0.exe (~76 MB)](https://github.com/rfranca777/FreeNameConvention/releases/download/v3.2.0/FreeNameConvention-Setup-3.2.0.exe)
+
+*Windows Server 2016 / 2019 / 2022 · Windows 10 / 11 · x64*
 
 </div>
 
@@ -47,7 +53,7 @@ That's why **FreeNameConvention** exists.
 
 ## 🏢 Who Is This For?
 
-FreeNameConvention is designed for **any organization or professional** that needs to maintain file naming compliance:
+FreeNameConvention is designed for **IT administrators and compliance teams** running **Windows Server file shares**, network drives, and any environment that needs automated naming policy enforcement:
 
 | Industry | Use Case | Key Normatives |
 |----------|----------|----------------|
@@ -201,20 +207,20 @@ Switch languages dynamically from **Settings** — the tray menu and system labe
 
 ### ⬇️ Option 1 — Windows Installer (Recommended)
 
-Download the latest installer from the [Releases page](https://github.com/rfranca777/FreeNameConvention/releases/latest):
+**[⬇️ FreeNameConvention-Setup-3.2.0.exe (~76 MB)](https://github.com/rfranca777/FreeNameConvention/releases/download/v3.2.0/FreeNameConvention-Setup-3.2.0.exe)**
 
-```
-FreeNameConvention-Setup-3.2.0.exe  (~76 MB)
-```
+> Tested on: **Windows Server 2016 · Windows Server 2019 · Windows Server 2022 · Windows 10 · Windows 11** (x64)
 
 - One-click NSIS installer
 - Optional install directory
-- Desktop shortcut + Start Menu entry
+- Desktop shortcut + Start Menu entry (on server: Start Menu only)
 - Uninstaller included
+- **No internet connection required after download**
+- **No admin rights required** to run (only to start the Guardian)
 
 ### 🔧 Option 2 — From Source
 
-**Prerequisites:** [Node.js](https://nodejs.org/) v18+ · Windows 10/11 x64
+**Prerequisites:** [Node.js](https://nodejs.org/) v18+ · Windows Server 2016/2019/2022 or Windows 10/11 x64
 
 ```bash
 git clone https://github.com/rfranca777/FreeNameConvention.git
@@ -508,7 +514,7 @@ Copyright © 2026 Rafael França / ODefender Community Contributors.
 
 <sub>
 
-**Keywords:** file naming convention, file naming compliance, naming standard enforcement, document naming policy, regulatory file naming, ISO 27001 file naming, GDPR document naming, LGPD naming compliance, HIPAA file naming, SOX audit file naming, NF-e naming validation, PCI-DSS file naming, NIST document naming, FERPA records naming, POPIA file compliance, PIPL document naming, APPI data naming, eIDAS file naming, DORA compliance, folder monitoring, real-time file watcher, quarantine non-compliant files, file audit logging, document management, data governance, regulatory compliance tool, compliance automation, file naming guardian, open-source compliance, Windows desktop compliance, electron compliance app, naming convention enforcer, document compliance checker, file naming validator, naming pattern wizard, multi-language compliance tool, RTL support compliance, corporate naming policy, enterprise file naming, file naming best practices, automated compliance, 24/7 folder guardian, ACL quarantine, PBKDF2 security, STRIDE threat model, normative naming patterns, free compliance tool
+**Keywords:** file naming convention, file naming compliance, Windows Server file naming, Windows Server compliance, file server naming policy, network share naming enforcement, naming standard enforcement, document naming policy, regulatory file naming, ISO 27001 file naming, GDPR document naming, LGPD naming compliance, HIPAA file naming, SOX audit file naming, NF-e naming validation, PCI-DSS file naming, NIST document naming, FERPA records naming, POPIA file compliance, PIPL document naming, APPI data naming, eIDAS file naming, DORA compliance, folder monitoring, real-time file watcher, quarantine non-compliant files, file audit logging, document management, data governance, regulatory compliance tool, compliance automation, file naming guardian, open-source compliance, Windows Server compliance tool, electron compliance app, naming convention enforcer, document compliance checker, file naming validator, naming pattern wizard, corporate naming policy, enterprise file naming, IT administrator compliance, file server governance, automated compliance, 24/7 folder guardian, ACL quarantine, PBKDF2 security, STRIDE threat model, normative naming patterns, free compliance tool
 
 </sub>
 

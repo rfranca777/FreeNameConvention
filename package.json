@@ -1,7 +1,7 @@
 {
   "name": "free-name-convention",
   "version": "3.2.0",
-  "description": "Open-source file naming compliance guardian for Windows — Enforce 62 international normative naming standards (ISO 27001, GDPR, LGPD, HIPAA, SOX, NF-e, PCI-DSS, NIST, POPIA, PIPL, APPI, FERPA) on your folders with real-time monitoring, quarantine, and audit logging. Free forever.",
+  "description": "Open-source file naming compliance guardian for Windows Server and Windows — Enforce 62 international normative naming standards (ISO 27001, GDPR, LGPD, HIPAA, SOX, NF-e, PCI-DSS, NIST, POPIA, PIPL, APPI, FERPA) on file server shares with real-time monitoring, quarantine, and audit logging. Free forever.",
   "main": "src/main.js",
   "author": {
     "name": "Rafael França",
@@ -23,6 +23,9 @@
     "data-governance",
     "audit",
     "quarantine",
+    "windows-server",
+    "file-server",
+    "network-share",
     "iso",
     "iso-27001",
     "gdpr",
