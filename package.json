@@ -6,7 +6,7 @@
   "author": {
     "name": "Rafael França",
     "email": "rafael.franca@live.com",
-    "url": "https://github.com/freenameconvention"
+    "url": "https://github.com/rfranca777"
   },
   "license": "MIT",
   "keywords": [
@@ -28,12 +28,12 @@
     "node": ">=18.0.0"
   },
   "bugs": {
-    "url": "https://github.com/freenameconvention/FreeNameConvention/issues"
+    "url": "https://github.com/odefender/FreeNameConvention/issues"
   },
-  "homepage": "https://github.com/freenameconvention/FreeNameConvention",
+  "homepage": "https://github.com/odefender/FreeNameConvention",
   "repository": {
     "type": "git",
-    "url": "https://github.com/freenameconvention/FreeNameConvention.git"
+    "url": "https://github.com/odefender/FreeNameConvention.git"
   },
   "scripts": {
     "start": "electron .",

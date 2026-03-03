@@ -1762,8 +1762,8 @@ function showAboutModal() {
           Join our open-source security community:
         </p>
         <div style="font-size:.8rem;line-height:1.7">
-          <a href="#" class="about-donate-link" data-url="https://github.com/freenameconvention">GitHub</a> ·
-          <a href="#" class="about-donate-link" data-url="https://github.com/freenameconvention/FreeNameConvention/discussions">Discussions</a>
+          <a href="#" class="about-donate-link" data-url="https://github.com/rfranca777">GitHub</a> ·
+          <a href="#" class="about-donate-link" data-url="https://github.com/odefender/FreeNameConvention/discussions">Discussions</a>
         </div>
       </div>
       <div style="margin:.5rem 0;padding:.6rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">

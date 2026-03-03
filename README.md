@@ -136,7 +136,7 @@ Switch languages dynamically from **Settings** — the tray menu and system labe
 
 ```bash
 # Clone the repository
-git clone https://github.com/freenameconvention/FreeNameConvention.git
+git clone https://github.com/odefender/FreeNameConvention.git
 cd FreeNameConvention
 
 # Install dependencies
@@ -266,7 +266,7 @@ src/
 Found a bug? Have a suggestion? Want to add a normative?
 
 1. Use the **Feedback** page inside the app
-2. Or open an [Issue on GitHub](https://github.com/freenameconvention/FreeNameConvention/issues)
+2. Or open an [Issue on GitHub](https://github.com/odefender/FreeNameConvention/issues)
 
 Pull requests are welcome!
 
@@ -292,7 +292,7 @@ Pull requests are welcome!
 **Rafael França**
 - ✉️ rafael.franca@live.com
 - 📞 +55 11 91580-0911
-- 🛡️ [odefender Community](https://github.com/freenameconvention)
+- 🛡️ [odefender Community](https://github.com/rfranca777)
 
 ---
 
