@@ -400,7 +400,7 @@ const normatives = [
     obligation: 'mandatory',
     requirement: 'All invoices must be issued as CFDI with UUID (folio fiscal). XML and PDF must be stored with RFC and UUID identification.',
     patterns: [
-      { name: 'CFDI XML',         template: 'CFDI-{TEXT}-{DATE:YYYYMMDD}-{UUID}',       example: 'CFDI-RFC123456789-20260301-A1B2C3D4', extensions: ['xml'] },
+      { name: 'CFDI XML',         template: 'CFDI-{TEXT}-{DATE:YYYYMMDD}-{UUID}',       example: 'CFDI-RFC123456789-20260301-550e8400-e29b-41d4-a716-446655440000', extensions: ['xml'] },
       { name: 'CFDI PDF',         template: 'CFDI-{TEXT}-{DATE:YYYYMMDD}-{NUM:8}',      example: 'CFDI-RFC123456789-20260301-00000001', extensions: ['pdf'] }
     ]
   },
