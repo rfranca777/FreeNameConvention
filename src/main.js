@@ -179,14 +179,17 @@ function saveConfig(cfg) { store.set('config', cfg); }
 
 // ── Email notification helper ─────────────────────────────────────────────────
 async function sendViolationEmail(cfg, violation) {
-  if (!cfg.alertEmail || !cfg.smtpHost || !cfg.smtpUser) return;
+  if (!cfg.alertEmailEnabled || !cfg.alertEmail || !cfg.smtpHost || !cfg.smtpUser) return;
   try {
     let nodemailer; try { nodemailer = require('nodemailer'); } catch { return; }
+    const port = parseInt(cfg.smtpPort) || 587;
     const trans = nodemailer.createTransport({
-      host: cfg.smtpHost, port: parseInt(cfg.smtpPort) || 587,
-      secure: parseInt(cfg.smtpPort) === 465,
+      host: cfg.smtpHost, port,
+      secure:     port === 465,
+      requireTLS: port === 587,       // force STARTTLS on port 587 (Gmail, Outlook, etc.)
       auth: { user: cfg.smtpUser, pass: cfg.smtpPass || '' },
-      tls: { rejectUnauthorized: false }
+      tls: { rejectUnauthorized: false },
+      connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 15000
     });
     await trans.sendMail({
       from: `"FreeNameConvention Guardian" <${cfg.smtpUser}>`,
@@ -194,7 +197,7 @@ async function sendViolationEmail(cfg, violation) {
       subject: `[FNC] Violação: ${violation.file}`,
       text: `Guardião detectou arquivo fora do padrão.\n\nArquivo: ${violation.file}\nPasta: ${violation.folder}\nAção: ${violation.action}\nHorário: ${new Date(violation.at).toLocaleString('pt-BR')}\n\n${(violation.issues||[]).join('\n') || 'Nome não corresponde ao padrão configurado'}${violation.suggestion ? '\n\nSugestão de nome: ' + violation.suggestion : ''}`
     });
-  } catch (e) { console.error('[Email]', e.message); }
+  } catch (e) { console.error('[Email] Falha ao enviar alerta:', e.message, '| host:', cfg.smtpHost, '| port:', cfg.smtpPort, '| user:', cfg.smtpUser); }
 }
 
 // ── Compliant filename suggester ─────────────────────────────────────────────
@@ -363,6 +366,7 @@ ipc('settings:get', async () => {
     smtpHost:             cfg.smtpHost    || '',
     smtpPort:             cfg.smtpPort    || 587,
     smtpUser:             cfg.smtpUser    || '',
+    smtpPassSet:          !!cfg.smtpPass,   // true = password is stored; never send the actual value
   };
 });
 
@@ -610,9 +614,12 @@ ipc('settings:saveEmailConfig', (_, emailCfg) => {
   cfg.smtpHost          = adminGuard.sanitize(emailCfg.smtpHost    || '', 200);
   cfg.smtpPort          = parseInt(emailCfg.smtpPort) || 587;
   cfg.smtpUser          = adminGuard.sanitize(emailCfg.smtpUser    || '', 200);
-  cfg.smtpPass          = adminGuard.sanitize(emailCfg.smtpPass    || '', 200);
+  // Only overwrite stored password when the user explicitly typed a new one.
+  // Leaving the field blank on re-save must NOT clear the existing password.
+  const newPass = adminGuard.sanitize(emailCfg.smtpPass || '', 200);
+  if (newPass) cfg.smtpPass = newPass;
   saveConfig(cfg);
-  return { ok: true };
+  return { ok: true, smtpPassSet: !!cfg.smtpPass };
 });
 
 ipc('settings:testEmail', async (_, emailCfg) => {
@@ -620,12 +627,20 @@ ipc('settings:testEmail', async (_, emailCfg) => {
   try { nodemailer = require('nodemailer'); }
   catch { return { ok: false, error: 'Módulo nodemailer não instalado. Execute: npm install nodemailer' }; }
   try {
+    const port = parseInt(emailCfg.smtpPort) || 587;
+    // If the test form's password field is blank, fall back to the stored password
+    const storedPass = getConfig().smtpPass || '';
+    const pass = emailCfg.smtpPass || storedPass;
     const trans = nodemailer.createTransport({
-      host: emailCfg.smtpHost, port: parseInt(emailCfg.smtpPort) || 587,
-      secure: parseInt(emailCfg.smtpPort) === 465,
-      auth: { user: emailCfg.smtpUser, pass: emailCfg.smtpPass || '' },
-      tls: { rejectUnauthorized: false }
+      host: emailCfg.smtpHost, port,
+      secure:     port === 465,
+      requireTLS: port === 587,
+      auth: { user: emailCfg.smtpUser, pass },
+      tls: { rejectUnauthorized: false },
+      connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 15000
     });
+    // verify() gives an explicit error before we even try to send
+    await trans.verify();
     await trans.sendMail({
       from: `"FreeNameConvention" <${emailCfg.smtpUser}>`,
       to:   emailCfg.alertEmail,
@@ -633,7 +648,10 @@ ipc('settings:testEmail', async (_, emailCfg) => {
       text: 'Este e-mail confirma que o FreeNameConvention consegue enviar alertas para este endereço. Nenhuma ação é necessária.'
     });
     return { ok: true };
-  } catch (e) { return { ok: false, error: e.message }; }
+  } catch (e) {
+    // Surface the real error to the UI (auth failed, wrong host, TLS, etc.)
+    return { ok: false, error: e.message };
+  }
 });
 
 // Config export / import

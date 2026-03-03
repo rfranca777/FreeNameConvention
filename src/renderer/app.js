@@ -1215,6 +1215,10 @@ function renderSettings() {
   if (smtpPortEl) smtpPortEl.value = s.smtpPort || 587;
   const smtpUserEl = document.getElementById('smtp-user');
   if (smtpUserEl) smtpUserEl.value = s.smtpUser || '';
+  // smtp-pass: never sent from server — show saved-indicator so user knows
+  // they don't need to re-type it; only fill if they want to change it
+  const passStatusEl = document.getElementById('smtp-pass-status');
+  if (passStatusEl) passStatusEl.style.display = s.smtpPassSet ? 'block' : 'none';
   document.getElementById('autostart-toggle').checked = !!s.autoStart;
   const savedUser = s.autoStartUsername || '';
   const modeOther = document.querySelector('input[name="runas-mode"][value="other"]');
@@ -1316,6 +1320,10 @@ document.getElementById('btn-save-email-config')?.addEventListener('click', asyn
   const fb = document.getElementById('email-save-feedback');
   if (r?.ok) {
     Object.assign(state.settings, { alertEmailEnabled: emailCfg.alertEmailEnabled, alertEmail: emailCfg.alertEmail });
+    // Show/hide saved-password indicator and clear the field
+    const passStatusEl = document.getElementById('smtp-pass-status');
+    if (passStatusEl) passStatusEl.style.display = r.smtpPassSet ? 'block' : 'none';
+    document.getElementById('smtp-pass').value = ''; // clear — stored; no need to keep in DOM
     if (fb) { fb.textContent = '✔ Salvo'; fb.className = 'settings-feedback ok'; setTimeout(() => { fb.textContent = ''; }, 3000); }
     toast('Configurações de e-mail salvas');
   } else {
@@ -1783,8 +1791,8 @@ function showAboutModal() {
           Please consider donating to one of these amazing causes:
         </p>
         <div style="font-size:.85rem;line-height:2">
-          <a href="#" class="about-donate-link" data-url="https://www.cufa.org.br">🇧🇷 CUFA — Central Única das Favelas</a><br>
-          <a href="#" class="about-donate-link" data-url="https://www.rabimeir.co.il">🇮🇱 Rabi Meir Baal Haness — Caridade em Israel</a>
+          <a href="#" class="about-donate-link" data-url="https://cufa.org.br/doar">🇧🇷 CUFA — Central Única das Favelas</a><br>
+          <a href="#" class="about-donate-link" data-url="https://www.matara.pro/nedarimplus/online/?mosad=7016786">🇮🇱 Rabi Meir Baal Haness — Caridade em Israel</a>
         </div>
       </div>
       <button class="btn btn-primary" onclick="document.getElementById('modal-about').style.display='none'" style="margin-top:.5rem">Fechar</button>
