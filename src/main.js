@@ -664,7 +664,8 @@ ipc('config:importConfig', async () => {
     if (!data.folders) return { ok: false, error: 'Arquivo inválido — campo "folders" não encontrado' };
     const cfg = getConfig();
     cfg.folders = { ...cfg.folders, ...data.folders };
-    if (data.language) cfg.language = data.language;
+    // STRIDE-T: sanitize language tag from untrusted JSON (same max-8 rule as settings:setLanguage)
+    if (data.language) cfg.language = adminGuard.sanitize(String(data.language), 8) || cfg.language;
     saveConfig(cfg);
     return { ok: true, count: Object.keys(data.folders).length };
   } catch (e) { return { ok: false, error: e.message }; }
@@ -673,8 +674,13 @@ ipc('config:importConfig', async () => {
 // Rename non-compliant file to suggested name
 ipc('file:renameNonCompliant', (_, folderPath, oldName, newName) => {
   if (!folderPath || !oldName || !newName) return { ok: false, error: 'Parâmetros inválidos' };
-  const oldFp = path.join(folderPath, oldName);
-  const newFp = path.join(folderPath, newName);
+  // STRIDE-T: path-traversal guard — resolve both paths and assert they are
+  // direct children of folderPath (no '../' escape, no symlink traversal).
+  const base  = path.resolve(folderPath);
+  const oldFp = path.resolve(base, oldName);
+  const newFp = path.resolve(base, newName);
+  if (path.dirname(oldFp) !== base || path.dirname(newFp) !== base)
+    return { ok: false, error: 'Nome de arquivo inválido' };
   if (!fs.existsSync(oldFp)) return { ok: false, error: 'Arquivo não encontrado' };
   if (fs.existsSync(newFp)) return { ok: false, error: 'Já existe um arquivo com este nome' };
   try { fs.renameSync(oldFp, newFp); return { ok: true }; }
