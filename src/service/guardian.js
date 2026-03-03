@@ -149,7 +149,7 @@ class Guardian {
     try {
       const qPath = path.join(parentDir, quarDir);
       const justCreated = !fs.existsSync(qPath);
-      if (!fs.existsSync(qPath)) fs.mkdirSync(qPath, { recursive: true });
+      if (justCreated) fs.mkdirSync(qPath, { recursive: true });
 
       // — Restrict access: Administrators (SID, locale-independent) + SYSTEM only (Windows) —
       // setImmediate defers icacls to next event-loop tick — never blocks the watcher callback

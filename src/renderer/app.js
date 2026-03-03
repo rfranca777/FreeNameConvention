@@ -207,7 +207,7 @@ function patternToParts(raw) {
   if (!raw) return [];
   const parts = []; let rest = raw;
   while (rest.length > 0) {
-    const m = rest.match(/^(\{[^}]+\}|[^{-]+)(-?)(.*)/s);
+    const m = rest.match(/^(\{[^}]+\}|[^{}\-_.]+)([-_.]?)(.*)/s);
     if (!m) break;
     const tok = m[1]; const sep = m[2] || ''; rest = m[3];
     let type, digits, value, options, chars;
@@ -331,14 +331,16 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 // ══ INIT ══════════════════════════════════════════════════════════════════════
 async function init() {
   try {
-    const [cfgRes, normRes, settRes] = await Promise.all([
+    const [cfgRes, normRes, settRes, verRes] = await Promise.all([
       fnc.invoke('config:getAll'),
       fnc.invoke('normatives:getAll'),
       fnc.invoke('settings:get'),
+      fnc.invoke('app:getVersion'),
     ]);
     if (cfgRes?.ok)   state.folders    = cfgRes.folders    || {};
     if (normRes?.ok)  state.normatives = normRes.normatives || [];
     if (settRes?.ok)  state.settings   = settRes;
+    if (verRes?.ok)   state.version    = verRes.version;
     renderFolders();
     renderSettings();
     updateGuardianUI(false);
@@ -1512,17 +1514,17 @@ async function openPasswordModal(mode, onSuccess, opts = {}) {
   if (mode === 'verify' && !state.settings?.hasPassword) { await onSuccess?.(); return; }
   if (opts.skipIfNoPassword && !state.settings?.hasPassword) { await onSuccess?.(); return; }
   _pwMode = mode; _pwResolve = onSuccess; _pwOnCancel = opts.onCancel || null;
-  const titles = { verify:'Verificação de Senha', set:'Definir Nova Senha', change:'Alterar Senha', remove:'Remover Senha' };
+  const titles = { verify:'Verificação de Senha', set:'Definir Nova Senha', change:'Alterar Senha', remove:'Remover Senha', admin_reset:'Redefinir Senha (Admin)' };
   document.getElementById('pw-modal-title').textContent = titles[mode] || 'Senha';
   const showGroup = (id, show) => document.getElementById(id).style.display = show ? 'block' : 'none';
   showGroup('pw-current-group', mode === 'verify' || mode === 'change' || mode === 'remove');
-  showGroup('pw-new-group',     mode === 'set'    || mode === 'change');
-  showGroup('pw-confirm-group', mode === 'set'    || mode === 'change');
+  showGroup('pw-new-group',     mode === 'set'    || mode === 'change' || mode === 'admin_reset');
+  showGroup('pw-confirm-group', mode === 'set'    || mode === 'change' || mode === 'admin_reset');
   ['pw-current','pw-new','pw-confirm'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('pw-error').style.display    = 'none';
   document.getElementById('pw-lock-info').style.display = 'none';
-  document.getElementById('pw-strength-bar').style.display   = (mode==='set'||mode==='change') ? 'block' : 'none';
-  document.getElementById('pw-strength-label').style.display = (mode==='set'||mode==='change') ? 'block' : 'none';
+  document.getElementById('pw-strength-bar').style.display   = (mode==='set'||mode==='change'||mode==='admin_reset') ? 'block' : 'none';
+  document.getElementById('pw-strength-label').style.display = (mode==='set'||mode==='change'||mode==='admin_reset') ? 'block' : 'none';
   openModal('modal-password');
 }
 
@@ -1574,6 +1576,13 @@ async function confirmPassword() {
       if (!r?.ok)    { showErr(r?.error || 'Senha incorreta'); return; }
       _pwOnCancel = null;
       state.settings.hasPassword = false; renderSettings(); closeModal('modal-password'); toast('Senha removida');
+    } else if (_pwMode === 'admin_reset') {
+      // Admin bypass: validate fields only — no current-password check; delegate to _pwResolve callback
+      if (newPw.length < 4) { showErr('A nova senha deve ter pelo menos 4 caracteres'); return; }
+      if (newPw !== confirm) { showErr('As senhas não coincidem'); return; }
+      _pwOnCancel = null;
+      closeModal('modal-password');
+      await _pwResolve?.();
     }
   } catch (e) { showErr('Erro inesperado: ' + e.message); }
   finally { document.getElementById('btn-pw-ok').disabled = false; }
@@ -1586,7 +1595,7 @@ document.getElementById('btn-remove-password').addEventListener('click', () => o
 
 // Admin reset — only shown to Windows administrators
 document.getElementById('btn-admin-reset-password').addEventListener('click', () => {
-  openPasswordModal('set', async () => {
+  openPasswordModal('admin_reset', async () => {
     showBusy('Resetando senha…');
     try {
       const newPw = document.getElementById('pw-new').value;
@@ -1739,7 +1748,7 @@ function showAboutModal() {
         </svg>
       </div>
       <h2 style="margin:.5rem 0 .25rem">FreeNameConvention</h2>
-      <p style="color:var(--text-secondary);margin:0 0 .75rem">v3.1.0 &nbsp;·&nbsp; Electron 32 &nbsp;·&nbsp; 62+ Normatives</p>
+      <p style="color:var(--text-secondary);margin:0 0 .75rem">v${state.version || '3.1.0'} &nbsp;·&nbsp; Electron 32 &nbsp;·&nbsp; 62+ Normatives</p>
       <p style="font-size:.85rem;line-height:1.6;color:var(--text-secondary)">
         Open-source file naming compliance guardian.<br>
         Enforce international naming standards on your folders.<br><br>
@@ -1817,6 +1826,7 @@ function exportLogCSV() {
   a.href = URL.createObjectURL(blob);
   a.download = `fnc-violacoes-${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
+  URL.revokeObjectURL(a.href);
   toast('📊 CSV exportado');
 }
 

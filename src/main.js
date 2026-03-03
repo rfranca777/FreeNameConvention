@@ -4,6 +4,9 @@ const { app, BrowserWindow, ipcMain, Tray, Menu, dialog, shell, nativeImage, Not
 const path    = require('path');
 const fs      = require('fs');
 const crypto  = require('crypto');
+const { exec }      = require('child_process');
+const { promisify } = require('util');
+const execAsync     = promisify(exec);
 
 const adminGuard = require('./service/admin-guard');
 const Guardian   = require('./service/guardian');
@@ -708,9 +711,8 @@ ipc('folder:lockAccess', async (_, folderId) => {
   if (!folderPath || !fs.existsSync(folderPath)) return { ok: false, error: 'Caminho da pasta não existe no disco' };
   try {
     const user = adminGuard.getFullUsername();
-    const { execSync } = require('child_process');
     // Use SID *S-1-5-32-544 for Administrators (locale-independent — works on any Windows language)
-    execSync(`icacls "${folderPath}" /inheritance:r /grant:r "${user}:(OI)(CI)F" /grant:r "SYSTEM:(OI)(CI)F" /grant:r "*S-1-5-32-544:(OI)(CI)F"`, { timeout: 15000 });
+    await execAsync(`icacls "${folderPath}" /inheritance:r /grant:r "${user}:(OI)(CI)F" /grant:r "SYSTEM:(OI)(CI)F" /grant:r "*S-1-5-32-544:(OI)(CI)F"`, { timeout: 15000 });
     cfg.folders[folderId].locked = true;
     saveConfig(cfg);
     return { ok: true, message: `Acesso restrito à pasta "${f.label || f.path}" aplicado com sucesso.` };
@@ -727,9 +729,8 @@ ipc('folder:unlockAccess', async (_, folderId) => {
   const folderPath = adminGuard.sanitize(f.path, 512);
   if (!folderPath || !fs.existsSync(folderPath)) return { ok: false, error: 'Caminho da pasta não existe no disco' };
   try {
-    const { execSync } = require('child_process');
     // Restore inheritance and reset to default permissions
-    execSync(`icacls "${folderPath}" /reset /t`, { timeout: 15000 });
+    await execAsync(`icacls "${folderPath}" /reset /t`, { timeout: 15000 });
     cfg.folders[folderId].locked = false;
     saveConfig(cfg);
     return { ok: true, message: `Permissões da pasta "${f.label || f.path}" restauradas ao padrão.` };
@@ -746,3 +747,6 @@ ipc('shell:openUrl', (_, url) => {
   }
   return { ok: false, error: 'URL inválida' };
 });
+
+// App version — renderer reads this for the about modal
+ipc('app:getVersion', () => ({ ok: true, version: app.getVersion() }));

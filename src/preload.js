@@ -52,6 +52,7 @@ const ALLOWED_CHANNELS = new Set([
   'folder:unlockAccess',
   'feedback:open',
   'shell:openUrl',
+  'app:getVersion',
 ]);
 
 // ── Allowed push event channels (renderer listening to main) ─────────────────
