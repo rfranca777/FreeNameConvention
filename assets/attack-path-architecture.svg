@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" width="1600" height="1100">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#9a3412"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#5b21b6"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="50%" stop-color="#4338ca"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    
+    <!-- Drop shadow filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity=".4"/>
+    </filter>
+    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feFlood flood-color="#ef4444" flood-opacity=".5" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="glow"/>
+      <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-orange" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#f97316" flood-opacity=".4" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="glow"/>
+      <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <!-- Arrow markers -->
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#ef4444">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#f97316">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#22c55e">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#38bdf8">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    <marker id="arrowYellow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#eab308">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+    
+    <!-- Dashed pattern -->
+    <pattern id="dangerStripe" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="12" fill="rgba(239,68,68,.08)"/>
+    </pattern>
+  </defs>
+
+  <!-- ═══════════════ BACKGROUND ═══════════════ -->
+  <rect width="1600" height="1100" fill="url(#bgGrad)"/>
+  
+  <!-- Grid pattern -->
+  <g opacity=".03">
+    <line x1="0" y1="0" x2="0" y2="1100" stroke="#fff" stroke-width="1" id="vline"/>
+    <!-- Vertical lines every 100px -->
+    <line x1="100" y1="0" x2="100" y2="1100" stroke="#fff"/>
+    <line x1="200" y1="0" x2="200" y2="1100" stroke="#fff"/>
+    <line x1="300" y1="0" x2="300" y2="1100" stroke="#fff"/>
+    <line x1="400" y1="0" x2="400" y2="1100" stroke="#fff"/>
+    <line x1="500" y1="0" x2="500" y2="1100" stroke="#fff"/>
+    <line x1="600" y1="0" x2="600" y2="1100" stroke="#fff"/>
+    <line x1="700" y1="0" x2="700" y2="1100" stroke="#fff"/>
+    <line x1="800" y1="0" x2="800" y2="1100" stroke="#fff"/>
+    <line x1="900" y1="0" x2="900" y2="1100" stroke="#fff"/>
+    <line x1="1000" y1="0" x2="1000" y2="1100" stroke="#fff"/>
+    <line x1="1100" y1="0" x2="1100" y2="1100" stroke="#fff"/>
+    <line x1="1200" y1="0" x2="1200" y2="1100" stroke="#fff"/>
+    <line x1="1300" y1="0" x2="1300" y2="1100" stroke="#fff"/>
+    <line x1="1400" y1="0" x2="1400" y2="1100" stroke="#fff"/>
+    <line x1="1500" y1="0" x2="1500" y2="1100" stroke="#fff"/>
+    <!-- Horizontal lines -->
+    <line x1="0" y1="100" x2="1600" y2="100" stroke="#fff"/>
+    <line x1="0" y1="200" x2="1600" y2="200" stroke="#fff"/>
+    <line x1="0" y1="300" x2="1600" y2="300" stroke="#fff"/>
+    <line x1="0" y1="400" x2="1600" y2="400" stroke="#fff"/>
+    <line x1="0" y1="500" x2="1600" y2="500" stroke="#fff"/>
+    <line x1="0" y1="600" x2="1600" y2="600" stroke="#fff"/>
+    <line x1="0" y1="700" x2="1600" y2="700" stroke="#fff"/>
+    <line x1="0" y1="800" x2="1600" y2="800" stroke="#fff"/>
+    <line x1="0" y1="900" x2="1600" y2="900" stroke="#fff"/>
+    <line x1="0" y1="1000" x2="1600" y2="1000" stroke="#fff"/>
+  </g>
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <rect x="30" y="15" width="1540" height="65" rx="10" fill="url(#headerGrad)" filter="url(#shadow)"/>
+  <text x="800" y="42" text-anchor="middle" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="22" font-weight="700">🔒 Attack Path Architecture — admin@mngenvmcap186458.onmicrosoft.com</text>
+  <text x="800" y="62" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="12">Microsoft Sentinel Data Lake Analysis • 90 Days • SentinelMaster Workspace • March 2026</text>
+
+  <!-- ═══════════════ ZONE LABELS ═══════════════ -->
+  <!-- Internet / Threat Actor Zone -->
+  <rect x="30" y="90" width="250" height="610" rx="12" fill="rgba(239,68,68,.06)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="30" y="90" width="250" height="30" rx="12" fill="rgba(239,68,68,.15)"/>
+  <text x="155" y="110" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">☠ THREAT ACTORS</text>
+  <rect fill="url(#dangerStripe)" x="30" y="90" width="250" height="610" rx="12" opacity=".5"/>
+
+  <!-- Azure AD / Identity Zone -->
+  <rect x="340" y="90" width="440" height="330" rx="12" fill="rgba(56,189,248,.04)" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="340" y="90" width="440" height="30" rx="12" fill="rgba(56,189,248,.12)"/>
+  <text x="560" y="110" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">🔐 MICROSOFT ENTRA ID (Azure AD)</text>
+
+  <!-- Applications Zone -->
+  <rect x="830" y="90" width="370" height="330" rx="12" fill="rgba(168,85,247,.04)" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="830" y="90" width="370" height="30" rx="12" fill="rgba(168,85,247,.12)"/>
+  <text x="1015" y="110" text-anchor="middle" fill="#a78bfa" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">📱 TARGET APPLICATIONS</text>
+
+  <!-- Defense Controls Zone -->
+  <rect x="1250" y="90" width="320" height="330" rx="12" fill="rgba(34,197,94,.04)" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="1250" y="90" width="320" height="30" rx="12" fill="rgba(34,197,94,.12)"/>
+  <text x="1410" y="110" text-anchor="middle" fill="#22c55e" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">🛡️ DEFENSE CONTROLS</text>
+
+  <!-- On-Premises / Endpoint Zone -->
+  <rect x="340" y="460" width="530" height="240" rx="12" fill="rgba(249,115,22,.04)" stroke="#f97316" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="340" y="460" width="530" height="30" rx="12" fill="rgba(249,115,22,.12)"/>
+  <text x="605" y="480" text-anchor="middle" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">🖥️ ON-PREMISES ENDPOINTS</text>
+
+  <!-- Application Code Zone -->
+  <rect x="920" y="460" width="650" height="240" rx="12" fill="rgba(234,179,8,.04)" stroke="#eab308" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="920" y="460" width="650" height="30" rx="12" fill="rgba(234,179,8,.12)"/>
+  <text x="1245" y="480" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">⚙️ APPLICATION CODE (admin-guard.js)</text>
+
+  <!-- ═══════════════ THREAT ACTORS ═══════════════ -->
+  <!-- Attacker 1: US IP (Password Spray) -->
+  <g filter="url(#glow-red)">
+    <rect x="45" y="135" width="220" height="95" rx="10" fill="url(#redGrad)" filter="url(#shadow)"/>
+    <text x="155" y="157" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="12" font-weight="700">🏴‍☠️ ATTACKER #1</text>
+    <text x="155" y="175" text-anchor="middle" fill="#fca5a5" font-family="Cascadia Code, monospace" font-size="11">128.24.60.73 (US)</text>
+    <text x="155" y="192" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">Password Spray — 35 falhas</text>
+    <text x="155" y="207" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">PowerShell 7.5.4 + Edge WebView</text>
+    <text x="155" y="222" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">★ 37 tentativas em 11/Fev</text>
+  </g>
+
+  <!-- Attacker 2: BR IP -->
+  <rect x="45" y="245" width="220" height="80" rx="10" fill="url(#orangeGrad)" filter="url(#shadow)"/>
+  <text x="155" y="267" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="12" font-weight="700">🔶 SOURCE #2</text>
+  <text x="155" y="285" text-anchor="middle" fill="#fed7aa" font-family="Cascadia Code, monospace" font-size="11">191.235.235.190 (BR)</text>
+  <text x="155" y="302" text-anchor="middle" fill="#fed7aa" font-family="Segoe UI, sans-serif" font-size="10">Azure BR — 9 falhas / 490 OK</text>
+  <text x="155" y="317" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">⚠ Verificar: legítimo?</text>
+
+  <!-- Attacker 3: NTLM Botnet -->
+  <g filter="url(#glow-red)">
+    <rect x="45" y="345" width="220" height="130" rx="10" fill="url(#redGrad)" filter="url(#shadow)"/>
+    <text x="155" y="367" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="12" font-weight="700">💀 BOTNET NTLM</text>
+    <text x="155" y="385" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">5 IPs distintos (proxy chain)</text>
+    <text x="65" y="404" fill="#fca5a5" font-family="Cascadia Code, monospace" font-size="9">208.109.215.97 (GoDaddy)</text>
+    <text x="65" y="418" fill="#fca5a5" font-family="Cascadia Code, monospace" font-size="9">70.24.237.228  (Residential)</text>
+    <text x="65" y="432" fill="#fca5a5" font-family="Cascadia Code, monospace" font-size="9">45.227.254.132 (LATAM)</text>
+    <text x="65" y="446" fill="#fca5a5" font-family="Cascadia Code, monospace" font-size="9">24.143.165.146 (Cable ISP)</text>
+    <text x="65" y="460" fill="#fca5a5" font-family="Cascadia Code, monospace" font-size="9">144.130.96.8   (AU ASN)</text>
+  </g>
+
+  <!-- Attacker 4: Enum variations -->
+  <rect x="45" y="490" width="220" height="80" rx="10" fill="rgba(239,68,68,.2)" stroke="#ef4444" stroke-width="1" filter="url(#shadow)"/>
+  <text x="155" y="512" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">🔍 USER ENUMERATION</text>
+  <text x="65" y="530" fill="#f87171" font-family="Cascadia Code, monospace" font-size="10">admin</text>
+  <text x="65" y="544" fill="#f87171" font-family="Cascadia Code, monospace" font-size="10">aafsb_admin</text>
+  <text x="65" y="558" fill="#f87171" font-family="Cascadia Code, monospace" font-size="10">738579-admin, danukao-admin</text>
+
+  <!-- Internal attacker -->
+  <rect x="45" y="585" width="220" height="60" rx="10" fill="rgba(234,179,8,.15)" stroke="#eab308" stroke-width="1" filter="url(#shadow)"/>
+  <text x="155" y="607" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">🏠 INTERNAL (seclab)</text>
+  <text x="155" y="625" text-anchor="middle" fill="#fde047" font-family="Cascadia Code, monospace" font-size="10">172.16.0.15 → seclab-dc</text>
+  <text x="155" y="639" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="9">seclab\admin — 2 NTLM falhas</text>
+
+  <!-- ═══════════════ AZURE AD RESOURCES ═══════════════ -->
+  <!-- Admin Account -->
+  <rect x="385" y="140" width="200" height="85" rx="10" fill="rgba(56,189,248,.1)" stroke="#38bdf8" stroke-width="2" filter="url(#shadow)"/>
+  <text x="485" y="162" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700">👤 admin@</text>
+  <text x="485" y="180" text-anchor="middle" fill="#7dd3fc" font-family="Segoe UI, sans-serif" font-size="10">mngenvmcap186458</text>
+  <text x="485" y="196" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">44 falhas 50126</text>
+  <text x="485" y="212" text-anchor="middle" fill="#22c55e" font-family="Segoe UI, sans-serif" font-size="10">1.337 logins OK</text>
+  
+  <!-- admin.dlp Account -->
+  <rect x="385" y="240" width="200" height="55" rx="10" fill="rgba(249,115,22,.08)" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="485" y="262" text-anchor="middle" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">👤 admin.dlp@</text>
+  <text x="485" y="280" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="10">DLP Admin — 2 falhas + CA block</text>
+
+  <!-- Sign-in Logs -->
+  <rect x="620" y="140" width="140" height="60" rx="10" fill="rgba(56,189,248,.08)" stroke="#38bdf8" stroke-width="1" filter="url(#shadow)"/>
+  <text x="690" y="162" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">📊 SigninLogs</text>
+  <text x="690" y="178" text-anchor="middle" fill="#7dd3fc" font-family="Segoe UI, sans-serif" font-size="10">913 eventos / 90d</text>
+  <text x="690" y="192" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="9">Sentinel Data Lake</text>
+
+  <!-- Authentication Pipeline -->
+  <rect x="355" y="310" width="410" height="95" rx="10" fill="rgba(99,102,241,.08)" stroke="#818cf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="560" y="332" text-anchor="middle" fill="#818cf8" font-family="Segoe UI, sans-serif" font-size="12" font-weight="700">🔑 Authentication Pipeline</text>
+  
+  <rect x="365" y="345" width="115" height="48" rx="6" fill="rgba(239,68,68,.15)" stroke="#ef4444" stroke-width="1"/>
+  <text x="422" y="364" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Single-Factor</text>
+  <text x="422" y="380" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">365 logins ⚠</text>
+  
+  <rect x="490" y="345" width="115" height="48" rx="6" fill="rgba(34,197,94,.15)" stroke="#22c55e" stroke-width="1"/>
+  <text x="547" y="364" text-anchor="middle" fill="#22c55e" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Multi-Factor</text>
+  <text x="547" y="380" text-anchor="middle" fill="#86efac" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">972 logins ✅</text>
+  
+  <rect x="615" y="345" width="140" height="48" rx="6" fill="rgba(234,179,8,.15)" stroke="#eab308" stroke-width="1"/>
+  <text x="685" y="364" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Conditional Access</text>
+  <text x="685" y="380" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">Parcial ⚠ (4 gaps)</text>
+
+  <!-- ═══════════════ TARGET APPLICATIONS ═══════════════ -->
+  <!-- App targets in a grid -->
+  <rect x="845" y="135" width="165" height="40" rx="6" fill="rgba(239,68,68,.1)" stroke="#ef4444" stroke-width="1"/>
+  <text x="927" y="153" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Exchange PS REST</text>
+  <text x="927" y="167" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="9">10 falhas | 157 OK</text>
+
+  <rect x="1020" y="135" width="165" height="40" rx="6" fill="rgba(239,68,68,.1)" stroke="#ef4444" stroke-width="1"/>
+  <text x="1102" y="153" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Azure Portal</text>
+  <text x="1102" y="167" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="9">10 falhas | 378 OK</text>
+
+  <rect x="845" y="185" width="165" height="40" rx="6" fill="rgba(249,115,22,.1)" stroke="#f97316" stroke-width="1"/>
+  <text x="927" y="203" text-anchor="middle" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">SharePoint PS Shell</text>
+  <text x="927" y="217" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="9">7 falhas | 19 OK</text>
+
+  <rect x="1020" y="185" width="165" height="40" rx="6" fill="rgba(249,115,22,.1)" stroke="#f97316" stroke-width="1"/>
+  <text x="1102" y="203" text-anchor="middle" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Azure PowerShell</text>
+  <text x="1102" y="217" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="9">7 falhas | 64 OK ⚠noMFA</text>
+
+  <rect x="845" y="235" width="165" height="40" rx="6" fill="rgba(234,179,8,.1)" stroke="#eab308" stroke-width="1"/>
+  <text x="927" y="253" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Graph CLI Tools</text>
+  <text x="927" y="267" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="9">3 falhas | 67 OK</text>
+
+  <rect x="1020" y="235" width="165" height="40" rx="6" fill="rgba(234,179,8,.1)" stroke="#eab308" stroke-width="1"/>
+  <text x="1102" y="253" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Azure CLI</text>
+  <text x="1102" y="267" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="9">2 falhas | 21 OK</text>
+
+  <rect x="845" y="285" width="165" height="40" rx="6" fill="rgba(168,85,247,.1)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="927" y="303" text-anchor="middle" fill="#a78bfa" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Auth Broker</text>
+  <text x="927" y="317" text-anchor="middle" fill="#c4b5fd" font-family="Segoe UI, sans-serif" font-size="9">134 OK ⚠ noMFA</text>
+
+  <rect x="1020" y="285" width="165" height="40" rx="6" fill="rgba(168,85,247,.1)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="1102" y="303" text-anchor="middle" fill="#a78bfa" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Office365 Shell</text>
+  <text x="1102" y="317" text-anchor="middle" fill="#c4b5fd" font-family="Segoe UI, sans-serif" font-size="9">120 OK ⚠ noMFA</text>
+
+  <rect x="845" y="340" width="340" height="40" rx="6" fill="rgba(34,197,94,.08)" stroke="#22c55e" stroke-width="1"/>
+  <text x="1015" y="358" text-anchor="middle" fill="#22c55e" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">✅ VS Code (32), Sentinel CLI (11), M365 Security (108) — MFA OK</text>
+  <text x="1015" y="372" text-anchor="middle" fill="#86efac" font-family="Segoe UI, sans-serif" font-size="9">Protegidos por MFA e Conditional Access</text>
+
+  <!-- ═══════════════ DEFENSE CONTROLS ═══════════════ -->
+  <rect x="1265" y="140" width="290" height="55" rx="8" fill="rgba(34,197,94,.12)" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="1410" y="160" text-anchor="middle" fill="#22c55e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">✅ MFA (Parcial)</text>
+  <text x="1410" y="178" text-anchor="middle" fill="#86efac" font-family="Segoe UI, sans-serif" font-size="10">972 logins com MFA — 73% cobertura</text>
+
+  <rect x="1265" y="205" width="290" height="55" rx="8" fill="rgba(234,179,8,.12)" stroke="#eab308" stroke-width="1.5"/>
+  <text x="1410" y="225" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">⚠ Conditional Access (Gaps)</text>
+  <text x="1410" y="243" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">Não cobre: AzPS, AuthBroker, OfficeShell</text>
+
+  <rect x="1265" y="270" width="290" height="55" rx="8" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="1410" y="290" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">❌ Identity Protection</text>
+  <text x="1410" y="308" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">IsRisky = 0 eventos | Não configurado</text>
+
+  <rect x="1265" y="340" width="290" height="55" rx="8" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="1410" y="360" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">❌ IP Blocking (NSG)</text>
+  <text x="1410" y="378" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">6 IPs atacantes sem bloqueio</text>
+
+  <!-- ═══════════════ ON-PREMISES ENDPOINTS ═══════════════ -->
+  <!-- vm-exposed-lab -->
+  <g filter="url(#glow-orange)">
+    <rect x="355" y="505" width="230" height="85" rx="10" fill="rgba(249,115,22,.12)" stroke="#f97316" stroke-width="2" filter="url(#shadow)"/>
+    <text x="470" y="527" text-anchor="middle" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">🖥️ vm-exposed-lab</text>
+    <text x="470" y="545" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="10">Exposto à Internet</text>
+    <text x="470" y="562" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">8 LogonFailed (NTLM)</text>
+    <text x="470" y="578" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">RemoteName: "workstation" ⇐ bot</text>
+  </g>
+
+  <!-- seclab-dc -->
+  <rect x="610" y="505" width="230" height="85" rx="10" fill="rgba(234,179,8,.08)" stroke="#eab308" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="725" y="527" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">🏢 seclab-dc</text>
+  <text x="725" y="545" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">seclab.local (Domain Controller)</text>
+  <text x="725" y="562" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">2 LogonFailed — seclab\admin</text>
+  <text x="725" y="578" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">De: labv10 (172.16.0.15)</text>
+
+  <!-- NTLM Protocol Warning -->
+  <rect x="355" y="605" width="505" height="45" rx="8" fill="rgba(239,68,68,.1)" stroke="#ef4444" stroke-width="1"/>
+  <text x="607" y="625" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">⚠ Protocolo NTLM habilitado — vulnerável a Pass-the-Hash, Relay, Credential Theft</text>
+  <text x="607" y="641" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">Todas as falhas usaram NTLM | Kerberos não detectado | SMBv1 potencialmente ativo</text>
+
+  <!-- DeviceLogonEvents box -->
+  <rect x="355" y="660" width="200" height="35" rx="6" fill="rgba(56,189,248,.08)" stroke="#38bdf8" stroke-width="1"/>
+  <text x="455" y="682" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">📊 DeviceLogonEvents — 5.692 rows</text>
+
+  <!-- ═══════════════ APPLICATION CODE ═══════════════ -->
+  <!-- admin-guard.js -->
+  <rect x="940" y="505" width="200" height="70" rx="8" fill="rgba(234,179,8,.1)" stroke="#eab308" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1040" y="525" text-anchor="middle" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="12" font-weight="700">📄 admin-guard.js</text>
+  <text x="1040" y="543" text-anchor="middle" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">314 linhas — STRIDE annotated</text>
+  <text x="1040" y="558" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="9">PBKDF2-SHA512 ✅ | timingSafeEqual ✅</text>
+
+  <!-- Vulnerability boxes -->
+  <rect x="940" y="585" width="195" height="52" rx="6" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-width="1"/>
+  <text x="1037" y="603" text-anchor="middle" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">🔴 Rate-limit in-memory</text>
+  <text x="1037" y="618" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="9">_rate reseta ao reiniciar</text>
+  <text x="1037" y="631" text-anchor="middle" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="9">Brute-force ilimitado</text>
+
+  <rect x="1145" y="585" width="195" height="52" rx="6" fill="rgba(249,115,22,.12)" stroke="#f97316" stroke-width="1"/>
+  <text x="1242" y="603" text-anchor="middle" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">🟠 Legacy SHA-256</text>
+  <text x="1242" y="618" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="9">verifyPassword() aceita hash</text>
+  <text x="1242" y="631" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="9">sem salt — rainbow tables</text>
+
+  <rect x="1350" y="585" width="195" height="52" rx="6" fill="rgba(249,115,22,.12)" stroke="#f97316" stroke-width="1"/>
+  <text x="1447" y="603" text-anchor="middle" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">🟠 schtasks /rp cred leak</text>
+  <text x="1447" y="618" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="9">Senha no command line</text>
+  <text x="1447" y="631" text-anchor="middle" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="9">Visível em tasklist</text>
+
+  <rect x="940" y="647" width="610" height="42" rx="6" fill="rgba(34,197,94,.08)" stroke="#22c55e" stroke-width="1"/>
+  <text x="1245" y="665" text-anchor="middle" fill="#22c55e" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">✅ Controles OK: PBKDF2 100K iter + salt | timingSafeEqual | sanitize() | execAsync+timeout | icacls ACL | contextIsolation</text>
+  <text x="1245" y="680" text-anchor="middle" fill="#86efac" font-family="Segoe UI, sans-serif" font-size="9">IPC guard wrapper | nodeIntegration:false | adminResetPassword gate | Path-traversal fixed v3.1.0</text>
+
+  <!-- ═══════════════ ATTACK PATH ARROWS ═══════════════ -->
+  
+  <!-- STEP 1: Password Spray → Azure AD -->
+  <line x1="265" y1="180" x2="383" y2="175" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arrowRed)" stroke-dasharray="none"/>
+  <circle cx="310" cy="168" r="14" fill="#ef4444"/>
+  <text x="310" y="173" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">1</text>
+
+  <!-- STEP 2: BR source → Azure AD -->
+  <line x1="265" y1="280" x2="383" y2="195" stroke="#f97316" stroke-width="2" marker-end="url(#arrowOrange)" stroke-dasharray="6,3"/>
+  <circle cx="310" cy="243" r="14" fill="#f97316"/>
+  <text x="310" y="248" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">2</text>
+
+  <!-- STEP 3: Azure AD → Applications (fan out) -->
+  <line x1="585" y1="180" x2="843" y2="155" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="585" y1="180" x2="843" y2="200" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="585" y1="180" x2="843" y2="250" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <line x1="585" y1="180" x2="843" y2="300" stroke="#38bdf8" stroke-width="1" marker-end="url(#arrowBlue)" stroke-dasharray="4,2"/>
+  <circle cx="720" cy="150" r="14" fill="#38bdf8"/>
+  <text x="720" y="155" text-anchor="middle" fill="#0f172a" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">3</text>
+
+  <!-- STEP 4: Botnet → vm-exposed-lab -->
+  <line x1="265" y1="420" x2="353" y2="540" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+  <circle cx="300" cy="470" r="14" fill="#ef4444"/>
+  <text x="300" y="475" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">4</text>
+
+  <!-- STEP 5: User enum → vm-exposed-lab -->
+  <line x1="265" y1="530" x2="353" y2="550" stroke="#f97316" stroke-width="2" marker-end="url(#arrowOrange)" stroke-dasharray="6,3"/>
+  <circle cx="300" cy="540" r="14" fill="#f97316"/>
+  <text x="300" y="545" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">5</text>
+
+  <!-- STEP 6: Internal → seclab-dc -->
+  <line x1="265" y1="615" x2="608" y2="540" stroke="#eab308" stroke-width="1.5" marker-end="url(#arrowYellow)" stroke-dasharray="6,3"/>
+  <circle cx="430" cy="580" r="14" fill="#eab308"/>
+  <text x="430" y="585" text-anchor="middle" fill="#0f172a" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">6</text>
+
+  <!-- STEP 7: Auth pipeline → code vulnerabilities -->
+  <line x1="560" y1="405" x2="560" y2="455" stroke="#eab308" stroke-width="1" marker-end="url(#arrowYellow)" stroke-dasharray="4,2" opacity=".5"/>
+  <line x1="1040" y1="400" x2="1040" y2="503" stroke="#eab308" stroke-width="1.5" marker-end="url(#arrowYellow)"/>
+  <circle cx="1040" cy="450" r="14" fill="#eab308"/>
+  <text x="1040" y="455" text-anchor="middle" fill="#0f172a" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">7</text>
+
+  <!-- ═══════════════ LEGEND & EXECUTION ORDER ═══════════════ -->
+  <rect x="30" y="720" width="1540" height="370" rx="12" fill="rgba(30,41,59,.8)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  
+  <!-- Title -->
+  <text x="800" y="750" text-anchor="middle" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">📋 ORDEM DE EXECUÇÃO DO ATAQUE &amp; MITRE ATT&amp;CK MAPPING</text>
+  
+  <!-- Execution Order Table -->
+  <!-- Step headers -->
+  <rect x="50" y="770" width="45" height="28" rx="4" fill="#334155"/>
+  <text x="72" y="789" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">STEP</text>
+  <rect x="100" y="770" width="300" height="28" rx="4" fill="#334155"/>
+  <text x="250" y="789" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">TÉCNICA</text>
+  <rect x="405" y="770" width="220" height="28" rx="4" fill="#334155"/>
+  <text x="515" y="789" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">MITRE ATT&amp;CK</text>
+  <rect x="630" y="770" width="150" height="28" rx="4" fill="#334155"/>
+  <text x="705" y="789" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">EVIDÊNCIA SENTINEL</text>
+
+  <!-- Step 1 -->
+  <circle cx="72" cy="816" r="12" fill="#ef4444"/>
+  <text x="72" y="820" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">1</text>
+  <text x="110" y="820" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Reconnaissance — Enumeração de contas admin</text>
+  <text x="415" y="820" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">T1589.001 (Gather Victim Identity)</text>
+  <text x="640" y="820" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">4 variações de username testadas</text>
+
+  <!-- Step 2 -->
+  <circle cx="72" cy="845" r="12" fill="#ef4444"/>
+  <text x="72" y="849" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">2</text>
+  <text x="110" y="849" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Initial Access — NTLM Brute Force em vm-exposed-lab</text>
+  <text x="415" y="849" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">T1110.001 (Brute Force: Password Guessing)</text>
+  <text x="640" y="849" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">14 LogonFailed de 5 IPs (28/Dez)</text>
+
+  <!-- Step 3 -->
+  <circle cx="72" cy="874" r="12" fill="#ef4444"/>
+  <text x="72" y="878" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">3</text>
+  <text x="110" y="878" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Credential Access — Password Spray via Azure AD</text>
+  <text x="415" y="878" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">T1110.003 (Password Spraying)</text>
+  <text x="640" y="878" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">44 Error 50126 | pico 37/dia (11/Fev)</text>
+
+  <!-- Step 4 -->
+  <circle cx="72" cy="903" r="12" fill="#f97316"/>
+  <text x="72" y="907" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">4</text>
+  <text x="110" y="907" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Persistence — Se obtiver acesso: schtasks (Scheduled Task)</text>
+  <text x="415" y="907" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">T1053.005 (Scheduled Task)</text>
+  <text x="640" y="907" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="10">admin-guard.js: /rl HIGHEST</text>
+
+  <!-- Step 5 -->
+  <circle cx="72" cy="932" r="12" fill="#f97316"/>
+  <text x="72" y="936" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">5</text>
+  <text x="110" y="936" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Lateral Movement — Azure PS/CLI sem MFA (365 logins single-factor)</text>
+  <text x="415" y="936" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">T1078.004 (Valid Accounts: Cloud)</text>
+  <text x="640" y="936" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="10">AzPS(46) + AuthBroker(134) noMFA</text>
+
+  <!-- Step 6 -->
+  <circle cx="72" cy="961" r="12" fill="#eab308"/>
+  <text x="72" y="965" text-anchor="middle" fill="#0f172a" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">6</text>
+  <text x="110" y="965" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Defense Evasion — Rate-limit bypass via app restart</text>
+  <text x="415" y="965" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">T1562.001 (Impair Defenses)</text>
+  <text x="640" y="965" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">_rate = in-memory only (code audit)</text>
+
+  <!-- Step 7 -->
+  <circle cx="72" cy="990" r="12" fill="#eab308"/>
+  <text x="72" y="994" text-anchor="middle" fill="#0f172a" font-family="Segoe UI, sans-serif" font-size="10" font-weight="700">7</text>
+  <text x="110" y="994" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Credential Theft — Harvest password de schtasks /rp ou SHA-256 hash</text>
+  <text x="415" y="994" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">T1552.001 (Credentials in Files)</text>
+  <text x="640" y="994" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">schtasks /rp + legacy hash (code audit)</text>
+
+  <!-- Legend -->
+  <rect x="50" y="1020" width="740" height="60" rx="8" fill="rgba(51,65,85,.5)"/>
+  <text x="70" y="1042" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">LEGENDA:</text>
+  
+  <line x1="155" y1="1038" x2="195" y2="1038" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+  <text x="205" y="1042" fill="#fca5a5" font-family="Segoe UI, sans-serif" font-size="10">Ataque confirmado</text>
+  
+  <line x1="330" y1="1038" x2="370" y2="1038" stroke="#f97316" stroke-width="2" marker-end="url(#arrowOrange)" stroke-dasharray="6,3"/>
+  <text x="380" y="1042" fill="#fdba74" font-family="Segoe UI, sans-serif" font-size="10">Vetor suspeito</text>
+  
+  <line x1="490" y1="1038" x2="530" y2="1038" stroke="#eab308" stroke-width="1.5" marker-end="url(#arrowYellow)"/>
+  <text x="540" y="1042" fill="#fde047" font-family="Segoe UI, sans-serif" font-size="10">Risco no código</text>
+  
+  <line x1="640" y1="1038" x2="680" y2="1038" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="690" y="1042" fill="#7dd3fc" font-family="Segoe UI, sans-serif" font-size="10">Fluxo auth</text>
+  
+  <text x="70" y="1068" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">🔴 Severidade Crítica</text>
+  <text x="235" y="1068" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">🟠 Severidade Alta</text>
+  <text x="385" y="1068" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">🟡 Severidade Média</text>
+  <text x="540" y="1068" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">✅ Controle OK</text>
+  <text x="665" y="1068" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">❌ Controle ausente</text>
+
+  <!-- Data Sources box -->
+  <rect x="810" y="1020" width="750" height="60" rx="8" fill="rgba(51,65,85,.5)"/>
+  <text x="830" y="1042" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">FONTES DE DADOS:</text>
+  <text x="970" y="1042" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">SigninLogs (913 eventos) | DeviceLogonEvents (5.692 eventos) | admin-guard.js (314 linhas) | main.js (777 linhas)</text>
+  <text x="830" y="1068" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">PERÍODO:</text>
+  <text x="905" y="1068" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">08 Dez 2025 → 03 Mar 2026 (90d) | Workspace: SentinelMaster (25a37558-19a8-4e28-b7ee-496d970317de)</text>
+  <text x="1420" y="1068" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">© FreeNameConvention 2026</text>
+</svg>

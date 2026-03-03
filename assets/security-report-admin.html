@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔒 Relatório de Segurança — Conta admin@ | FreeNameConvention</title>
+<style>
+  :root {
+    --bg: #0f172a; --card: #1e293b; --card-alt: #334155;
+    --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8;
+    --red: #ef4444; --orange: #f97316; --yellow: #eab308;
+    --green: #22c55e; --purple: #a78bfa;
+    --red-bg: rgba(239,68,68,.12); --orange-bg: rgba(249,115,22,.12);
+    --yellow-bg: rgba(234,179,8,.12); --green-bg: rgba(34,197,94,.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  
+  /* Header */
+  .header { background: linear-gradient(135deg, #1e1b4b, #312e81, #1e1b4b); border-radius: 16px; padding: 3rem; margin-bottom: 2rem; text-align: center; border: 1px solid #4338ca; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 50%, rgba(99,102,241,.15), transparent 50%); }
+  .header h1 { font-size: 2rem; font-weight: 700; position: relative; }
+  .header h1 span { color: var(--red); }
+  .header .subtitle { color: var(--muted); margin-top: .5rem; font-size: 1rem; position: relative; }
+  .header .meta { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; position: relative; }
+  .header .meta-item { display: flex; align-items: center; gap: .5rem; font-size: .875rem; color: var(--muted); }
+  .header .meta-item strong { color: var(--text); }
+  
+  /* Classification badge */
+  .classification { display: inline-block; background: var(--red); color: #fff; font-weight: 700; font-size: .75rem; letter-spacing: 2px; padding: .25rem 1rem; border-radius: 4px; text-transform: uppercase; margin-bottom: 1rem; position: relative; }
+  
+  /* Cards */
+  .card { background: var(--card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--card-alt); }
+  .card h2 { font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+  .card h3 { font-size: 1rem; margin: 1rem 0 .5rem; color: var(--accent); }
+  
+  /* Stats grid */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat { background: var(--card); border-radius: 12px; padding: 1.25rem; text-align: center; border: 1px solid var(--card-alt); }
+  .stat .value { font-size: 2rem; font-weight: 700; }
+  .stat .label { font-size: .8rem; color: var(--muted); margin-top: .25rem; }
+  .stat.critical .value { color: var(--red); }
+  .stat.warning .value { color: var(--orange); }
+  .stat.info .value { color: var(--accent); }
+  .stat.ok .value { color: var(--green); }
+  
+  /* Severity badges */
+  .sev { display: inline-block; font-size: .7rem; font-weight: 700; padding: .15rem .6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: .5px; }
+  .sev-critical { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
+  .sev-high { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange); }
+  .sev-medium { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow); }
+  .sev-low { background: var(--green-bg); color: var(--green); border: 1px solid var(--green); }
+  
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  th { text-align: left; padding: .75rem; background: var(--card-alt); color: var(--accent); font-weight: 600; border-bottom: 2px solid #475569; white-space: nowrap; }
+  td { padding: .6rem .75rem; border-bottom: 1px solid rgba(71,85,105,.4); vertical-align: top; }
+  tr:hover td { background: rgba(56,189,248,.04); }
+  .mono { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: .8rem; }
+  
+  /* Timeline */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: .5rem; top: 0; bottom: 0; width: 2px; background: var(--card-alt); }
+  .timeline-item { position: relative; margin-bottom: 1.5rem; }
+  .timeline-item::before { content: ''; position: absolute; left: -1.65rem; top: .5rem; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent); background: var(--bg); }
+  .timeline-item.critical::before { border-color: var(--red); background: var(--red); }
+  .timeline-item.warning::before { border-color: var(--orange); background: var(--orange); }
+  .timeline-item .date { font-size: .75rem; color: var(--muted); font-family: monospace; }
+  .timeline-item .title { font-weight: 600; margin: .15rem 0; }
+  .timeline-item .desc { font-size: .85rem; color: var(--muted); }
+  
+  /* Code blocks */
+  pre { background: #0c0e14; border-radius: 8px; padding: 1rem; overflow-x: auto; font-family: 'Cascadia Code', monospace; font-size: .8rem; border: 1px solid #1e293b; }
+  code { color: #93c5fd; }
+  .code-red { color: var(--red); }
+  .code-green { color: var(--green); }
+  .code-yellow { color: var(--yellow); }
+  
+  /* Risk matrix */
+  .risk-matrix { display: grid; grid-template-columns: auto repeat(4, 1fr); gap: 2px; font-size: .75rem; text-align: center; }
+  .risk-cell { padding: .5rem; border-radius: 4px; font-weight: 600; }
+  .risk-header { background: var(--card-alt); color: var(--muted); }
+  .risk-crit { background: rgba(239,68,68,.3); color: var(--red); }
+  .risk-high { background: rgba(249,115,22,.3); color: var(--orange); }
+  .risk-med { background: rgba(234,179,8,.2); color: var(--yellow); }
+  .risk-low { background: rgba(34,197,94,.15); color: var(--green); }
+  
+  /* Alert banner */
+  .alert { padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: flex-start; gap: .75rem; }
+  .alert-critical { background: var(--red-bg); border-left: 4px solid var(--red); }
+  .alert-warning { background: var(--orange-bg); border-left: 4px solid var(--orange); }
+  .alert-info { background: rgba(56,189,248,.08); border-left: 4px solid var(--accent); }
+  .alert .icon { font-size: 1.2rem; flex-shrink: 0; }
+  .alert .content { flex: 1; }
+  .alert .content strong { display: block; margin-bottom: .25rem; }
+  
+  /* STRIDE */
+  .stride-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; }
+  .stride-card { background: var(--card); border-radius: 8px; padding: 1rem; border: 1px solid var(--card-alt); }
+  .stride-card h4 { color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+  .stride-card .items { font-size: .82rem; }
+  .stride-card .item { display: flex; gap: .5rem; margin-bottom: .35rem; }
+  .stride-card .check { color: var(--green); }
+  .stride-card .warn { color: var(--orange); }
+  .stride-card .fail { color: var(--red); }
+  
+  /* Print */
+  @media print { body { background: #fff; color: #000; } .card, .stat { border: 1px solid #ccc; background: #f8f8f8; } }
+  
+  /* TOC */
+  .toc { columns: 2; gap: 2rem; }
+  .toc a { display: block; padding: .3rem 0; color: var(--accent); text-decoration: none; font-size: .9rem; }
+  .toc a:hover { text-decoration: underline; }
+  
+  /* Scroll anchors */
+  [id] { scroll-margin-top: 1rem; }
+  
+  /* Pill */
+  .pill { display: inline-block; background: var(--card-alt); padding: .15rem .6rem; border-radius: 4px; font-size: .75rem; margin: .1rem; }
+  .pill-red { background: var(--red-bg); color: var(--red); }
+  .pill-green { background: var(--green-bg); color: var(--green); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <div class="classification">CONFIDENCIAL — USO INTERNO</div>
+  <h1>🔒 Relatório de Segurança — Conta <span>admin@</span></h1>
+  <div class="subtitle">Investigação de ameaças contra o usuário administrador • Dados do Microsoft Sentinel Data Lake</div>
+  <div class="meta">
+    <div class="meta-item">📅 Data: <strong>03 Mar 2026</strong></div>
+    <div class="meta-item">📊 Período: <strong>90 dias</strong></div>
+    <div class="meta-item">🏢 Tenant: <strong>mngenvmcap186458</strong></div>
+    <div class="meta-item">🛡️ Workspace: <strong>SentinelMaster</strong></div>
+  </div>
+</div>
+
+<!-- ═══ EXECUTIVE SUMMARY ═══ -->
+<div class="alert alert-critical">
+  <div class="icon">🚨</div>
+  <div class="content">
+    <strong>ALERTA CRÍTICO: Atividade de Brute-Force Confirmada</strong>
+    Foram detectados <strong>44 eventos de falha de credencial (Error 50126)</strong> contra a conta <code>admin@mngenvmcap186458.onmicrosoft.com</code> nos últimos 90 dias. O pico ocorreu em <strong>11 de Fevereiro de 2026</strong> com <strong>37 tentativas falhadas em um único dia</strong> a partir do IP <code>128.24.60.73</code> (US). Adicionalmente, o endpoint <strong>vm-exposed-lab</strong> sofreu ataques de brute-force via protocolo <strong>NTLM</strong> de <strong>5 IPs externos distintos</strong>.
+  </div>
+</div>
+
+<!-- ═══ KPI STATS ═══ -->
+<div class="stats">
+  <div class="stat critical">
+    <div class="value">44</div>
+    <div class="label">Falhas de Credencial (50126)</div>
+  </div>
+  <div class="stat critical">
+    <div class="value">37</div>
+    <div class="label">Falhas em 11/Fev (1 dia)</div>
+  </div>
+  <div class="stat warning">
+    <div class="value">14</div>
+    <div class="label">LogonFailed em Endpoints</div>
+  </div>
+  <div class="stat warning">
+    <div class="value">5</div>
+    <div class="label">IPs Externos Atacantes</div>
+  </div>
+  <div class="stat info">
+    <div class="value">1.337</div>
+    <div class="label">Logins Bem-Sucedidos</div>
+  </div>
+  <div class="stat ok">
+    <div class="value">18</div>
+    <div class="label">IPs de Login Legítimos</div>
+  </div>
+</div>
+
+<!-- ═══ TABLE OF CONTENTS ═══ -->
+<div class="card">
+  <h2>📋 Índice</h2>
+  <div class="toc">
+    <a href="#sec1">1. Resumo Executivo</a>
+    <a href="#sec2">2. Incidente Principal: Brute-Force Azure AD</a>
+    <a href="#sec3">3. Incidente: Brute-Force Endpoint NTLM</a>
+    <a href="#sec4">4. Análise de IPs Atacantes</a>
+    <a href="#sec5">5. Contas Administrativas Afetadas</a>
+    <a href="#sec6">6. Timeline de Eventos</a>
+    <a href="#sec7">7. Análise de Aplicativos Alvo</a>
+    <a href="#sec8">8. Conditional Access &amp; MFA</a>
+    <a href="#sec9">9. Auditoria de Código — admin-guard.js</a>
+    <a href="#sec10">10. Matriz STRIDE</a>
+    <a href="#sec11">11. Matriz de Risco</a>
+    <a href="#sec12">12. Recomendações Prioritárias</a>
+    <a href="#sec13">13. Mapeamento NIST SP 800-53 / ISO 27001</a>
+    <a href="#sec14">14. Consultas KQL Utilizadas</a>
+  </div>
+</div>
+
+<!-- ═══ SECTION 1: EXECUTIVE SUMMARY ═══ -->
+<div class="card" id="sec1">
+  <h2>1. 📊 Resumo Executivo</h2>
+  <p>Este relatório documenta a investigação de segurança conduzida sobre a conta <strong>admin@mngenvmcap186458.onmicrosoft.com</strong> no ambiente Microsoft Sentinel, cobrindo o período de 03 Dezembro 2025 a 03 Março 2026 (90 dias).</p>
+  
+  <h3>Descobertas Principais</h3>
+  <table>
+    <thead><tr><th>#</th><th>Descoberta</th><th>Severidade</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Brute-Force via Azure AD</strong> — 37 tentativas em 1 dia (11/Fev) do IP 128.24.60.73</td><td><span class="sev sev-critical">CRÍTICO</span></td><td><span class="pill pill-red">Ativo</span></td></tr>
+      <tr><td>2</td><td><strong>Brute-Force via NTLM</strong> em vm-exposed-lab — 8 falhas de 5 IPs externos</td><td><span class="sev sev-critical">CRÍTICO</span></td><td><span class="pill pill-red">Ativo</span></td></tr>
+      <tr><td>3</td><td><strong>NTLM habilitado</strong> em endpoint exposto à internet</td><td><span class="sev sev-high">ALTO</span></td><td><span class="pill pill-red">Vulnerável</span></td></tr>
+      <tr><td>4</td><td><strong>Autenticação Single-Factor</strong> — 46 logins Azure PS + 134 Auth Broker sem MFA</td><td><span class="sev sev-high">ALTO</span></td><td><span class="pill pill-red">Risco</span></td></tr>
+      <tr><td>5</td><td><strong>admin.dlp@</strong> também alvo de ataques (50126) do mesmo IP</td><td><span class="sev sev-medium">MÉDIO</span></td><td><span class="pill pill-red">Ativo</span></td></tr>
+      <tr><td>6</td><td><strong>Rate-limiting in-memory</strong> no admin-guard.js — resetável</td><td><span class="sev sev-medium">MÉDIO</span></td><td><span class="pill pill-red">Código</span></td></tr>
+      <tr><td>7</td><td><strong>Legacy SHA-256</strong> ainda aceito no verifyPassword()</td><td><span class="sev sev-medium">MÉDIO</span></td><td><span class="pill pill-red">Código</span></td></tr>
+      <tr><td>8</td><td><strong>Senha exposta em schtasks</strong> — visível em process list</td><td><span class="sev sev-medium">MÉDIO</span></td><td><span class="pill pill-red">Código</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 2: BRUTE-FORCE AZURE AD ═══ -->
+<div class="card" id="sec2">
+  <h2>2. 🔴 Incidente: Brute-Force Azure AD (Error 50126)</h2>
+  
+  <div class="alert alert-critical">
+    <div class="icon">⚠️</div>
+    <div class="content">
+      <strong>44 tentativas de "Error validating credentials due to invalid username or password"</strong>
+      Concentradas entre 08 Fev e 25 Fev 2026, com pico devastador em 11 Fev.
+    </div>
+  </div>
+  
+  <h3>Pico de Ataque — 11 de Fevereiro de 2026</h3>
+  <table>
+    <thead><tr><th>Hora (UTC)</th><th>IP</th><th>Localização</th><th>Tentativas</th><th>Padrão</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">00:00 – 01:00</td><td class="mono">128.24.60.73</td><td>🇺🇸 US</td><td><strong>14</strong></td><td><span class="sev sev-critical">Spray</span></td></tr>
+      <tr><td class="mono">04:00 – 05:00</td><td class="mono">128.24.60.73</td><td>🇺🇸 US</td><td><strong>4</strong></td><td><span class="sev sev-high">Continuação</span></td></tr>
+      <tr><td class="mono">06:00 – 07:00</td><td class="mono">128.24.60.73</td><td>🇺🇸 US</td><td><strong>13</strong></td><td><span class="sev sev-critical">Spray</span></td></tr>
+      <tr><td class="mono">07:00 – 08:00</td><td class="mono">128.24.60.73</td><td>🇺🇸 US</td><td><strong>10</strong></td><td><span class="sev sev-critical">Spray</span></td></tr>
+      <tr><td class="mono">15:00 – 16:00</td><td class="mono">128.24.60.73</td><td>🇺🇸 US</td><td><strong>7</strong></td><td><span class="sev sev-high">Retomada</span></td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: .75rem; color: var(--muted); font-size: .85rem;"><strong>Nota:</strong> O atacante alterna entre Exchange PowerShell, SharePoint Management Shell, Azure PowerShell e Graph CLI — padrão típico de <strong>password spraying automatizado</strong> contra múltiplos serviços simultaneamente.</p>
+
+  <h3>Aplicativos Alvo das Falhas 50126</h3>
+  <table>
+    <thead><tr><th>Aplicativo</th><th>Falhas</th><th>Primeira</th><th>Última</th></tr></thead>
+    <tbody>
+      <tr><td>Microsoft Exchange REST API Based PowerShell</td><td><strong>10</strong></td><td class="mono">09/Fev</td><td class="mono">13/Fev</td></tr>
+      <tr><td>Azure Portal</td><td><strong>10</strong></td><td class="mono">27/Jan</td><td class="mono">25/Fev</td></tr>
+      <tr><td>Microsoft SharePoint Online Management Shell</td><td><strong>7</strong></td><td class="mono">11/Fev</td><td class="mono">11/Fev</td></tr>
+      <tr><td>Microsoft Azure PowerShell</td><td><strong>7</strong></td><td class="mono">11/Fev</td><td class="mono">11/Fev</td></tr>
+      <tr><td>Microsoft Graph Command Line Tools</td><td><strong>3</strong></td><td class="mono">11/Fev</td><td class="mono">11/Fev</td></tr>
+      <tr><td>Microsoft Azure CLI</td><td><strong>2</strong></td><td class="mono">19/Fev</td><td class="mono">19/Fev</td></tr>
+      <tr><td>(Outros / não identificados)</td><td><strong>5</strong></td><td class="mono">18/Dez</td><td class="mono">25/Fev</td></tr>
+    </tbody>
+  </table>
+
+  <h3>User-Agents Detectados nos Ataques</h3>
+  <table>
+    <thead><tr><th>User-Agent</th><th>Contexto</th></tr></thead>
+    <tbody>
+      <tr><td class="mono" style="font-size:.72rem">PowerShell/7.5.4 (Windows NT 10.0; Windows 10.0.26100; en-US)</td><td><span class="sev sev-critical">Automatizado</span> — CLI PowerShell 7.5</td></tr>
+      <tr><td class="mono" style="font-size:.72rem">Chrome/70.0.3538.102 Edge/18.26100 (WebView/3.0)</td><td><span class="sev sev-high">Legacy</span> — Chrome 70 / Edge Legacy</td></tr>
+      <tr><td class="mono" style="font-size:.72rem">Chrome/144.0.0.0 Edg/144.0.0.0 OS/10.0.26100</td><td><span class="sev sev-medium">Browser</span> — Edge moderno</td></tr>
+      <tr><td class="mono" style="font-size:.72rem">Chrome/145.0.0.0 Edg/145.0.0.0 OS/10.0.26200</td><td><span class="pill pill-green">Legítimo</span> — Browser atualizado (BR)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 3: BRUTE-FORCE ENDPOINT ═══ -->
+<div class="card" id="sec3">
+  <h2>3. 🔴 Incidente: Brute-Force Endpoint via NTLM</h2>
+  
+  <div class="alert alert-critical">
+    <div class="icon">💀</div>
+    <div class="content">
+      <strong>vm-exposed-lab — Endpoint exposto à internet sofrendo ataques de rede</strong>
+      14 tentativas de logon falhadas de 5 IPs externos distintos, todas usando protocolo <strong>NTLM</strong> (inseguro). Nome remoto genérico "workstation" indica ferramentas automatizadas de ataque.
+    </div>
+  </div>
+
+  <h3>Eventos DeviceLogonEvents — Falhas de Admin</h3>
+  <table>
+    <thead><tr><th>Data (UTC)</th><th>Conta</th><th>Dispositivo</th><th>IP Remoto</th><th>Nome Remoto</th><th>Protocolo</th><th>Razão</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">25/Fev 08:02</td><td>seclab\admin</td><td>seclab-dc.seclab.local</td><td class="mono">172.16.0.15</td><td>labv10</td><td><span class="sev sev-medium">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">25/Fev 08:02</td><td>seclab\admin</td><td>seclab-dc.seclab.local</td><td class="mono">172.16.0.15</td><td>labv10</td><td><span class="sev sev-medium">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">05/Jan 11:07</td><td>admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">45.227.254.132</td><td>d-202</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">05/Jan 11:07</td><td>admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">45.227.254.132</td><td>d-202</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">28/Dez 17:54</td><td>admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">208.109.215.97</td><td>workstation</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">28/Dez 16:34</td><td>admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">24.143.165.146</td><td>workstation</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">28/Dez 12:14</td><td>admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">208.109.215.97</td><td>workstation</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">28/Dez 10:20</td><td>admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">208.109.39.51</td><td>workstation</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">28/Dez 10:10</td><td>admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">70.24.237.228</td><td>workstation</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">28/Dez 04:38</td><td>aafsb_admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">70.24.237.228</td><td>workstation</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+      <tr><td class="mono">28/Dez 04:07</td><td>738579-admin</td><td>vm-exposed-lab</td><td class="mono" style="color:var(--red)">144.130.96.8</td><td>workstation</td><td><span class="sev sev-critical">NTLM</span></td><td>InvalidUserNameOrPassword</td></tr>
+    </tbody>
+  </table>
+  
+  <div class="alert alert-warning" style="margin-top: 1rem;">
+    <div class="icon">🔍</div>
+    <div class="content">
+      <strong>Indicadores de Comprometimento (IoC)</strong>
+      <ul style="margin-top: .5rem; padding-left: 1rem; font-size: .85rem;">
+        <li>Nome remoto <code>"workstation"</code> genérico = ferramenta de ataque automatizada (ex: Hydra, CrackMapExec)</li>
+        <li>Múltiplas variações de nome admin (<code>admin</code>, <code>aafsb_admin</code>, <code>738579-admin</code>, <code>danukao-admin</code>) = <strong>enumeração de usuários</strong></li>
+        <li>Protocolo NTLM exclusivo = tentativa de pass-the-hash ou credential stuffing</li>
+        <li>IPs de ASNs diferentes = botnet ou proxy chain</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 4: IP ANALYSIS ═══ -->
+<div class="card" id="sec4">
+  <h2>4. 🌐 Análise de IPs Atacantes</h2>
+  
+  <h3>IPs em Falhas de Credencial (Azure AD)</h3>
+  <table>
+    <thead><tr><th>IP</th><th>País</th><th>Falhas</th><th>Sucessos</th><th>Razão</th><th>Veredicto</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="mono">128.24.60.73</td><td>🇺🇸 US</td><td style="color:var(--red)"><strong>35</strong></td><td>803</td>
+        <td>Password spray em múltiplos apps</td>
+        <td><span class="sev sev-high">Suspeito</span> — IP legítimo com atividade anômala em 11/Fev</td>
+      </tr>
+      <tr>
+        <td class="mono">191.235.235.190</td><td>🇧🇷 BR</td><td>9</td><td>490</td>
+        <td>Erros de senha espaçados</td>
+        <td><span class="sev sev-medium">Monitorar</span> — IP do Azure Brasil (potencialmente legítimo)</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h3>IPs em Ataques ao Endpoint (DeviceLogonEvents)</h3>
+  <table>
+    <thead><tr><th>IP</th><th>Tentativas</th><th>Dispositivo Alvo</th><th>Nome Remoto</th><th>Veredicto</th></tr></thead>
+    <tbody>
+      <tr><td class="mono" style="color:var(--red)">208.109.215.97</td><td>3</td><td>vm-exposed-lab</td><td>workstation</td><td><span class="sev sev-critical">Atacante — GoDaddy ASN</span></td></tr>
+      <tr><td class="mono" style="color:var(--red)">70.24.237.228</td><td>3</td><td>vm-exposed-lab</td><td>workstation</td><td><span class="sev sev-critical">Atacante — Residential ISP</span></td></tr>
+      <tr><td class="mono" style="color:var(--red)">45.227.254.132</td><td>2</td><td>vm-exposed-lab</td><td>d-202</td><td><span class="sev sev-critical">Atacante — LATAM ASN</span></td></tr>
+      <tr><td class="mono" style="color:var(--red)">24.143.165.146</td><td>1</td><td>vm-exposed-lab</td><td>workstation</td><td><span class="sev sev-critical">Atacante — Cable ISP</span></td></tr>
+      <tr><td class="mono" style="color:var(--red)">144.130.96.8</td><td>1</td><td>vm-exposed-lab</td><td>workstation</td><td><span class="sev sev-critical">Atacante — AU ASN</span></td></tr>
+      <tr><td class="mono">208.109.39.51</td><td>1</td><td>vm-exposed-lab</td><td>workstation</td><td><span class="sev sev-critical">Atacante — GoDaddy ASN</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 5: ACCOUNTS ═══ -->
+<div class="card" id="sec5">
+  <h2>5. 👤 Contas Administrativas Afetadas</h2>
+  <table>
+    <thead><tr><th>Conta</th><th>Tipo</th><th>Falhas AD</th><th>Falhas Endpoint</th><th>Risco</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">admin@mngenvmcap186458.onmicrosoft.com</td><td>Global Admin (Azure AD)</td><td style="color:var(--red)"><strong>44</strong></td><td>8</td><td><span class="sev sev-critical">CRÍTICO</span></td></tr>
+      <tr><td class="mono">admin.dlp@mngenvmcap186458.onmicrosoft.com</td><td>DLP Admin</td><td>2</td><td>0</td><td><span class="sev sev-high">ALTO</span></td></tr>
+      <tr><td class="mono">seclab\admin</td><td>Domain Admin (seclab)</td><td>0</td><td>2</td><td><span class="sev sev-medium">MÉDIO</span></td></tr>
+      <tr><td class="mono">aafsb_admin (local)</td><td>Variação — enumeração</td><td>0</td><td>2</td><td><span class="sev sev-high">ALTO</span></td></tr>
+      <tr><td class="mono">738579-admin (local)</td><td>Variação — enumeração</td><td>0</td><td>1</td><td><span class="sev sev-medium">MÉDIO</span></td></tr>
+      <tr><td class="mono">danukao-admin (local)</td><td>Variação — enumeração</td><td>0</td><td>1</td><td><span class="sev sev-medium">MÉDIO</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 6: TIMELINE ═══ -->
+<div class="card" id="sec6">
+  <h2>6. 📅 Timeline de Eventos</h2>
+  <div class="timeline">
+    <div class="timeline-item critical">
+      <div class="date">28 Dez 2025 • 04:07 – 17:54 UTC</div>
+      <div class="title">🔴 Primeiro ataque NTLM em vm-exposed-lab</div>
+      <div class="desc">8 tentativas de 4 IPs externos distintos (208.109.215.97, 70.24.237.228, 208.109.39.51, 144.130.96.8). Enumeração de usernames: admin, aafsb_admin, 738579-admin.</div>
+    </div>
+    <div class="timeline-item warning">
+      <div class="date">18 Dez 2025 • 21:09 UTC</div>
+      <div class="title">🟠 Primeira falha 50126 no Azure AD</div>
+      <div class="desc">admin@ falhou login no My Profile de 191.235.235.190 (BR) — possível erro de senha legítimo.</div>
+    </div>
+    <div class="timeline-item critical">
+      <div class="date">05 Jan 2026 • 11:07 UTC</div>
+      <div class="title">🔴 Segundo ataque NTLM em vm-exposed-lab</div>
+      <div class="desc">2 tentativas de 45.227.254.132 (LATAM) com nome remoto "d-202".</div>
+    </div>
+    <div class="timeline-item warning">
+      <div class="date">27 Jan 2026 • 14:03 – 22:46 UTC</div>
+      <div class="title">🟠 Cluster de falhas 50126 no Azure Portal</div>
+      <div class="desc">5 tentativas do BR (191.235.235.190) em ~8 horas. Padrão: tentativas espaçadas de 15+ min.</div>
+    </div>
+    <div class="timeline-item critical">
+      <div class="date">08 Fev 2026 • 04:48 UTC</div>
+      <div class="title">🔴 admin.dlp@ também atacado</div>
+      <div class="desc">Falha 50126 para admin.dlp@ de 128.24.60.73 (US) via Exchange PowerShell + 2 bloqueios por Conditional Access.</div>
+    </div>
+    <div class="timeline-item critical">
+      <div class="date">11 Fev 2026 • 00:00 – 17:00 UTC ★</div>
+      <div class="title">🔴 PICO: Password Spray Massivo (37 tentativas)</div>
+      <div class="desc">128.24.60.73 executou spray contra: SharePoint Shell (7), Exchange PS (10), Azure PS (7), Graph CLI (3), Azure CLI (2), Portal (8). UserAgent alterna entre PowerShell 7.5.4 e Chrome/Edge WebView legado. 14 tentativas na primeira hora (00:00–01:00).</div>
+    </div>
+    <div class="timeline-item warning">
+      <div class="date">19 Fev 2026 • 01:50 UTC</div>
+      <div class="title">🟠 Falhas 50126 no Azure CLI</div>
+      <div class="desc">2 tentativas de 128.24.60.73 (US) — atividade pós-spray.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">25 Fev 2026 • 08:02 UTC</div>
+      <div class="title">⚪ Última falha NTLM detectada</div>
+      <div class="desc">seclab\admin em seclab-dc.seclab.local de 172.16.0.15 (labv10) — rede interna.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">25 Fev 2026 • 11:14 UTC</div>
+      <div class="title">⚪ Última falha 50126 no Azure AD</div>
+      <div class="desc">admin@ no Azure Portal de 191.235.235.190 (BR).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 7: APPLICATION ANALYSIS ═══ -->
+<div class="card" id="sec7">
+  <h2>7. 📱 Análise de Aplicativos — Logins Bem-Sucedidos</h2>
+  <table>
+    <thead><tr><th>Aplicativo</th><th>Auth</th><th>Logins OK</th><th>IPs Distintos</th><th>Risco</th></tr></thead>
+    <tbody>
+      <tr><td>Azure Portal</td><td><span class="pill pill-green">MFA</span></td><td>265</td><td>6</td><td><span class="sev sev-low">OK</span></td></tr>
+      <tr><td>Azure Portal</td><td><span class="pill pill-red">Single</span></td><td>113</td><td>2</td><td><span class="sev sev-high">ALTO</span></td></tr>
+      <tr><td>Exchange REST PS</td><td><span class="pill pill-green">MFA</span></td><td>157</td><td>1</td><td><span class="sev sev-low">OK</span></td></tr>
+      <tr><td>Microsoft Auth Broker</td><td><span class="pill pill-red">Single</span></td><td>134</td><td>2</td><td><span class="sev sev-medium">MÉDIO</span></td></tr>
+      <tr><td>M365 Security Center</td><td><span class="pill pill-green">MFA</span></td><td>81</td><td>5</td><td><span class="sev sev-low">OK</span></td></tr>
+      <tr><td>Office365 Shell WCSS</td><td><span class="pill pill-red">Single</span></td><td>72</td><td>2</td><td><span class="sev sev-medium">MÉDIO</span></td></tr>
+      <tr><td>Graph CLI</td><td><span class="pill pill-green">MFA</span></td><td>48</td><td>7</td><td><span class="sev sev-low">OK</span></td></tr>
+      <tr><td>Azure PowerShell</td><td><span class="pill pill-red">Single</span></td><td>46</td><td>1</td><td><span class="sev sev-high">ALTO</span></td></tr>
+      <tr><td>Visual Studio Code</td><td><span class="pill pill-green">MFA</span></td><td>32</td><td>2</td><td><span class="sev sev-low">OK</span></td></tr>
+      <tr><td>Azure CLI</td><td><span class="pill pill-green">MFA</span></td><td>21</td><td>4</td><td><span class="sev sev-low">OK</span></td></tr>
+    </tbody>
+  </table>
+  
+  <div class="alert alert-warning" style="margin-top: 1rem;">
+    <div class="icon">⚠️</div>
+    <div class="content">
+      <strong>365 logins sem MFA (singleFactorAuthentication) bem-sucedidos</strong> — 
+      Azure Portal (113), Auth Broker (134), Office Shell (72), Azure PowerShell (46). 
+      Esses acessos são vulneráveis a credential stuffing se a senha for comprometida.
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 8: CONDITIONAL ACCESS ═══ -->
+<div class="card" id="sec8">
+  <h2>8. 🛡️ Conditional Access &amp; MFA</h2>
+  
+  <h3>Eventos Bloqueados por Conditional Access (53003)</h3>
+  <table>
+    <thead><tr><th>Data</th><th>Conta</th><th>Aplicativo</th><th>IP</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">18/Dez – 29/Jan</td><td>admin@</td><td>My Signins</td><td>128.24.60.73</td></tr>
+      <tr><td class="mono">08/Fev</td><td>admin.dlp@</td><td>Microsoft App Access Panel</td><td>128.24.60.73</td></tr>
+      <tr><td class="mono">09/Fev</td><td>admin@</td><td>Microsoft App Access Panel</td><td>128.24.60.73</td></tr>
+      <tr><td class="mono">08/Jan</td><td>admin@</td><td>InternalLearningLPExperienceUIProd</td><td>128.24.60.73</td></tr>
+    </tbody>
+  </table>
+  
+  <h3>Strong Authentication Required (50074)</h3>
+  <p style="font-size: .85rem;">24 eventos onde MFA foi exigido mas não completado — indica que há policies de Conditional Access ativas, porém <strong>não cobrem todos os aplicativos</strong>. Azure PowerShell com 46 logins single-factor é prova disso.</p>
+  
+  <div class="alert alert-info">
+    <div class="icon">💡</div>
+    <div class="content">
+      <strong>Conclusão CA:</strong> As políticas de Conditional Access estão <strong>parcialmente configuradas</strong>. Protegem Azure Portal e My Signins, mas <strong>não cobrem</strong> Azure PowerShell, Auth Broker, e Office Shell — os 3 maiores vetores de ataque sem MFA.
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 9: CODE AUDIT ═══ -->
+<div class="card" id="sec9">
+  <h2>9. 🔍 Auditoria de Código — admin-guard.js (FreeNameConvention)</h2>
+  <p style="margin-bottom: 1rem;">Análise do módulo <code>src/service/admin-guard.js</code> (314 linhas) que controla toda a autenticação administrativa da aplicação.</p>
+  
+  <h3>Vulnerabilidade #1 — Rate Limiting In-Memory</h3>
+  <pre><code><span class="code-red">// ⚠ _rate é uma variável em memória — reseta ao reiniciar a aplicação</span>
+const _rate = { count: 0, firstAt: 0, lockedUntil: 0 };
+const MAX_TRIES = 5;
+const LOCK_MS   = 5 * 60 * 1000;  <span class="code-yellow">// 5 min lockout</span>
+const WIN_MS    = 15 * 60 * 1000; <span class="code-yellow">// 15 min window</span></code></pre>
+  <p><span class="sev sev-high">ALTO</span> — Um atacante pode reiniciar a aplicação (ou esperar que ela reinicie) para resetar o rate-limiting e continuar o brute-force indefinidamente.</p>
+  <p><strong>Recomendação:</strong> Persistir <code>_rate</code> no ConfigStore com timestamp. Implementar backoff exponencial.</p>
+  
+  <h3>Vulnerabilidade #2 — Legacy SHA-256 Ainda Aceito</h3>
+  <pre><code>function verifyPassword(password, storedHash) {
+  if (!storedHash) return true;
+  const clean = sanitize(password, 128);
+  <span class="code-red">// ⚠ Legacy SHA-256 — sem salt, sem PBKDF2, vulnerável a rainbow tables</span>
+  if (!storedHash.startsWith('pbkdf2:')) {
+    return crypto.createHash('sha256').update(clean, 'utf8').digest('hex') === storedHash;
+  }
+  <span class="code-green">// ✅ Caminho PBKDF2 moderno com timingSafeEqual</span>
+  ...
+}</code></pre>
+  <p><span class="sev sev-medium">MÉDIO</span> — Usuários que nunca reconfiguraram a senha ainda podem usar hash SHA-256 simples (sem salt). Vulnerável a ataques de dicionário e rainbow tables.</p>
+  <p><strong>Recomendação:</strong> Forçar migração automática: se legacy SHA-256 for detectado e verificado com sucesso, re-hash imediatamente para PBKDF2.</p>
+  
+  <h3>Vulnerabilidade #3 — Senha Exposta em schtasks</h3>
+  <pre><code><span class="code-red">// ⚠ Password visível na lista de processos (tasklist, Process Explorer)</span>
+cmd = `schtasks /create /f /tn "${task}" /tr "\\"${safe}\\" --service" 
+       /sc ONLOGON /ru "${u}" <span class="code-red">/rp "${p}"</span>`;</code></pre>
+  <p><span class="sev sev-medium">MÉDIO</span> — A senha do usuário Windows é passada como argumento de linha de comando para <code>schtasks</code>, ficando visível em qualquer processo monitor.</p>
+  <p><strong>Recomendação:</strong> Usar <code>/rp *</code> para prompt interativo, ou gravar via stdin pipe. Alternativamente, usar COM API do Task Scheduler.</p>
+  
+  <h3>Controles Positivos ✅</h3>
+  <table>
+    <thead><tr><th>Controle</th><th>Implementação</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>PBKDF2-SHA512</td><td>100.000 iterações + 16-byte random salt</td><td><span class="pill pill-green">✅ Forte</span></td></tr>
+      <tr><td>timingSafeEqual</td><td>Comparação constant-time contra timing attacks</td><td><span class="pill pill-green">✅ Implementado</span></td></tr>
+      <tr><td>Input Sanitization</td><td>sanitize() remove control chars, trim, slice</td><td><span class="pill pill-green">✅ Adequado</span></td></tr>
+      <tr><td>execAsync + Timeout</td><td>Todos os commands com timeout (5s–15s)</td><td><span class="pill pill-green">✅ Anti-DoS</span></td></tr>
+      <tr><td>icacls ACL Protection</td><td>protectConfigFile() usa SID locale-independent</td><td><span class="pill pill-green">✅ Robusto</span></td></tr>
+      <tr><td>Admin Reset Gate</td><td>adminResetPassword requer isAdmin() true</td><td><span class="pill pill-green">✅ Correto</span></td></tr>
+      <tr><td>Password Min Length</td><td>Mínimo 4 caracteres enforced</td><td><span class="sev sev-medium">⚠ Fraco</span> — Recomendar 8+</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 10: STRIDE ═══ -->
+<div class="card" id="sec10">
+  <h2>10. 🛡️ Matriz STRIDE — Análise Completa</h2>
+  <div class="stride-grid">
+    <div class="stride-card">
+      <h4>S — Spoofing (Identidade Falsificada)</h4>
+      <div class="items">
+        <div class="item"><span class="check">✅</span> PBKDF2 + salt para autenticação local</div>
+        <div class="item"><span class="check">✅</span> Rate-limiting (5 tentativas / 15 min)</div>
+        <div class="item"><span class="warn">⚠</span> Rate-limit in-memory — resetável</div>
+        <div class="item"><span class="fail">❌</span> Azure AD: 44 falhas sem bloqueio permanente</div>
+        <div class="item"><span class="fail">❌</span> NTLM ativo em vm-exposed-lab</div>
+      </div>
+    </div>
+    <div class="stride-card">
+      <h4>T — Tampering (Adulteração)</h4>
+      <div class="items">
+        <div class="item"><span class="check">✅</span> icacls protege config.json (ACLs Windows)</div>
+        <div class="item"><span class="check">✅</span> Input sanitization em todas as entradas</div>
+        <div class="item"><span class="check">✅</span> Path-traversal corrigido (v3.1.0)</div>
+        <div class="item"><span class="check">✅</span> Import language sanitizado (v3.1.0)</div>
+      </div>
+    </div>
+    <div class="stride-card">
+      <h4>R — Repudiation (Repúdio)</h4>
+      <div class="items">
+        <div class="item"><span class="check">✅</span> Sentinel logging ativo (SigninLogs)</div>
+        <div class="item"><span class="check">✅</span> DeviceLogonEvents com detalhes</div>
+        <div class="item"><span class="check">✅</span> Structured results em admin-guard</div>
+        <div class="item"><span class="warn">⚠</span> App local não persiste tentativas falhadas</div>
+      </div>
+    </div>
+    <div class="stride-card">
+      <h4>I — Information Disclosure</h4>
+      <div class="items">
+        <div class="item"><span class="check">✅</span> timingSafeEqual contra timing attacks</div>
+        <div class="item"><span class="check">✅</span> smtpPass nunca enviada ao renderer</div>
+        <div class="item"><span class="warn">⚠</span> USERDOMAIN exposto via env var</div>
+        <div class="item"><span class="fail">❌</span> schtasks /rp expõe senha no process list</div>
+      </div>
+    </div>
+    <div class="stride-card">
+      <h4>D — Denial of Service</h4>
+      <div class="items">
+        <div class="item"><span class="check">✅</span> execAsync com timeout (nunca bloqueia)</div>
+        <div class="item"><span class="check">✅</span> IPC guard wrapper para crash isolation</div>
+        <div class="item"><span class="warn">⚠</span> 37 tentativas em 1 dia não bloquearam IP</div>
+        <div class="item"><span class="warn">⚠</span> Conditional Access parcial</div>
+      </div>
+    </div>
+    <div class="stride-card">
+      <h4>E — Elevation of Privilege</h4>
+      <div class="items">
+        <div class="item"><span class="check">✅</span> isAdmin() verifica "net session"</div>
+        <div class="item"><span class="check">✅</span> adminResetPassword gate (Windows admin only)</div>
+        <div class="item"><span class="check">✅</span> contextIsolation: true no Electron</div>
+        <div class="item"><span class="check">✅</span> nodeIntegration: false</div>
+        <div class="item"><span class="warn">⚠</span> schtasks /rl HIGHEST — cria task com elevação</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 11: RISK MATRIX ═══ -->
+<div class="card" id="sec11">
+  <h2>11. 📊 Matriz de Risco</h2>
+  <div class="risk-matrix">
+    <div class="risk-cell risk-header"></div>
+    <div class="risk-cell risk-header">Baixo Impacto</div>
+    <div class="risk-cell risk-header">Médio Impacto</div>
+    <div class="risk-cell risk-header">Alto Impacto</div>
+    <div class="risk-cell risk-header">Crítico Impacto</div>
+    
+    <div class="risk-cell risk-header">Alta Probabilidade</div>
+    <div class="risk-cell risk-med">—</div>
+    <div class="risk-cell risk-high">Single-Factor logins<br>(365 eventos)</div>
+    <div class="risk-cell risk-crit">🔴 Password Spray<br>(37/dia)</div>
+    <div class="risk-cell risk-crit">🔴 NTLM Brute-Force<br>(vm-exposed-lab)</div>
+    
+    <div class="risk-cell risk-header">Média Probabilidade</div>
+    <div class="risk-cell risk-low">USERDOMAIN exposure</div>
+    <div class="risk-cell risk-med">Legacy SHA-256<br>no código</div>
+    <div class="risk-cell risk-high">Rate-limit resetável<br>(in-memory)</div>
+    <div class="risk-cell risk-crit">Credential leak<br>via schtasks</div>
+    
+    <div class="risk-cell risk-header">Baixa Probabilidade</div>
+    <div class="risk-cell risk-low">net session timeout</div>
+    <div class="risk-cell risk-low">Min password 4 chars</div>
+    <div class="risk-cell risk-med">admin.dlp@ targeting</div>
+    <div class="risk-cell risk-high">User enum em endpoints</div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 12: RECOMMENDATIONS ═══ -->
+<div class="card" id="sec12">
+  <h2>12. ✅ Recomendações Prioritárias</h2>
+  
+  <h3>🔴 Prioridade CRÍTICA (Implementar Imediatamente)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Ação</th><th>Detalhes</th><th>Impacto</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Desabilitar NTLM em vm-exposed-lab</strong></td><td>GPO: <code>Network Security: Restrict NTLM: Incoming NTLM Traffic = Deny All</code>. Migrar para Kerberos ou NTLMv2 mínimo.</td><td>Bloqueia ataques de pass-the-hash</td></tr>
+      <tr><td>2</td><td><strong>Bloquear IPs atacantes no NSG</strong></td><td>Adicionar regra deny para: <code>208.109.215.97</code>, <code>208.109.39.51</code>, <code>70.24.237.228</code>, <code>45.227.254.132</code>, <code>24.143.165.146</code>, <code>144.130.96.8</code></td><td>Elimina fontes confirmadas</td></tr>
+      <tr><td>3</td><td><strong>MFA obrigatório para TODOS os apps</strong></td><td>Conditional Access Policy: Require MFA for <code>admin@</code> em Azure PowerShell, Auth Broker, Office Shell. Grant = "Require MFA".</td><td>Elimina 365 logins sem MFA</td></tr>
+      <tr><td>4</td><td><strong>Investigar IP 128.24.60.73</strong></td><td>803 logins bem-sucedidos + 35 falhas. Verificar se é IP corporativo legítimo ou VPS comprometida. Cruzar com logs de VPN/firewall.</td><td>Confirma ou descarta comprometimento</td></tr>
+    </tbody>
+  </table>
+  
+  <h3>🟠 Prioridade ALTA (7 dias)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Ação</th><th>Detalhes</th></tr></thead>
+    <tbody>
+      <tr><td>5</td><td><strong>Rotacionar senha de admin@</strong></td><td>Após 44 tentativas de brute-force, a senha pode ter sido comprometida. Rotacionar imediatamente e ativar alertas de Identity Protection.</td></tr>
+      <tr><td>6</td><td><strong>Habilitar Identity Protection</strong></td><td>Azure AD Identity Protection com políticas de risco de sign-in (Medium+High = Block ou MFA). Nenhum evento IsRisky detectado — significa que o recurso pode não estar configurado.</td></tr>
+      <tr><td>7</td><td><strong>Desabilitar SMBv1 em vm-exposed-lab</strong></td><td><code>Disable-WindowsOptionalFeature -FeatureName SMB1Protocol -Online</code></td></tr>
+      <tr><td>8</td><td><strong>Persistir rate-limiting no código</strong></td><td>Salvar <code>_rate</code> no ConfigStore com expiração por timestamp. Implementar backoff exponencial (5 → 15 → 60 min).</td></tr>
+    </tbody>
+  </table>
+  
+  <h3>🟡 Prioridade MÉDIA (30 dias)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Ação</th><th>Detalhes</th></tr></thead>
+    <tbody>
+      <tr><td>9</td><td><strong>Forçar migração SHA-256 → PBKDF2</strong></td><td>Em <code>verifyPassword()</code>, se legacy for válido, re-hash automaticamente para PBKDF2 e salvar.</td></tr>
+      <tr><td>10</td><td><strong>Corrigir exposição de senha em schtasks</strong></td><td>Substituir <code>/rp "${p}"</code> por stdin pipe ou usar COM API do Task Scheduler.</td></tr>
+      <tr><td>11</td><td><strong>Aumentar requisito de senha</strong></td><td>Mínimo 8 caracteres + complexidade (maiúscula + número + especial).</td></tr>
+      <tr><td>12</td><td><strong>Criar Named Locations no Conditional Access</strong></td><td>Definir IPs confiáveis (escritório, VPN) e bloquear logins admin@ de locais não confiáveis.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 13: COMPLIANCE MAPPING ═══ -->
+<div class="card" id="sec13">
+  <h2>13. 📋 Mapeamento de Conformidade</h2>
+  <table>
+    <thead><tr><th>Descoberta</th><th>NIST SP 800-53</th><th>ISO 27001:2022</th><th>MITRE ATT&CK</th></tr></thead>
+    <tbody>
+      <tr><td>Brute-Force Azure AD (50126)</td><td>AC-7 (Unsuccessful Logon Attempts)</td><td>A.8.5 (Secure Authentication)</td><td>T1110.001 (Brute Force: Password Guessing)</td></tr>
+      <tr><td>Brute-Force NTLM no Endpoint</td><td>AC-17 (Remote Access), SC-23</td><td>A.8.20 (Network Security)</td><td>T1110.003 (Password Spraying)</td></tr>
+      <tr><td>Single-Factor Authentication (365 logins)</td><td>IA-2(1) (MFA for Privileged Accounts)</td><td>A.8.5 (Secure Authentication)</td><td>T1078 (Valid Accounts)</td></tr>
+      <tr><td>Rate-Limiting In-Memory</td><td>AC-7 (Unsuccessful Logon Attempts)</td><td>A.8.5 (Secure Authentication)</td><td>T1110 (Brute Force)</td></tr>
+      <tr><td>Legacy SHA-256 (sem salt)</td><td>IA-5(1) (Password-Based Auth)</td><td>A.8.24 (Use of Cryptography)</td><td>T1110.002 (Password Cracking)</td></tr>
+      <tr><td>Credential Exposure em schtasks</td><td>IA-5(7) (Password Storage)</td><td>A.8.9 (Configuration Mgmt)</td><td>T1552.001 (Credentials in Files)</td></tr>
+      <tr><td>User Enumeration via NTLM</td><td>AC-2 (Account Management)</td><td>A.5.16 (Identity Mgmt)</td><td>T1087.002 (Domain Account Discovery)</td></tr>
+      <tr><td>Conditional Access Parcial</td><td>AC-3 (Access Enforcement)</td><td>A.8.3 (Information Access Restriction)</td><td>T1078.004 (Cloud Accounts)</td></tr>
+      <tr><td>NTLM Habilitado</td><td>SC-8 (Transmission Confidentiality)</td><td>A.8.24 (Use of Cryptography)</td><td>T1557.001 (LLMNR/NBT-NS Poisoning)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ SECTION 14: KQL QUERIES ═══ -->
+<div class="card" id="sec14">
+  <h2>14. 🔎 Consultas KQL Utilizadas</h2>
+  <p style="margin-bottom: 1rem; font-size: .85rem;">Queries executadas contra o workspace <strong>SentinelMaster</strong> (<code>25a37558-19a8-4e28-b7ee-496d970317de</code>).</p>
+  
+  <h3>Q1 — Falhas de login por tipo de erro</h3>
+  <pre><code>SigninLogs
+| where TimeGenerated > ago(90d)
+| where UserPrincipalName has "admin" or Identity has "admin"
+| where ResultType != "0"
+| summarize FailedAttempts=count(), DistinctIPs=dcount(IPAddress) 
+  by UserPrincipalName, ResultType, ResultDescription, AppDisplayName
+| order by FailedAttempts desc | take 50</code></pre>
+  
+  <h3>Q2 — Sign-ins de alto risco (Identity Protection)</h3>
+  <pre><code>SigninLogs
+| where TimeGenerated > ago(90d)
+| where UserPrincipalName has "admin"
+| where IsRisky == true or RiskLevelDuringSignIn in ("high", "medium")
+| project TimeGenerated, UserPrincipalName, IPAddress, Location, 
+  RiskLevelDuringSignIn, RiskDetail, AppDisplayName
+| order by TimeGenerated desc | take 50</code></pre>
+  
+  <h3>Q3 — Detecção de Brute-Force (>5 falhas/hora)</h3>
+  <pre><code>SigninLogs
+| where TimeGenerated > ago(90d)
+| where UserPrincipalName has "admin" and ResultType != "0"
+| summarize AttemptCount=count() by IPAddress, Location, bin(TimeGenerated, 1h)
+| where AttemptCount > 5
+| order by AttemptCount desc | take 50</code></pre>
+  
+  <h3>Q4 — Detalhes de falhas 50126 (credenciais inválidas)</h3>
+  <pre><code>SigninLogs
+| where TimeGenerated > ago(90d) and UserPrincipalName has "admin"
+| where ResultType == "50126"
+| project TimeGenerated, UserPrincipalName, IPAddress, Location, 
+  AppDisplayName, UserAgent, ConditionalAccessStatus
+| order by TimeGenerated asc | take 50</code></pre>
+  
+  <h3>Q5 — Logins bem-sucedidos por aplicativo</h3>
+  <pre><code>SigninLogs
+| where TimeGenerated > ago(90d) and UserPrincipalName has "admin"
+| where ResultType == "0"
+| summarize SuccessCount=count(), DistinctIPs=dcount(IPAddress) 
+  by UserPrincipalName, AppDisplayName, AuthenticationRequirement
+| order by SuccessCount desc | take 30</code></pre>
+  
+  <h3>Q6 — DeviceLogonEvents para contas admin</h3>
+  <pre><code>DeviceLogonEvents
+| where TimeGenerated > ago(90d) and AccountName has "admin"
+| where ActionType == "LogonFailed"
+| project TimeGenerated, AccountName, DeviceName, RemoteIP, 
+  RemoteDeviceName, FailureReason, LogonType, Protocol
+| order by TimeGenerated desc | take 20</code></pre>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="card" style="text-align: center; border-color: #4338ca;">
+  <p style="font-size: .85rem; color: var(--muted);">
+    <strong>FreeNameConvention Security Report</strong> — Gerado automaticamente via Microsoft Sentinel KQL + Code Audit<br>
+    Workspace: SentinelMaster • Período: 90 dias • Data: 03 Março 2026<br>
+    Classificação: <span class="sev sev-critical">CONFIDENCIAL — USO INTERNO</span>
+  </p>
+  <p style="font-size: .75rem; color: #475569; margin-top: .5rem;">
+    © 2026 FreeNameConvention Security Team — github.com/rfranca777/FreeNameConvention
+  </p>
+</div>
+
+</div><!-- /.container -->
+</body>
+</html>
