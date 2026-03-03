@@ -18,7 +18,7 @@ let localesDir = path.join(__dirname, '..', 'locales');
 
 /**
  * Load a language file into memory.
- * @param {string} lang — 'pt', 'en', or 'he'
+ * @param {string} lang — 'pt', 'en', 'he', or 'es'
  */
 function loadLang(lang) {
   if (!SUPPORTED.includes(lang)) lang = 'pt';

@@ -152,15 +152,18 @@ class Guardian {
       if (!fs.existsSync(qPath)) fs.mkdirSync(qPath, { recursive: true });
 
       // — Restrict access: Administrators (SID, locale-independent) + SYSTEM only (Windows) —
+      // setImmediate defers icacls to next event-loop tick — never blocks the watcher callback
       if (justCreated && process.platform === 'win32') {
-        try {
-          execSync(
-            `icacls "${qPath}" /inheritance:r /grant:r "*S-1-5-32-544:(OI)(CI)F" /grant:r "SYSTEM:(OI)(CI)F"`,
-            { timeout: 5000, windowsHide: true }
-          );
-        } catch (aceErr) {
-          console.warn('[Guardian] icacls failed (non-critical):', aceErr.message);
-        }
+        setImmediate(() => {
+          try {
+            execSync(
+              `icacls "${qPath}" /inheritance:r /grant:r "*S-1-5-32-544:(OI)(CI)F" /grant:r "SYSTEM:(OI)(CI)F"`,
+              { timeout: 5000, windowsHide: true }
+            );
+          } catch (aceErr) {
+            console.warn('[Guardian] icacls failed (non-critical):', aceErr.message);
+          }
+        });
       }
 
       let dest = path.join(qPath, filename);

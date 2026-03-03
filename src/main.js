@@ -643,7 +643,7 @@ ipc('config:exportConfig', async () => {
   });
   if (!savePath) return { ok: false, error: 'Cancelado' };
   try {
-    const exportData = { version: '3.1.0', exportedAt: new Date().toISOString(), folders: cfg.folders, language: cfg.language };
+    const exportData = { version: app.getVersion(), exportedAt: new Date().toISOString(), folders: cfg.folders, language: cfg.language };
     fs.writeFileSync(savePath, JSON.stringify(exportData, null, 2), 'utf8');
     return { ok: true, path: savePath };
   } catch (e) { return { ok: false, error: e.message }; }
@@ -693,7 +693,7 @@ ipc('log:clear', () => {
 ipc('feedback:open', (_, data) => {
   const title = encodeURIComponent(adminGuard.sanitize(data?.title || 'Feedback', 128));
   const body  = encodeURIComponent(adminGuard.sanitize(data?.description || '', 512));
-  const url   = `https://github.com/freenameconvention/FreeNameConvention/issues/new?title=${title}&body=${body}`;
+  const url   = `https://github.com/rfranca777/FreeNameConvention/issues/new?title=${title}&body=${body}`;
   shell.openExternal(url);
   return { ok: true };
 });
