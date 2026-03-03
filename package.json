@@ -75,7 +75,8 @@
       "runAfterFinish": true,
       "deleteAppDataOnUninstall": false,
       "installerSidebar": null,
-      "license": "LICENSE"
+      "license": "LICENSE",
+      "include": "build/installer.nsh"
     },
     "artifactName": "${productName}-Setup-${version}.${ext}",
     "files": [
