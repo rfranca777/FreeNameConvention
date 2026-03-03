@@ -1,226 +1,292 @@
-<p align="center">
-  <img src="assets/icon.ico" alt="FreeNameConvention" width="96" />
-</p>
+<div align="center">
 
-<h1 align="center">FreeNameConvention</h1>
+<img src="assets/icon.ico" alt="FreeNameConvention" width="120"/>
 
-<p align="center">
-  <strong>Open-source file naming compliance guardian</strong><br>
-  Enforce international normative naming standards on your folders — free forever.
-</p>
+<h1>FreeNameConvention</h1>
 
-<p align="center">
-  <a href="#-features">Features</a> ·
-  <a href="#-normatives">62 Normatives</a> ·
-  <a href="#-languages">4 Languages</a> ·
-  <a href="#-installation">Installation</a> ·
-  <a href="#-security">Security</a> ·
-  <a href="#-donations">Donations</a>
-</p>
+<p><strong>Open-source file naming compliance guardian for Windows</strong><br/>
+Enforce international normative naming standards on your folders — free forever.</p>
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-3.1.0-blue?style=for-the-badge)](https://github.com/rfranca777/FreeNameConvention/releases/tag/v3.1.0)
+[![Electron](https://img.shields.io/badge/Electron-32-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
+[![Platform](https://img.shields.io/badge/Platform-Windows_10%2F11-0078D4?style=for-the-badge&logo=windows&logoColor=white)](#-installation)
+[![Normatives](https://img.shields.io/badge/Normatives-62-FF6F00?style=for-the-badge)](#-normatives)
+[![Languages](https://img.shields.io/badge/Languages-4-success?style=for-the-badge)](#-languages)
+[![ODefender](https://img.shields.io/badge/ODefender-Community-FF6F00?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](https://github.com/rfranca777/odefender-community)
+
+<br/>
+
+### *"Because compliance starts with a file name."*
+
+<br/>
+
+[⬇️ Download Installer](https://github.com/rfranca777/FreeNameConvention/releases/latest) · [📖 How It Works](#-how-it-works) · [📋 62 Normatives](#-normatives) · [🌐 4 Languages](#-languages) · [🔐 Security](#-security)
+
+</div>
+
+---
+
+## 🎯 The Problem We're Solving
+
+Every organization that deals with regulatory compliance faces the same headache:
+
+> *Thousands of files. Dozens of regulatory frameworks. And a team spending hours manually checking if file names follow the right pattern — only to find violations weeks later.*
+
+Non-compliant file names cause **audit failures**, **document retrieval delays**, **legal exposure**, and **operational chaos** — especially for organizations operating under ISO, LGPD, GDPR, HIPAA, NF-e, and dozens of other frameworks.
+
+**What if a guardian watched your folders 24/7 and enforced naming rules automatically?**
+
+That's why **FreeNameConvention** exists.
 
 ---
 
 ## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+**⏱️ Without FreeNameConvention**
+- Files named `final_v2_USE_THIS_REALLY.pdf` 😩
+- Manual audits before every inspection
+- Non-compliant documents discovered during external audit
+- No traceability — who saved what, when, why?
+- Different teams, different naming styles
+
+</td>
+<td width="50%">
+
+**⚡ With FreeNameConvention**
+- Real-time enforcement: non-compliant files go to quarantine instantly
+- 62 ready-to-use normative patterns from ISO, GDPR, LGPD, HIPAA...
+- Violation log with CSV export, searchable and filterable
+- Admin password + ACL config protection (STRIDE security model)
+- One tool, all your folders, zero daily effort
+
+</td>
+</tr>
+</table>
 
 | Feature | Description |
 |---------|-------------|
 | 🛡️ **Real-time Guardian** | Monitors folders via `chokidar` and enforces naming rules as files are created |
 | 📋 **62 built-in normatives** | ISO, GDPR, HIPAA, LGPD, NF-e, SOX, APPI, POPIA, PIPL, and many more |
 | 🌍 **6 regions covered** | Global, Americas, Europe, Asia-Pacific, Middle East, Africa |
-| 🌐 **4 languages** | Português 🇧🇷 · English 🇺🇸 · עברית 🇮🇱 · Español 🇪🇸 (with RTL support) |
+| 🌐 **4 languages** | Português 🇧🇷 · English 🇺🇸 · עברית 🇮🇱 · Español 🇪🇸 (RTL support included) |
 | 🧙 **Pattern wizard** | Step-by-step builder with live preview and drag-and-drop token blocks |
-| 🔒 **Admin password** | PBKDF2-protected password required to start/stop the Guardian |
-| 📂 **Per-folder rules** | Each folder gets its own patterns, enforcement mode, color, priority, and owner |
-| 🚫 **Quarantine** | Non-compliant files are moved to an ACL-restricted subfolder |
-| 📧 **Email alerts** | SMTP notifications when violations occur (Nodemailer) |
-| 📤 **PowerShell export** | Standalone `.ps1` script for environments without Electron |
-| 📊 **Violation log** | Searchable, filterable, with CSV export |
-| ⚡ **Config import/export** | Back up and share your folder configurations as JSON |
-| 🖥️ **Windows service mode** | `--service` flag for background operation |
-| 🔐 **Config file protection** | Windows `icacls` ACL restrictions on the configuration file |
+| 🔒 **Admin password** | PBKDF2 (100K iterations) — required to start/stop the Guardian |
+| 📂 **Per-folder rules** | Each folder: own patterns, enforcement mode, color, priority, owner |
+| 🚫 **Quarantine mode** | Non-compliant files moved to ACL-restricted subfolder automatically |
+| 📧 **Email alerts** | SMTP notifications on violations (Nodemailer) |
+| 📤 **PowerShell export** | Standalone `.ps1` — runs without Node.js or Electron |
+| 📊 **Violation log** | Searchable, filterable, CSV export |
+| ⚡ **Config import/export** | Backup and share folder configurations as JSON |
+| 🖥️ **Windows service mode** | `--service` flag for background/silent operation |
+| 🔐 **Config file protection** | Windows `icacls` ACL restrictions on configuration file |
 
 ---
 
 ## 📜 Normatives
 
-FreeNameConvention ships with **62 ready-to-use normatives** organized by region:
+FreeNameConvention ships with **62 ready-to-use normatives** across 6 regions and 28+ countries. Each comes with multiple patterns, token templates, and recommended file extensions.
 
 ### 🌐 Global (8)
-| Normative | Area |
-|-----------|------|
-| ISO 9001:2015 | Quality Management |
-| ISO 13485:2016 | Medical Devices QMS |
-| ISO 15489-1:2016 | Records Management |
-| ISO 27001:2022 | Information Security |
-| ISO 14001:2015 | Environmental Management |
-| ISO 45001:2018 | Occupational Health & Safety |
-| ISO 19650 | BIM / Construction |
-| PCI DSS v4.0 | Payment Card Security |
+
+| Normative | Area | Scope |
+|-----------|------|-------|
+| ISO 9001:2015 | Quality Management | All industries |
+| ISO 13485:2016 | Medical Devices QMS | Healthcare |
+| ISO 15489-1:2016 | Records Management | All industries |
+| ISO 27001:2022 | Information Security | All industries |
+| ISO 14001:2015 | Environmental Management | All industries |
+| ISO 45001:2018 | Occupational Health & Safety | All industries |
+| ISO 19650 | BIM / Construction | Architecture, Engineering |
+| PCI DSS v4.0 | Payment Card Security | Financial, Retail |
 
 ### 🌎 Americas (24)
+
 | Country | Normatives |
 |---------|-----------|
-| 🇧🇷 Brazil | NF-e, NFS-e, CT-e, SPED, eSocial, BACEN 4.893, CVM, CFM 1.821, ANVISA RDC 204, LGPD, CNJ 065, CLT/eSocial/CAGED, CONARQ/e-ARQ, Decree 10.278, ABNT NBR 13531, MAPA/SISLEGIS |
-| 🇺🇸 USA | SOX, HIPAA, FDA 21 CFR Part 11, FINRA 4511, DoD 5015.02, NIST SP 800-53, FERPA |
-| 🇲🇽 Mexico | CFDI (SAT), LFPDPPP |
-| 🇦🇷 Argentina | AFIP Factura Electrónica |
-| 🇨🇴 Colombia | DIAN Facturación Electrónica |
-| 🇨🇱 Chile | SII DTE |
-| 🇨🇦 Canada | PIPEDA |
+| 🇧🇷 Brazil (16) | NF-e · NFS-e · CT-e · SPED · eSocial · BACEN 4.893 · CVM · CFM 1.821 · ANVISA RDC 204 · LGPD · CNJ 065 · CLT/eSocial/CAGED · CONARQ/e-ARQ · Decree 10.278 · ABNT NBR 13531 · MAPA/SISLEGIS |
+| 🇺🇸 USA (7) | SOX · HIPAA · FDA 21 CFR Part 11 · FINRA 4511 · DoD 5015.02 · NIST SP 800-53 · FERPA |
+| 🇲🇽 Mexico (2) | CFDI (SAT) · LFPDPPP |
+| 🇦🇷 Argentina (1) | AFIP Factura Electrónica |
+| 🇨🇴 Colombia (1) | DIAN Facturación Electrónica |
+| 🇨🇱 Chile (1) | SII DTE |
+| 🇨🇦 Canada (1) | PIPEDA |
 
 ### 🇪🇺 Europe (10)
+
 | Country | Normatives |
 |---------|-----------|
-| European Union | GDPR, eIDAS, NIS2 Directive, DORA |
-| 🇬🇧 United Kingdom | UK GDPR + DPA 2018 |
-| 🇩🇪 Germany | GoBD |
-| 🇪🇸 Spain | Factura-e |
-| 🇮🇹 Italy | FatturaPA |
-| 🇫🇷 France | CNIL Guidelines |
+| 🇪🇺 European Union (4) | GDPR · eIDAS · NIS2 Directive · DORA |
+| 🇬🇧 United Kingdom (1) | UK GDPR + DPA 2018 |
+| 🇩🇪 Germany (1) | GoBD |
+| 🇪🇸 Spain (1) | Factura-e |
+| 🇮🇹 Italy (1) | FatturaPA |
+| 🇫🇷 France (1) | CNIL Guidelines |
 
 ### 🌏 Asia-Pacific (9)
+
 | Country | Normatives |
 |---------|-----------|
-| 🇯🇵 Japan | APPI |
-| 🇦🇺 Australia | Privacy Act 1988, APRA CPS 234 |
-| 🇮🇳 India | DPDP Act 2023 |
-| 🇰🇷 South Korea | PIPA |
-| 🇨🇳 China | PIPL |
-| 🇸🇬 Singapore | PDPA |
-| 🇹🇭 Thailand | PDPA |
+| 🇯🇵 Japan (1) | APPI |
+| 🇦🇺 Australia (2) | Privacy Act 1988 · APRA CPS 234 |
+| 🇮🇳 India (1) | DPDP Act 2023 |
+| 🇰🇷 South Korea (1) | PIPA |
+| 🇨🇳 China (1) | PIPL |
+| 🇸🇬 Singapore (1) | PDPA |
+| 🇹🇭 Thailand (1) | PDPA |
 
 ### 🕌 Middle East (4)
+
 | Country | Normatives |
 |---------|-----------|
-| 🇮🇱 Israel | Archives Law (תשט"ו-1955), Privacy Protection Law (5741-1981) |
-| 🇸🇦 Saudi Arabia | PDPL |
-| 🇦🇪 UAE | DIFC Data Protection Law |
+| 🇮🇱 Israel (2) | Archives Law (תשט"ו-1955) · Privacy Protection Law (5741-1981) |
+| 🇸🇦 Saudi Arabia (1) | PDPL |
+| 🇦🇪 UAE (1) | DIFC Data Protection Law |
 
 ### 🌍 Africa (3)
+
 | Country | Normatives |
 |---------|-----------|
-| 🇿🇦 South Africa | POPIA |
-| 🇳🇬 Nigeria | NDPR / NDPA |
-| 🇰🇪 Kenya | Data Protection Act 2019 |
+| 🇿🇦 South Africa (1) | POPIA |
+| 🇳🇬 Nigeria (1) | NDPR / NDPA 2023 |
+| 🇰🇪 Kenya (1) | Data Protection Act 2019 |
 
 ### 📁 Generic (1)
-| Template | Purpose |
-|----------|---------|
-| Internal Corporate Policy | 4 generic templates for documents, spreadsheets, images, backups |
 
-Each normative includes **ready-to-use patterns** with tokens, examples, and recommended file extensions.
+| Template | Patterns |
+|----------|---------|
+| Internal Corporate Policy | Documents · Spreadsheets · Images/Photos · System Backups |
 
 ---
 
 ## 🌐 Languages
 
-| Language | Direction | Status |
-|----------|-----------|--------|
-| 🇧🇷 Português | LTR | ✅ Complete |
-| 🇺🇸 English | LTR | ✅ Complete |
-| 🇮🇱 עברית (Hebrew) | RTL | ✅ Complete |
-| 🇪🇸 Español | LTR | ✅ Complete |
+| Language | Direction | Code | Status |
+|----------|-----------|------|--------|
+| 🇧🇷 Português | LTR | `pt` | ✅ Complete |
+| 🇺🇸 English | LTR | `en` | ✅ Complete |
+| 🇮🇱 עברית (Hebrew) | **RTL** | `he` | ✅ Complete — UI adapts direction |
+| 🇪🇸 Español | LTR | `es` | ✅ Complete |
 
-Switch languages dynamically from **Settings** — the tray menu and system labels update instantly.
+Switch languages dynamically from **Settings** — the tray menu and system labels update instantly without restart.
 
 ---
 
 ## 🛠️ Installation
 
-### Prerequisites
+### ⬇️ Option 1 — Windows Installer (Recommended)
 
-- [Node.js](https://nodejs.org/) v18 or higher
-- Windows 10/11 (x64)
+Download the latest installer from the [Releases page](https://github.com/rfranca777/FreeNameConvention/releases/latest):
 
-### From Source
+```
+FreeNameConvention Setup 3.1.0.exe  (~76 MB)
+```
+
+- One-click NSIS installer
+- Optional install directory
+- Desktop shortcut + Start Menu entry
+- Uninstaller included
+
+### 🔧 Option 2 — From Source
+
+**Prerequisites:** [Node.js](https://nodejs.org/) v18+ · Windows 10/11 x64
 
 ```bash
-# Clone the repository
-git clone https://github.com/odefender/FreeNameConvention.git
+git clone https://github.com/rfranca777/FreeNameConvention.git
 cd FreeNameConvention
-
-# Install dependencies
 npm install
-
-# Run the application
 npm start
 ```
 
-### Build Installer
+### 🏗️ Build Your Own Installer
 
 ```bash
 npm run build
+# Output: dist/FreeNameConvention Setup 3.1.0.exe
 ```
-
-This creates a Windows NSIS installer in the `dist/` folder.
 
 ---
 
 ## 📖 How It Works
 
-### 1. Add a Folder
-Click **"Add Folder"** and select a directory to monitor.
+### Step 1 — Add a Folder
+Click **"Add Folder"** and select a directory to monitor. Set a name, owner, priority, and color for each folder.
 
-### 2. Choose Patterns
-Select from **62 normatives** or create custom patterns using the wizard with tokens:
+### Step 2 — Choose Patterns
+Select from **62 normatives** or build custom patterns using the wizard:
 
-| Token | Description | Example |
-|-------|-------------|---------|
+| Token | Description | Example Output |
+|-------|-------------|----------------|
 | `{TEXT}` | Alphanumeric text | `Document` |
-| `{TEXT:N}` | Text limited to N chars | `Report` |
-| `{NUM:N}` | N-digit number | `00123` |
-| `{DATE}` | Date (YYYY-MM-DD) | `2026-03-15` |
+| `{TEXT:N}` | Text limited to N characters | `Report` |
+| `{NUM:N}` | Zero-padded N-digit number | `00123` |
+| `{DATE}` | ISO date (YYYY-MM-DD) | `2026-03-15` |
 | `{DATE:YYYY}` | Year only | `2026` |
 | `{DATE:YYYY-MM}` | Year-month | `2026-03` |
 | `{DATE:YYYYMMDD}` | Compact date | `20260315` |
 | `{VERSION}` | Version string | `v2.1` |
 | `{HASH:N}` | N hex characters | `a3f2b1` |
-| `{UUID}` | UUID v4 format | `550e8400-e29b-...` |
+| `{UUID}` | UUID v4 | `550e8400-e29b-41d4-a716-446655440000` |
 | `{CPF}` | Brazilian CPF | `123.456.789-01` |
 | `{CNPJ}` | Brazilian CNPJ | `12.345.678/0001-90` |
-| `{ENUM:A\|B\|C}` | Fixed options | `CONT`, `REP`, `MIN` |
-| `{ANY}` | Any characters | `anything` |
+| `{ENUM:A\|B\|C}` | Fixed list of options | `CONT`, `REP`, `MIN` |
+| `{ANY}` | Any character sequence | `anything` |
 
-### 3. Set Enforcement Mode
-- **Log** — Records violations without moving files
-- **Quarantine** — Moves files to a configurable, ACL-restricted subfolder
-- **Block** — Immediately moves non-compliant files on creation
+**Example patterns:**
+```
+NF-e:    NF-{CNPJ}-{NUM:9}-{DATE:YYYYMMDD}.xml
+GDPR:    DPIA-{TEXT}-{DATE:YYYY-MM-DD}.pdf
+SOX:     SOX-{ENUM:CTRL|TEST|REPORT}-{NUM:5}-{DATE:YYYY-MM-DD}.xlsx
+Generic: {ENUM:CONT|REP|MIN|PROP}-{NUM:5}-{TEXT}-{DATE:YYYY-MM-DD}.pdf
+```
 
-### 4. Start Monitoring
-Enter the **admin password** and click **Start** — the Guardian watches your folders in real-time.
+### Step 3 — Set Enforcement Mode
+
+| Mode | Behavior |
+|------|----------|
+| 📝 **Log** | Records violations in the log — no file is moved |
+| 📦 **Quarantine** | Moves non-compliant files to an ACL-restricted subfolder |
+| 🚫 **Block** | Immediately moves files on creation — real-time enforcement |
+
+### Step 4 — Start the Guardian
+Enter your **admin password** → click **Start** → the Guardian runs silently in the background.
 
 ---
 
 ## 🔐 Security
 
-FreeNameConvention follows the **STRIDE** threat model:
+FreeNameConvention is built around the **STRIDE** threat model:
 
-| Feature | STRIDE Category | Description |
-|---------|----------------|-------------|
-| Admin password (PBKDF2 100K iter.) | Spoofing, Elevation | Required to start/stop Guardian |
-| Config ACL (`icacls`) | Tampering | Config file locked to Administrators + SYSTEM |
-| IPC channel whitelist | Elevation | 38 allowed channels, all others rejected |
-| `contextIsolation: true` | Tampering, Elevation | Electron best practice |
-| `nodeIntegration: false` | Elevation | No Node.js in renderer |
-| Rate limiting (5 failures / 60s) | Denial of Service | Brute-force protection on password |
-| Admin Windows reset | Elevation | Only Windows admin users can reset password |
+| Feature | STRIDE Category | Implementation |
+|---------|----------------|----------------|
+| Admin password | Spoofing · Elevation | PBKDF2 with 100,000 iterations + salt |
+| Rate limiting | Denial of Service | 5 failures / 60s lockout |
+| Config ACL | Tampering | `icacls` → Administrators + SYSTEM only |
+| IPC whitelist | Elevation | 38 allowed channels — all others rejected |
+| `contextIsolation: true` | Tampering · Elevation | Electron security best practice |
+| `nodeIntegration: false` | Elevation | No Node.js API in renderer process |
+| Windows admin reset | Elevation | `isAdmin()` check before password reset |
+| Quarantine ACL | Tampering | Quarantine folder locked via `icacls` |
 
 ---
 
 ## 📤 Standalone PowerShell Script
 
-For environments where you can't install the full application, **export a standalone PowerShell script** that:
-
-1. Scans a folder for non-compliant files
-2. Monitors in real-time using `FileSystemWatcher`
-3. Blocks or quarantines non-compliant files
-4. Runs independently — no Node.js or Electron required
+Can't install Electron in your environment? **Export a standalone PowerShell script** directly from the app:
 
 ```powershell
-# Export from the app or use the template
-.\scripts\protect-folder.ps1 -Mode scan
-.\scripts\protect-folder.ps1 -Mode monitor
+# Scan existing files for violations
+.\scripts\protect-folder.ps1 -Mode scan -Path "C:\Documents\NF-e"
+
+# Real-time monitoring with FileSystemWatcher
+.\scripts\protect-folder.ps1 -Mode monitor -Path "C:\Documents\NF-e"
 ```
+
+Runs independently — **no Node.js, no Electron, no installation required.**
 
 ---
 
@@ -229,7 +295,7 @@ For environments where you can't install the full application, **export a standa
 FreeNameConvention is **100% free** and will always be. If this tool has helped you or your organization, please consider donating to one of these extraordinary institutions:
 
 - 🇧🇷 [CUFA — Central Única das Favelas](https://www.cufa.org.br) — Social transformation in Brazil's communities
-- 🇮🇱 [Rabi Meir Baal Haness](https://www.rabimeir.co.il) — Charity in Israel
+- 🇮🇱 [Rabi Meir Baal Haness](https://www.rabimeir.co.il) — Charity and humanitarian aid in Israel
 
 > *All institutions are selected in compliance with international charity standards.*
 
@@ -238,61 +304,89 @@ FreeNameConvention is **100% free** and will always be. If this tool has helped 
 ## 🏗️ Architecture
 
 ```
-src/
-├── main.js                 Electron main process (37+ IPC handlers, ConfigStore)
-├── preload.js              Context bridge (38 channels, 5 events)
-├── core/
-│   ├── i18n.js             Internationalization engine (RTL-aware, 4 languages)
-│   ├── validator.js        Pattern validation engine v2 (bilingual tokens)
-│   └── normatives.js       62 normatives database (6 regions, 20+ countries)
-├── service/
-│   ├── guardian.js          File monitoring service (chokidar + ACL quarantine)
-│   └── admin-guard.js       Security module (PBKDF2 password, ACL, rate limiting)
-├── locales/
-│   ├── pt.json             Portuguese translations
-│   ├── en.json             English translations
-│   ├── he.json             Hebrew translations
-│   └── es.json             Spanish translations
-└── renderer/
-    ├── index.html          9-page UI (wizard, dashboard, settings, help, FAQ, about)
-    ├── styles.css           Dark design system with RTL support
-    └── app.js               Complete renderer logic (1800+ lines)
+FreeNameConvention/
+├── src/
+│   ├── main.js                 ← Electron main process (37+ IPC handlers)
+│   ├── preload.js              ← Context bridge (38 channels, 5 events)
+│   ├── core/
+│   │   ├── i18n.js             ← i18n engine (RTL-aware, 4 languages)
+│   │   ├── validator.js        ← Pattern validation engine (14 token types)
+│   │   └── normatives.js       ← 62 normatives (6 regions, 28+ countries)
+│   ├── service/
+│   │   ├── guardian.js         ← File watcher (chokidar + ACL quarantine)
+│   │   └── admin-guard.js      ← Security (PBKDF2, ACL, rate limiting)
+│   ├── locales/
+│   │   ├── pt.json             ← Portuguese
+│   │   ├── en.json             ← English
+│   │   ├── he.json             ← Hebrew
+│   │   └── es.json             ← Spanish
+│   └── renderer/
+│       ├── index.html          ← 9-page UI
+│       ├── styles.css          ← Dark design system + RTL support
+│       └── app.js              ← Complete renderer logic (1800+ lines)
+├── assets/
+│   └── icon.ico
+├── scripts/
+│   └── protect-folder.ps1      ← Standalone PowerShell guardian
+└── package.json
 ```
 
----
-
-## 🐛 Feedback & Contributions
-
-Found a bug? Have a suggestion? Want to add a normative?
-
-1. Use the **Feedback** page inside the app
-2. Or open an [Issue on GitHub](https://github.com/odefender/FreeNameConvention/issues)
-
-Pull requests are welcome!
+**Tech stack:** Electron 32 · Node.js 18+ · chokidar · nodemailer · NSIS installer
 
 ---
 
 ## 📋 Roadmap
 
-- [ ] Email/Teams notifications for violation thresholds
-- [ ] Scheduled compliance reports (daily/weekly)
-- [ ] File rename wizard for non-compliant files
-- [ ] Bulk compliance checker for network shares
-- [ ] REST API for integration with other tools
-- [ ] Active Directory integration (per-group rules)
-- [ ] Azure Blob / SharePoint monitoring
-- [ ] Linux and macOS support
-- [ ] Custom normative editor
-- [ ] Full i18n for renderer UI
+| Priority | Feature | Status |
+|----------|---------|--------|
+| 🔥 High | Email/Teams notifications for violation thresholds | Planned |
+| 🔥 High | File rename wizard for non-compliant files | Planned |
+| 🟡 Medium | Scheduled compliance reports (daily/weekly PDF) | Planned |
+| 🟡 Medium | Bulk compliance checker for network shares | Planned |
+| 🟢 Low | REST API for integration with other tools | Planned |
+| 🟢 Low | Active Directory integration (per-group rules) | Planned |
+| 🟢 Low | Azure Blob / SharePoint monitoring | Planned |
+| 🟢 Low | Linux and macOS support | Planned |
+| 🟢 Low | Custom normative editor | Planned |
+| 🟢 Low | Full i18n for renderer UI (200+ strings) | Planned |
 
 ---
 
-## 👨‍💻 Creator
+## 🐛 Feedback & Contributions
+
+Found a bug? Have a suggestion? Want to add a new normative for your country?
+
+1. 🐛 Open an [Issue](https://github.com/rfranca777/FreeNameConvention/issues)
+2. 💬 Join the [Discussions](https://github.com/rfranca777/FreeNameConvention/discussions)
+3. 🔧 Submit a [Pull Request](https://github.com/rfranca777/FreeNameConvention/pulls)
+4. 📢 Use the **Feedback** page inside the app
+
+**Adding a normative?** Each entry needs: `id`, `name`, `fullName`, `area`, `region`, `countries`, `obligation`, `requirement`, and at least one `pattern` with `template` + `example`.
+
+---
+
+## 👤 About the Author & Community
+
+<table>
+<tr>
+<td>
 
 **Rafael França**
-- ✉️ rafael.franca@live.com
-- 📞 +55 11 91580-0911
-- 🛡️ [odefender Community](https://github.com/odefender)
+**Customer Success Architect — Cyber Security @ Microsoft**
+
+I work at Microsoft helping enterprises unlock the full potential of the security ecosystem. FreeNameConvention was born from a real need I observed: organizations spending enormous effort on document compliance — manually checking names, getting caught in audits, losing traceability.
+
+> *"Our mission is to help every company and person achieve their maximum."*
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-rfranca777-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rfranca777/)
+[![Email](https://img.shields.io/badge/Email-rafael.franca@live.com-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:rafael.franca@live.com)
+[![ODefender](https://img.shields.io/badge/🛡️_ODefender-Community-FF6F00?style=flat-square)](https://github.com/rfranca777/odefender-community)
+
+</td>
+</tr>
+</table>
+
+FreeNameConvention is part of the **[ODefender Community](https://github.com/rfranca777/odefender-community)** — open-source, enterprise-grade automation tools for security and compliance, built for the real world.
 
 ---
 
@@ -300,16 +394,16 @@ Pull requests are welcome!
 
 MIT License — see [LICENSE](LICENSE) for details.
 
-Copyright © 2026 FreeNameConvention Contributors.
+Copyright © 2026 Rafael França / ODefender Community Contributors.
 
 ---
 
 <div align="center">
 
-**Made with ❤️ for everyone who believes in organized digital files.**
+**Made with ❤️ for everyone who believes in organized, compliant digital files.**
 
-*"Our mission is to help every company and person achieve their maximum."*
+*v3.1.0 · Electron 32 · 62 Normatives · 4 Languages · 6 Regions · 28+ Countries*
 
-*v3.1.0 · Electron 32 · 62 Normatives · 4 Languages · 6 Regions · 20+ Countries*
+[![ODefender Community](https://img.shields.io/badge/Part_of-ODefender_Community-FF6F00?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](https://github.com/rfranca777/odefender-community)
 
 </div>

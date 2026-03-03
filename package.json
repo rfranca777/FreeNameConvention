@@ -28,12 +28,12 @@
     "node": ">=18.0.0"
   },
   "bugs": {
-    "url": "https://github.com/odefender/FreeNameConvention/issues"
+    "url": "https://github.com/rfranca777/FreeNameConvention/issues"
   },
-  "homepage": "https://github.com/odefender/FreeNameConvention",
+  "homepage": "https://github.com/rfranca777/FreeNameConvention",
   "repository": {
     "type": "git",
-    "url": "https://github.com/odefender/FreeNameConvention.git"
+    "url": "https://github.com/rfranca777/FreeNameConvention.git"
   },
   "scripts": {
     "start": "electron .",
