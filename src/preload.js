@@ -26,6 +26,7 @@ const ALLOWED_CHANNELS = new Set([
   'settings:setAdminPassword',
   'settings:verifyPassword',
   'settings:removePassword',
+  'settings:adminResetPassword',
   'settings:setAutoStart',
   'settings:testWindowsUser',
   'settings:protectConfig',
@@ -56,7 +57,6 @@ const ALLOWED_CHANNELS = new Set([
 // ── Allowed push event channels (renderer listening to main) ─────────────────
 const ALLOWED_EVENTS = new Set([
   'violation:new',
-  'guardian:statusChange',
   'menu:action',
   'menu:navigate',
   'menu:helpSection',

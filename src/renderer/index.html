@@ -157,6 +157,7 @@
           <button id="btn-set-password"    class="btn btn-outline">Definir senha</button>
           <button id="btn-change-password" class="btn btn-outline" style="display:none">Alterar</button>
           <button id="btn-remove-password" class="btn btn-danger-outline" style="display:none">Remover</button>
+          <button id="btn-admin-reset-password" class="btn btn-outline" style="display:none" title="Apenas administradores do Windows">🔑 Resetar (Admin)</button>
         </div>
       </div>
       <div class="settings-row" style="margin-top:0.75rem;align-items:flex-start">
@@ -285,24 +286,14 @@
       <h2>💚 Doações — Ajude quem precisa</h2>
       <p class="settings-hint">
         O FreeNameConvention é 100% gratuito e open source (MIT).<br>
-        Se esta ferramenta ajudou sua empresa, considere doar para uma instituição de sua escolha.
+        Se esta ferramenta ajudou sua empresa, considere fazer uma doação:
       </p>
-      <div class="donate-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:0.75rem;font-size:.88rem">
-        <div><strong>🇧🇷 Brasil</strong></div><div></div>
-        <a href="#" class="donate-link" data-url="https://aacd.org.br/doe">AACD — Reabilitação e inclusão</a>
-        <a href="#" class="donate-link" data-url="https://graacc.org.br/como-ajudar">GRAACC — Câncer infantil</a>
-        <a href="#" class="donate-link" data-url="https://www.fadc.org.br/como-ajudar">Fundação Abrinq — Direitos da criança</a>
-        <a href="#" class="donate-link" data-url="https://www.msf.org.br/doe">MSF Brasil — Ajuda humanitária</a>
-        <a href="#" class="donate-link" data-url="https://www.pastoraldacrianca.org.br/como-ajudar">Pastoral da Criança — Nutrição infantil</a>
-        <a href="#" class="donate-link" data-url="https://www.institutoayrtonsenna.org.br/doe">Inst. Ayrton Senna — Educação</a>
-        <a href="#" class="donate-link" data-url="https://apaebrasil.org.br/como-ajudar">APAE Brasil — Deficiência intelectual</a>
-        <div></div>
-        <div style="grid-column:1/-1;margin-top:4px"><strong>🇮🇱 Israel</strong></div>
-        <a href="#" class="donate-link" data-url="https://www.leket.org/en/donate/">Leket Israel — Resgate alimentar</a>
-        <div></div>
+      <div style="margin-top:0.75rem;font-size:.92rem;line-height:2.2">
+        <a href="#" class="donate-link" data-url="https://www.cufa.org.br">🇧🇷 <strong>CUFA</strong> — Central Única das Favelas (Brasil)</a><br>
+        <a href="#" class="donate-link" data-url="https://www.rabimeir.co.il">🇮🇱 <strong>Rabi Meir Baal Haness</strong> — Caridade em Israel</a>
       </div>
       <p class="settings-hint" style="margin-top:0.75rem;font-size:.78rem;color:var(--text-muted)">
-        Todas as instituições seguem padrões internacionais de transparência (Microsoft Give guidelines).
+        Sua doação faz a diferença. Obrigado pelo apoio! 💙
       </p>
     </div>  </section>
 
@@ -486,7 +477,7 @@
         </details>
         <details class="faq-item">
           <summary>Posso ter múltiplos padrões por pasta?</summary>
-          <p>Sim! Uma pasta pode ter vêrios padrões ativos. Um arquivo é válido se corresponder a <strong>qualquer um</strong> dos padrões. Útil quando a pasta recebe arquivos de tipos diferentes, como PDF e XML.</p>
+          <p>Sim! Uma pasta pode ter vários padrões ativos. Um arquivo é válido se corresponder a <strong>qualquer um</strong> dos padrões. Útil quando a pasta recebe arquivos de tipos diferentes, como PDF e XML.</p>
         </details>
         <details class="faq-item">
           <summary>Como filtrar apenas alguns tipos de arquivo?</summary>
@@ -847,6 +838,14 @@
       </select>
       <button id="btn-norm-apply" class="btn btn-primary">Usar padrões desta norma</button>
     </div>
+  </div>
+</div>
+
+<!-- ══ GLOBAL BUSY OVERLAY — blocks ALL interaction during async ops ══════ -->
+<div id="global-busy" class="global-busy">
+  <div class="global-busy-box">
+    <div class="global-busy-spinner"></div>
+    <span id="global-busy-label" class="global-busy-label">Processando…</span>
   </div>
 </div>
 

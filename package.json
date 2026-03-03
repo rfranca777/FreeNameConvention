@@ -1,6 +1,6 @@
 {
   "name": "free-name-convention",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Open-source file naming compliance guardian — Enforce international normative naming standards on your folders. Free forever.",
   "main": "src/main.js",
   "author": {
@@ -9,6 +9,27 @@
     "url": "https://github.com/freenameconvention"
   },
   "license": "MIT",
+  "keywords": [
+    "file-naming",
+    "compliance",
+    "normative",
+    "guardian",
+    "iso",
+    "gdpr",
+    "lgpd",
+    "hipaa",
+    "nfe",
+    "electron",
+    "desktop",
+    "windows",
+    "odefender"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/freenameconvention/FreeNameConvention/issues"
+  },
   "homepage": "https://github.com/freenameconvention/FreeNameConvention",
   "repository": {
     "type": "git",
@@ -47,7 +68,7 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "createDesktopIcon": true,
+      "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "installerSidebar": null,
       "license": "LICENSE"

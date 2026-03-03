@@ -31,6 +31,13 @@
   --part-uuid:    #26c6da;
   --part-any:     #8d6e63;
   --part-literal: #78909c;
+  /* Aliases for help / about sections */
+  --text-primary:   var(--text);
+  --text-secondary:  var(--text-dim);
+  --bg-primary:      var(--bg);
+  --bg-secondary:    var(--bg-card);
+  --bg-tertiary:     var(--bg-input);
+  --border-color:    var(--border);
   /* Category colors */
   --cat-quality:   #42a5f5;
   --cat-fiscal:    #66bb6a;
@@ -543,6 +550,27 @@ body { display: grid; grid-template-rows: 40px 1fr; grid-template-columns: 64px 
 @keyframes toast-in  { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:none} }
 @keyframes toast-out { from{opacity:1} to{opacity:0;transform:translateX(20px)} }
 
+/* ── Global Busy Overlay — blocks all interaction during async ops ───────── */
+.global-busy {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,0.35); backdrop-filter: blur(1px);
+  display: none; align-items: center; justify-content: center;
+  cursor: wait;
+}
+.global-busy-box {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 18px 28px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: var(--shadow);
+}
+.global-busy-spinner {
+  width: 20px; height: 20px; border: 3px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: busy-spin 0.7s linear infinite;
+}
+@keyframes busy-spin { to { transform: rotate(360deg); } }
+.global-busy-label { font-size: 13px; color: var(--text-dim); }
+
 /* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -626,79 +654,6 @@ body { display: grid; grid-template-rows: 40px 1fr; grid-template-columns: 64px 
 }
 .email-smtp-actions {
   display: flex; align-items: center; gap: 10px; margin-top: 6px;
-}
-
-/* ══ PER-FOLDER CUSTOMIZATION ══════════════════════════════════════════════ */
-
-/* Folder card color accent */
-.folder-card {
-  border-left: 3px solid var(--fc-accent, var(--border-color));
-  transition: border-left-color 0.2s;
-}
-
-/* Purpose / owner lines in card */
-.fc-purpose {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 340px;
-}
-.fc-owner {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 1px;
-}
-
-/* Priority badge */
-.fc-priority {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-.fc-priority.info     { background: #e3f2fd; color: #1565c0; }
-.fc-priority.medium   { background: #fff8e1; color: #e65100; }
-.fc-priority.high     { background: #fce4ec; color: #c62828; }
-.fc-priority.critical { background: #f3e5f5; color: #6a1b9a; }
-
-/* Folder identity grid in edit modal */
-.folder-meta-grid { display: flex; flex-direction: column; gap: 0.65rem; }
-.folder-meta-row  { display: flex; flex-direction: column; gap: 4px; }
-.folder-meta-row label { font-size: 12px; color: var(--text-dim); font-weight: 500; }
-.folder-meta-row.two-col { flex-direction: row; gap: 0.75rem; }
-.folder-meta-row.two-col > div { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-
-/* Textarea style (inherits text-field) */
-textarea.text-field,
-.text-area-sm {
-  resize: vertical;
-  min-height: 52px;
-  font-family: inherit;
-  line-height: 1.5;
-}
-
-/* Color swatches */
-.color-swatch-row { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; padding: 4px 0; }
-.color-swatch {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: transform 0.15s, border-color 0.15s;
-  flex-shrink: 0;
-}
-.color-swatch:hover   { transform: scale(1.25); }
-.color-swatch.selected { border-color: var(--text-primary); transform: scale(1.2); box-shadow: 0 0 0 2px var(--bg-primary); }
-
-/* Quarantine section in edit modal */
-.edit-quarantine-sect {
-  border-top: 1px dashed var(--border-color);
-  padding-top: 0.85rem;
-  margin-top: 0.25rem;
 }
 
 /* ══ PER-FOLDER CUSTOMIZATION ══════════════════════════════════════════════ */

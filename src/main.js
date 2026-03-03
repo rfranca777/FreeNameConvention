@@ -434,9 +434,13 @@ ipc('settings:exportScript', (_, folderId) => {
 });
 
 // Guardian
-ipc('guardian:start', () => {
-  if (guardian) return { ok: true, running: true };
+ipc('guardian:start', (_, password) => {
   const cfg = getConfig();
+  // ── Mandatory admin password ──
+  if (!cfg.adminPasswordHash) return { ok: false, error: 'Defina uma senha administrativa antes de iniciar o Guardião', needPassword: true };
+  const pwCheck = adminGuard.verifyPasswordRateLimited(password, cfg.adminPasswordHash);
+  if (!pwCheck.ok) return pwCheck;
+  if (guardian) return { ok: true, running: true };
   const folders = Object.values(cfg.folders).filter(f => f.enabled);
   if (!folders.length) return { ok: false, error: 'Nenhuma pasta habilitada' };
   guardian = new Guardian(folders, validator, store, (violation) => {
@@ -508,8 +512,25 @@ ipc('guardian:start', () => {
   return { ok: true };
 });
 
-ipc('guardian:stop', () => {
+ipc('guardian:stop', (_, password) => {
+  const cfg = getConfig();
+  if (cfg.adminPasswordHash) {
+    const pwCheck = adminGuard.verifyPasswordRateLimited(password, cfg.adminPasswordHash);
+    if (!pwCheck.ok) return pwCheck;
+  }
   if (guardian) { guardian.stop(); guardian = null; }
+  return { ok: true };
+});
+
+// Admin Windows users can reset the password without knowing the current one
+ipc('settings:adminResetPassword', async (_, newPw) => {
+  const isAdm = await adminGuard.isAdmin();
+  if (!isAdm) return { ok: false, error: 'Apenas administradores do Windows podem resetar a senha' };
+  const clean = adminGuard.sanitize(newPw, 128);
+  if (!clean || clean.length < 4) return { ok: false, error: 'A nova senha deve ter pelo menos 4 caracteres' };
+  const cfg = getConfig();
+  cfg.adminPasswordHash = adminGuard.hashPassword(clean);
+  saveConfig(cfg);
   return { ok: true };
 });
 
@@ -622,7 +643,7 @@ ipc('config:exportConfig', async () => {
   });
   if (!savePath) return { ok: false, error: 'Cancelado' };
   try {
-    const exportData = { version: '3.0', exportedAt: new Date().toISOString(), folders: cfg.folders, language: cfg.language };
+    const exportData = { version: '3.1.0', exportedAt: new Date().toISOString(), folders: cfg.folders, language: cfg.language };
     fs.writeFileSync(savePath, JSON.stringify(exportData, null, 2), 'utf8');
     return { ok: true, path: savePath };
   } catch (e) { return { ok: false, error: e.message }; }

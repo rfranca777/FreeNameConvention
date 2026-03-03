@@ -253,8 +253,30 @@ function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ══ GLOBAL BUSY LOCK — blocks ALL navigation / clicks during async ops ═══════
+let _busyCount = 0;
+function showBusy(msg) {
+  _busyCount++;
+  const el = document.getElementById('global-busy');
+  if (el) {
+    document.getElementById('global-busy-label').textContent = msg || 'Processando…';
+    el.style.display = 'flex';
+  }
+}
+function hideBusy() {
+  _busyCount = Math.max(0, _busyCount - 1);
+  if (_busyCount === 0) {
+    const el = document.getElementById('global-busy');
+    if (el) el.style.display = 'none';
+  }
+}
+
 function openModal(id)  { document.getElementById(id).style.display = 'flex'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+  // Fire cancel callback when password modal is dismissed by any path
+  if (id === 'modal-password' && typeof _pwOnCancel === 'function') { _pwOnCancel(); _pwOnCancel = null; }
+}
 
 function friendlyPatternLabel(pat) {
   return pat
@@ -345,16 +367,47 @@ function updateGuardianUI(running) {
 }
 
 document.getElementById('btn-guardian-toggle').addEventListener('click', async () => {
+  const toggleBtn = document.getElementById('btn-guardian-toggle');
+  if (toggleBtn.disabled) return;
+  toggleBtn.disabled = true;
+  const unlock = () => { toggleBtn.disabled = false; hideBusy(); };
   try {
     if (state.guardianRunning) {
-      const r = await fnc.invoke('guardian:stop');
-      if (r?.ok) { updateGuardianUI(false); toast('Guardião parado'); }
+      if (!state.settings?.hasPassword) {
+        showBusy('Parando o Guardião…');
+        const r = await fnc.invoke('guardian:stop', '');
+        if (r?.ok) { updateGuardianUI(false); toast('Guardião parado'); }
+        unlock(); return;
+      }
+      openPasswordModal('verify', async () => {
+        showBusy('Parando o Guardião…');
+        const pw = document.getElementById('pw-current').value;
+        const r = await fnc.invoke('guardian:stop', pw);
+        if (r?.ok) { updateGuardianUI(false); toast('Guardião parado'); }
+        else toast(r?.error || 'Não foi possível parar', 'err');
+        unlock();
+      }, { onCancel: unlock });
     } else {
-      const r = await fnc.invoke('guardian:start');
-      if (r?.ok) { updateGuardianUI(true); toast('Guardião iniciado!'); }
-      else        toast(r?.error || 'Não foi possível iniciar', 'err');
+      if (!state.settings?.hasPassword) {
+        toast('⚠ Defina uma senha administrativa para ativar o Guardião', 'warn');
+        openPasswordModal('set', async () => {
+          state.settings.hasPassword = true;
+          renderSettings();
+          toast('✅ Senha definida! Clique em Iniciar novamente.');
+          unlock();
+        }, { onCancel: unlock });
+        return;
+      }
+      openPasswordModal('verify', async () => {
+        showBusy('Iniciando o Guardião…');
+        const pw = document.getElementById('pw-current').value;
+        const r = await fnc.invoke('guardian:start', pw);
+        if (r?.ok) { updateGuardianUI(true); toast('Guardião iniciado!'); }
+        else toast(r?.error || 'Não foi possível iniciar', 'err');
+        unlock();
+      }, { onCancel: unlock });
     }
-  } catch (e) { toast('Erro: ' + e.message, 'err'); }
+  } catch (e) { toast('Erro: ' + e.message, 'err'); unlock(); }
 });
 
 // ══ FOLDERS PAGE ══════════════════════════════════════════════════════════════
@@ -1138,6 +1191,9 @@ function renderSettings() {
   document.getElementById('btn-set-password').style.display    = s.hasPassword ? 'none'        : 'inline-flex';
   document.getElementById('btn-change-password').style.display = s.hasPassword ? 'inline-flex' : 'none';
   document.getElementById('btn-remove-password').style.display = s.hasPassword ? 'inline-flex' : 'none';
+  // Admin reset: visible only for Windows admin users
+  const adminResetBtn = document.getElementById('btn-admin-reset-password');
+  if (adminResetBtn) adminResetBtn.style.display = (s.isAdmin && s.hasPassword) ? 'inline-flex' : 'none';
   document.getElementById('current-user-label').textContent = s.currentUser || '—';
   // Admin username
   const adminUEl = document.getElementById('admin-username');
@@ -1293,10 +1349,18 @@ function openFeedbackForm() {
 // ── Donation links (settings page) — open externally via shell ───────────────
 document.querySelectorAll('.donate-link').forEach(link => {
   link.style.cssText = 'color:var(--accent);text-decoration:underline;cursor:pointer';
-  link.addEventListener('click', (ev) => {
+  link.addEventListener('click', async (ev) => {
     ev.preventDefault();
-    const url = link.dataset.url;
-    if (url) fnc.invoke('shell:openUrl', url);
+    if (link.dataset.busy) return;
+    link.dataset.busy = '1';
+    showBusy('Abrindo link…');
+    try {
+      const url = link.dataset.url;
+      if (url) await fnc.invoke('shell:openUrl', url);
+    } finally {
+      delete link.dataset.busy;
+      hideBusy();
+    }
   });
 });
 
@@ -1443,10 +1507,11 @@ document.getElementById('btn-builder-insert').addEventListener('click', async ()
 let _pwResolve = null;
 let _pwMode    = 'verify';
 
+let _pwOnCancel = null;
 async function openPasswordModal(mode, onSuccess, opts = {}) {
   if (mode === 'verify' && !state.settings?.hasPassword) { await onSuccess?.(); return; }
   if (opts.skipIfNoPassword && !state.settings?.hasPassword) { await onSuccess?.(); return; }
-  _pwMode = mode; _pwResolve = onSuccess;
+  _pwMode = mode; _pwResolve = onSuccess; _pwOnCancel = opts.onCancel || null;
   const titles = { verify:'Verificação de Senha', set:'Definir Nova Senha', change:'Alterar Senha', remove:'Remover Senha' };
   document.getElementById('pw-modal-title').textContent = titles[mode] || 'Senha';
   const showGroup = (id, show) => document.getElementById(id).style.display = show ? 'block' : 'none';
@@ -1493,6 +1558,7 @@ async function confirmPassword() {
       const r = await fnc.invoke('settings:verifyPassword', cur);
       if (r?.locked) { showLock(r.error); return; }
       if (!r?.ok)    { showErr(r?.error || 'Senha incorreta'); return; }
+      _pwOnCancel = null; // password accepted — don't fire cancel on close
       closeModal('modal-password'); await _pwResolve?.();
     } else if (_pwMode === 'set' || _pwMode === 'change') {
       if (newPw.length < 4) { showErr('A nova senha deve ter pelo menos 4 caracteres'); return; }
@@ -1500,21 +1566,41 @@ async function confirmPassword() {
       const r = await fnc.invoke('settings:setAdminPassword', _pwMode === 'change' ? cur : '', newPw);
       if (r?.locked) { showLock(r.error); return; }
       if (!r?.ok)    { showErr(r?.error || 'Erro ao definir senha'); return; }
+      _pwOnCancel = null;
       state.settings.hasPassword = true; renderSettings(); closeModal('modal-password'); toast('Senha atualizada');
     } else if (_pwMode === 'remove') {
       const r = await fnc.invoke('settings:removePassword', cur);
       if (r?.locked) { showLock(r.error); return; }
       if (!r?.ok)    { showErr(r?.error || 'Senha incorreta'); return; }
+      _pwOnCancel = null;
       state.settings.hasPassword = false; renderSettings(); closeModal('modal-password'); toast('Senha removida');
     }
   } catch (e) { showErr('Erro inesperado: ' + e.message); }
   finally { document.getElementById('btn-pw-ok').disabled = false; }
 }
 
-document.getElementById('btn-pw-cancel').addEventListener('click', () => closeModal('modal-password'));
+document.getElementById('btn-pw-cancel').addEventListener('click', () => { closeModal('modal-password'); _pwOnCancel?.(); _pwOnCancel = null; });
 document.getElementById('btn-set-password').addEventListener('click', () => openPasswordModal('set'));
 document.getElementById('btn-change-password').addEventListener('click', () => openPasswordModal('change'));
 document.getElementById('btn-remove-password').addEventListener('click', () => openPasswordModal('remove'));
+
+// Admin reset — only shown to Windows administrators
+document.getElementById('btn-admin-reset-password').addEventListener('click', () => {
+  openPasswordModal('set', async () => {
+    showBusy('Resetando senha…');
+    try {
+      const newPw = document.getElementById('pw-new').value;
+      const r = await fnc.invoke('settings:adminResetPassword', newPw);
+      if (r?.ok) {
+        state.settings.hasPassword = true;
+        renderSettings();
+        toast('🔑 Senha resetada pelo administrador');
+      } else {
+        toast(r?.error || 'Erro ao resetar senha', 'err');
+      }
+    } finally { hideBusy(); }
+  });
+});
 
 // ══ START ══════════════════════════════════════════════════════════════════════
 init();
@@ -1653,11 +1739,11 @@ function showAboutModal() {
         </svg>
       </div>
       <h2 style="margin:.5rem 0 .25rem">FreeNameConvention</h2>
-      <p style="color:var(--text-secondary);margin:0 0 .75rem">v3.0 &nbsp;·&nbsp; Electron 32 &nbsp;·&nbsp; 60+ Normatives</p>
+      <p style="color:var(--text-secondary);margin:0 0 .75rem">v3.1.0 &nbsp;·&nbsp; Electron 32 &nbsp;·&nbsp; 62+ Normatives</p>
       <p style="font-size:.85rem;line-height:1.6;color:var(--text-secondary)">
         Open-source file naming compliance guardian.<br>
         Enforce international naming standards on your folders.<br><br>
-        60+ regulations from every continent: ISO, GDPR, HIPAA,<br>
+        62+ regulations from every continent: ISO, GDPR, HIPAA,<br>
         NF-e, SOX, LGPD, APPI, POPIA, and many more.<br>
         Compatible with domain accounts (AD).<br><br>
         <em>Guardian running in the background</em>
@@ -1684,30 +1770,32 @@ function showAboutModal() {
         <div style="font-weight:600;margin-bottom:.3rem">💚 Donations — Help those in need</div>
         <p style="font-size:.8rem;color:var(--text-secondary);margin:0 0 .3rem">
           FreeNameConvention is 100% free & open source.<br>
-          Please consider donating to a charity of your choice:
+          Please consider donating to one of these amazing causes:
         </p>
-        <div style="font-size:.8rem;line-height:1.7">
-          <a href="#" class="about-donate-link" data-url="https://aacd.org.br/doe">🇧🇷 AACD</a> ·
-          <a href="#" class="about-donate-link" data-url="https://graacc.org.br/como-ajudar">GRAACC</a> ·
-          <a href="#" class="about-donate-link" data-url="https://www.fadc.org.br/como-ajudar">Fundação Abrinq</a> ·
-          <a href="#" class="about-donate-link" data-url="https://www.msf.org.br/doe">MSF Brasil</a><br>
-          <a href="#" class="about-donate-link" data-url="https://www.pastoraldacrianca.org.br/como-ajudar">Pastoral da Criança</a> ·
-          <a href="#" class="about-donate-link" data-url="https://www.institutoayrtonsenna.org.br/doe">Inst. Ayrton Senna</a> ·
-          <a href="#" class="about-donate-link" data-url="https://apaebrasil.org.br/como-ajudar">APAE Brasil</a><br>
-          <a href="#" class="about-donate-link" data-url="https://www.leket.org/en/donate/">🇮🇱 Leket Israel</a>
+        <div style="font-size:.85rem;line-height:2">
+          <a href="#" class="about-donate-link" data-url="https://www.cufa.org.br">🇧🇷 CUFA — Central Única das Favelas</a><br>
+          <a href="#" class="about-donate-link" data-url="https://www.rabimeir.co.il">🇮🇱 Rabi Meir Baal Haness — Caridade em Israel</a>
         </div>
       </div>
-      <button class="btn primary" onclick="document.getElementById('modal-about').style.display='none'" style="margin-top:.5rem">Fechar</button>
+      <button class="btn btn-primary" onclick="document.getElementById('modal-about').style.display='none'" style="margin-top:.5rem">Fechar</button>
     </div>`;
   document.body.appendChild(el);
   el.addEventListener('click', e => { if (e.target === el) el.style.display = 'none'; });
-  // Donation links — open externally via shell
+  // Donation links — open externally via shell (block navigation until request completes)
   el.querySelectorAll('.about-donate-link').forEach(link => {
     link.style.cssText = 'color:var(--accent);text-decoration:underline;cursor:pointer';
-    link.addEventListener('click', (ev) => {
+    link.addEventListener('click', async (ev) => {
       ev.preventDefault();
-      const url = link.dataset.url;
-      if (url) window.fnc.invoke('shell:openUrl', url);
+      if (link.dataset.busy) return;
+      link.dataset.busy = '1';
+      showBusy('Abrindo link…');
+      try {
+        const url = link.dataset.url;
+        if (url) await window.fnc.invoke('shell:openUrl', url);
+      } finally {
+        delete link.dataset.busy;
+        hideBusy();
+      }
     });
   });
 }
