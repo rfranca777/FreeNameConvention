@@ -1,0 +1,7 @@
+# npm ignore — publish only source code and docs
+dist/
+build/
+.github/
+*.exe
+*.nsh
+scripts/gen-icon.js

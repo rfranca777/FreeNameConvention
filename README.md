@@ -1,18 +1,22 @@
 <div align="center">
 
-<img src="assets/icon.ico" alt="FreeNameConvention" width="120"/>
+<img src="assets/icon.ico" alt="FreeNameConvention — Open-source file naming compliance guardian for Windows" width="120"/>
 
 <h1>FreeNameConvention</h1>
 
 <p><strong>Open-source file naming compliance guardian for Windows</strong><br/>
-Enforce international normative naming standards on your folders — free forever.</p>
+Enforce 62 international normative naming standards on your folders — real-time monitoring, quarantine, and audit logging.<br/>
+ISO 27001 · GDPR · LGPD · HIPAA · SOX · NF-e · PCI-DSS · NIST · POPIA · PIPL · APPI · FERPA · eIDAS · DORA<br/>
+<em>Free forever. No subscription. No telemetry. 100% open-source.</em></p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.1.0-blue?style=for-the-badge)](https://github.com/rfranca777/FreeNameConvention/releases/tag/v3.1.0)
+[![Version](https://img.shields.io/badge/Version-3.2.0-blue?style=for-the-badge)](https://github.com/rfranca777/FreeNameConvention/releases/tag/v3.2.0)
 [![Electron](https://img.shields.io/badge/Electron-32-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows_10%2F11-0078D4?style=for-the-badge&logo=windows&logoColor=white)](#-installation)
 [![Normatives](https://img.shields.io/badge/Normatives-62-FF6F00?style=for-the-badge)](#-normatives)
 [![Languages](https://img.shields.io/badge/Languages-4-success?style=for-the-badge)](#-languages)
+[![Downloads](https://img.shields.io/github/downloads/rfranca777/FreeNameConvention/total?style=for-the-badge&color=brightgreen&label=Downloads)](https://github.com/rfranca777/FreeNameConvention/releases)
+[![Stars](https://img.shields.io/github/stars/rfranca777/FreeNameConvention?style=for-the-badge&color=yellow)](https://github.com/rfranca777/FreeNameConvention)
 [![ODefender](https://img.shields.io/badge/ODefender-Community-FF6F00?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](https://github.com/rfranca777/odefender-community)
 
 <br/>
@@ -21,7 +25,7 @@ Enforce international normative naming standards on your folders — free foreve
 
 <br/>
 
-[⬇️ Download Installer](https://github.com/rfranca777/FreeNameConvention/releases/latest) · [📖 How It Works](#-how-it-works) · [📋 62 Normatives](#-normatives) · [🌐 4 Languages](#-languages) · [🔐 Security](#-security)
+[⬇️ Download Installer](https://github.com/rfranca777/FreeNameConvention/releases/latest) · [📖 How It Works](#-how-it-works) · [📋 62 Normatives](#-normatives) · [🌐 4 Languages](#-languages) · [🔐 Security](#-security) · [❓ FAQ](#-frequently-asked-questions-faq)
 
 </div>
 
@@ -38,6 +42,23 @@ Non-compliant file names cause **audit failures**, **document retrieval delays**
 **What if a guardian watched your folders 24/7 and enforced naming rules automatically?**
 
 That's why **FreeNameConvention** exists.
+
+---
+
+## 🏢 Who Is This For?
+
+FreeNameConvention is designed for **any organization or professional** that needs to maintain file naming compliance:
+
+| Industry | Use Case | Key Normatives |
+|----------|----------|----------------|
+| 🏥 **Healthcare** | Patient records, medical device documentation, HIPAA-compliant file naming | HIPAA · FDA 21 CFR Part 11 · CFM 1.821 · ANVISA RDC 204 |
+| 🏦 **Finance & Banking** | Financial reports, audit trails, regulatory filings, SOX compliance | SOX · PCI-DSS · BACEN 4.893 · CVM · FINRA 4511 · DORA |
+| 📋 **Tax & Accounting** | Electronic invoices, fiscal documents, tax filing compliance | NF-e · NFS-e · CT-e · SPED · eSocial · CFDI · Factura-e · FatturaPA |
+| ⚖️ **Legal & Government** | Court documents, public records, LGPD/GDPR data protection | LGPD · GDPR · UK GDPR · PIPEDA · POPIA · PIPL · APPI · PDPA |
+| 🏗️ **Engineering & Construction** | BIM files, project documentation, environmental reports | ISO 19650 · ABNT NBR 13531 · ISO 14001 |
+| 🎓 **Education** | Student records, FERPA compliance, institutional documents | FERPA · CONARQ/e-ARQ · Decree 10.278 |
+| 🛡️ **Cybersecurity & IT** | Information security documentation, audit evidence, incident reports | ISO 27001 · NIST SP 800-53 · NIS2 · APRA CPS 234 · DoD 5015.02 |
+| 🏭 **Manufacturing & Quality** | Quality management records, inspection reports, certifications | ISO 9001 · ISO 13485 · ISO 45001 · ISO 15489 |
 
 ---
 
@@ -183,7 +204,7 @@ Switch languages dynamically from **Settings** — the tray menu and system labe
 Download the latest installer from the [Releases page](https://github.com/rfranca777/FreeNameConvention/releases/latest):
 
 ```
-FreeNameConvention Setup 3.1.0.exe  (~76 MB)
+FreeNameConvention-Setup-3.2.0.exe  (~76 MB)
 ```
 
 - One-click NSIS installer
@@ -206,7 +227,7 @@ npm start
 
 ```bash
 npm run build
-# Output: dist/FreeNameConvention Setup 3.1.0.exe
+# Output: dist/FreeNameConvention-Setup-3.2.0.exe
 ```
 
 ---
@@ -352,6 +373,83 @@ FreeNameConvention/
 
 ---
 
+## ❓ Frequently Asked Questions (FAQ)
+
+<details>
+<summary><strong>What is file naming compliance?</strong></summary>
+
+File naming compliance means ensuring that every document in your organization follows a standardized naming pattern required by regulatory frameworks (ISO, GDPR, LGPD, HIPAA, SOX, NF-e, etc.). Non-compliant file names can cause audit failures, retrieval delays, legal exposure, and operational chaos.
+
+</details>
+
+<details>
+<summary><strong>How is FreeNameConvention different from a simple file renamer?</strong></summary>
+
+FreeNameConvention is NOT a file renamer — it's a **real-time compliance guardian**. It monitors your folders 24/7, validates every new file against normative patterns, and can quarantine non-compliant files instantly. It covers 62 international normatives, provides audit logging with CSV export, and enforces ACL-based security. No other free tool offers this combination.
+
+</details>
+
+<details>
+<summary><strong>Which regulations does it support?</strong></summary>
+
+62 normatives across 28+ countries: ISO 9001, ISO 13485, ISO 15489, ISO 27001, ISO 14001, ISO 45001, ISO 19650, PCI-DSS, GDPR, UK GDPR, eIDAS, NIS2, DORA, GoBD, Factura-e, FatturaPA, CNIL, LGPD, NF-e, NFS-e, CT-e, SPED, eSocial, BACEN 4.893, CVM, CFM 1.821, ANVISA RDC 204, CNJ 065, CONARQ/e-ARQ, ABNT NBR 13531, Decree 10.278, MAPA/SISLEGIS, SOX, HIPAA, FDA 21 CFR Part 11, FINRA 4511, DoD 5015.02, NIST SP 800-53, FERPA, CFDI, LFPDPPP, PIPEDA, AFIP, DIAN, SII DTE, APPI, Privacy Act 1988, APRA CPS 234, DPDP Act, PIPA, PIPL, PDPA (Singapore), PDPA (Thailand), Archives Law Israel, Privacy Protection Law Israel, PDPL, DIFC, POPIA, NDPR/NDPA, Kenya DPA.
+
+</details>
+
+<details>
+<summary><strong>Is it really free? What's the catch?</strong></summary>
+
+Yes — 100% free, open-source (MIT License), no subscription, no telemetry, no data collection, no ads. The project is maintained by the ODefender Community and donations go directly to charity institutions (CUFA and Rabi Meir Baal Haness).
+
+</details>
+
+<details>
+<summary><strong>Does it work on network shares / mapped drives?</strong></summary>
+
+Yes — FreeNameConvention monitors any folder you add, including network shares (UNC paths) and mapped drives. The Guardian uses chokidar for cross-compatible file watching.
+
+</details>
+
+<details>
+<summary><strong>Can I create custom naming patterns?</strong></summary>
+
+Absolutely. The built-in Pattern Wizard lets you build custom patterns using 14 token types: `{TEXT}`, `{NUM:N}`, `{DATE}`, `{VERSION}`, `{HASH:N}`, `{UUID}`, `{CPF}`, `{CNPJ}`, `{ENUM:A|B|C}`, `{ANY}`, and more. You can combine tokens to match any naming convention your organization requires.
+
+</details>
+
+<details>
+<summary><strong>Can I run it without installing Electron?</strong></summary>
+
+Yes — export a standalone PowerShell script directly from the app. It runs independently using `FileSystemWatcher`, requiring no Node.js or Electron installation.
+
+</details>
+
+<details>
+<summary><strong>What enforcement modes are available?</strong></summary>
+
+Three modes: **Log** (records violations only), **Quarantine** (moves non-compliant files to an ACL-restricted subfolder), and **Block** (immediately quarantines files on creation for real-time enforcement).
+
+</details>
+
+---
+
+## 🔄 Alternatives Comparison
+
+| Feature | FreeNameConvention | Manual Audit | FileBot | Bulk Rename Utility |
+|---------|-------------------|--------------|---------|---------------------|
+| **Real-time monitoring** | ✅ 24/7 Guardian | ❌ Manual | ❌ On-demand | ❌ On-demand |
+| **Regulatory normatives** | ✅ 62 built-in | ❌ None | ❌ None | ❌ None |
+| **Quarantine enforcement** | ✅ ACL-protected | ❌ N/A | ❌ N/A | ❌ N/A |
+| **Audit logging** | ✅ CSV export | 📝 Manual | ❌ None | ❌ None |
+| **Email alerts** | ✅ SMTP | ❌ None | ❌ None | ❌ None |
+| **Admin security** | ✅ PBKDF2 + ACL | ❌ None | ❌ None | ❌ None |
+| **Custom patterns** | ✅ 14 token types | N/A | ✅ Regex | ✅ Regex |
+| **Multi-language** | ✅ 4 + RTL | ❌ N/A | ✅ Multi | ❌ English |
+| **Cost** | ✅ **Free forever** | ✅ Free | 💰 Paid | ✅ Free |
+| **Open-source** | ✅ MIT | N/A | ❌ Proprietary | ❌ Proprietary |
+
+---
+
 ## 🐛 Feedback & Contributions
 
 Found a bug? Have a suggestion? Want to add a new normative for your country?
@@ -402,8 +500,16 @@ Copyright © 2026 Rafael França / ODefender Community Contributors.
 
 **Made with ❤️ for everyone who believes in organized, compliant digital files.**
 
-*v3.1.0 · Electron 32 · 62 Normatives · 4 Languages · 6 Regions · 28+ Countries*
+*v3.2.0 · Electron 32 · 62 Normatives · 4 Languages · 6 Regions · 28+ Countries*
 
 [![ODefender Community](https://img.shields.io/badge/Part_of-ODefender_Community-FF6F00?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](https://github.com/rfranca777/odefender-community)
+
+---
+
+<sub>
+
+**Keywords:** file naming convention, file naming compliance, naming standard enforcement, document naming policy, regulatory file naming, ISO 27001 file naming, GDPR document naming, LGPD naming compliance, HIPAA file naming, SOX audit file naming, NF-e naming validation, PCI-DSS file naming, NIST document naming, FERPA records naming, POPIA file compliance, PIPL document naming, APPI data naming, eIDAS file naming, DORA compliance, folder monitoring, real-time file watcher, quarantine non-compliant files, file audit logging, document management, data governance, regulatory compliance tool, compliance automation, file naming guardian, open-source compliance, Windows desktop compliance, electron compliance app, naming convention enforcer, document compliance checker, file naming validator, naming pattern wizard, multi-language compliance tool, RTL support compliance, corporate naming policy, enterprise file naming, file naming best practices, automated compliance, 24/7 folder guardian, ACL quarantine, PBKDF2 security, STRIDE threat model, normative naming patterns, free compliance tool
+
+</sub>
 
 </div>
