@@ -11,6 +11,7 @@ ISO 27001 · GDPR · LGPD · HIPAA · SOX · NF-e · PCI-DSS · NIST · POPIA ·
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-3.2.0-blue?style=for-the-badge)](https://github.com/rfranca777/FreeNameConvention/releases/tag/v3.2.0)
+[![CI](https://github.com/rfranca777/FreeNameConvention/actions/workflows/ci.yml/badge.svg)](https://github.com/rfranca777/FreeNameConvention/actions/workflows/ci.yml)
 [![Electron](https://img.shields.io/badge/Electron-32-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows_Server_%7C_10%2F11-0078D4?style=for-the-badge&logo=windows&logoColor=white)](#-installation)
 [![Normatives](https://img.shields.io/badge/Normatives-62-FF6F00?style=for-the-badge)](#-normatives)
