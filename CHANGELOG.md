@@ -5,6 +5,27 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) · Vers
 
 ---
 
+## [3.3.0] — 2026-03-04
+
+### Added
+- **Active Directory principals per folder** — assign AD users/groups with full access when locking folders
+- **AD principal validation** — `testWindowsPrincipal()` validates users and groups (local + domain, 4-step lookup)
+- **`config:setAdPrincipals`** IPC channel + preload whitelist entry
+- **`settings:testAdPrincipal`** IPC channel + preload whitelist entry
+- AD principals included in `protectConfigFile()` and `folder:lockAccess` icacls commands
+
+### Changed
+- **Full Portuguese translation** of all 62 normative descriptions in NORM_FRIENDLY (app.js)
+- **Category labels translated to PT** — EUA, América Latina, União Europeia, Ásia-Pacífico, Oriente Médio, África
+- UI improvements in index.html and styles.css
+- `protectConfigFile()` now accepts optional `additionalPrincipals` array
+
+### Security
+- AD principal names sanitized via `sanitize(name, 128)` before icacls commands
+- Input validation on all AD-related IPC handlers
+
+---
+
 ## [3.2.0] — 2026-03-03
 
 ### Security

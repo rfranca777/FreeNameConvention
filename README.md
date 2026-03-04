@@ -10,7 +10,7 @@ ISO 27001 · GDPR · LGPD · HIPAA · SOX · NF-e · PCI-DSS · NIST · POPIA ·
 <em>Designed for corporate file servers. Free forever. No subscription. No telemetry. 100% open-source.</em></p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.0-blue?style=for-the-badge)](https://github.com/rfranca777/FreeNameConvention/releases/tag/v3.2.0)
+[![Version](https://img.shields.io/badge/Version-3.3.0-blue?style=for-the-badge)](https://github.com/rfranca777/FreeNameConvention/releases/tag/v3.3.0)
 [![CI](https://github.com/rfranca777/FreeNameConvention/actions/workflows/ci.yml/badge.svg)](https://github.com/rfranca777/FreeNameConvention/actions/workflows/ci.yml)
 [![Electron](https://img.shields.io/badge/Electron-32-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows_Server_%7C_10%2F11-0078D4?style=for-the-badge&logo=windows&logoColor=white)](#-installation)
@@ -30,7 +30,7 @@ ISO 27001 · GDPR · LGPD · HIPAA · SOX · NF-e · PCI-DSS · NIST · POPIA ·
 
 <br/>
 
-### ⬇️ [Download FreeNameConvention-Setup-3.2.0.exe (~76 MB)](https://github.com/rfranca777/FreeNameConvention/releases/download/v3.2.0/FreeNameConvention-Setup-3.2.0.exe)
+### ⬇️ [Download FreeNameConvention-Setup-3.3.0.exe (~76 MB)](https://github.com/rfranca777/FreeNameConvention/releases/download/v3.3.0/FreeNameConvention-Setup-3.3.0.exe)
 
 *Windows Server 2016 / 2019 / 2022 · Windows 10 / 11 · x64*
 
@@ -208,7 +208,7 @@ Switch languages dynamically from **Settings** — the tray menu and system labe
 
 ### ⬇️ Option 1 — Windows Installer (Recommended)
 
-**[⬇️ FreeNameConvention-Setup-3.2.0.exe (~76 MB)](https://github.com/rfranca777/FreeNameConvention/releases/download/v3.2.0/FreeNameConvention-Setup-3.2.0.exe)**
+**[⬇️ FreeNameConvention-Setup-3.3.0.exe (~76 MB)](https://github.com/rfranca777/FreeNameConvention/releases/download/v3.3.0/FreeNameConvention-Setup-3.3.0.exe)**
 
 > Tested on: **Windows Server 2016 · Windows Server 2019 · Windows Server 2022 · Windows 10 · Windows 11** (x64)
 
@@ -234,7 +234,7 @@ npm start
 
 ```bash
 npm run build
-# Output: dist/FreeNameConvention-Setup-3.2.0.exe
+# Output: dist/FreeNameConvention-Setup-3.3.0.exe
 ```
 
 ---
@@ -507,7 +507,7 @@ Copyright © 2026 Rafael França / ODefender Community Contributors.
 
 **Made with ❤️ for everyone who believes in organized, compliant digital files.**
 
-*v3.2.0 · Electron 32 · 62 Normatives · 4 Languages · 6 Regions · 28+ Countries*
+*v3.3.0 · Electron 32 · 62 Normatives · 4 Languages · 6 Regions · 28+ Countries*
 
 [![ODefender Community](https://img.shields.io/badge/Part_of-ODefender_Community-FF6F00?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](https://github.com/rfranca777/odefender-community)
 

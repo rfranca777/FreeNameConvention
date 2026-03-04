@@ -423,9 +423,14 @@ ipc('settings:testWindowsUser', (_, username) => {
   return adminGuard.testWindowsUser(username);
 });
 
-ipc('settings:protectConfig', () => {
+ipc('settings:testAdPrincipal', (_, name) => {
+  return adminGuard.testWindowsPrincipal(name);
+});
+
+ipc('settings:protectConfig', (_, additionalPrincipals) => {
   const cfgPath = store.path;
-  return adminGuard.protectConfigFile(cfgPath);
+  const principals = Array.isArray(additionalPrincipals) ? additionalPrincipals : [];
+  return adminGuard.protectConfigFile(cfgPath, principals);
 });
 
 ipc('settings:exportScript', (_, folderId) => {
@@ -590,6 +595,17 @@ ipc('config:setExtensions', (_, folderId, extensions) => {
   return { ok: true };
 });
 
+// AD principals per folder (groups and users for access control)
+ipc('config:setAdPrincipals', (_, folderId, principals) => {
+  const cfg = getConfig();
+  if (!cfg.folders[folderId]) return { ok: false, error: 'Pasta não encontrada' };
+  cfg.folders[folderId].adPrincipals = Array.isArray(principals)
+    ? principals.map(p => adminGuard.sanitize(p, 128)).filter(Boolean)
+    : [];
+  saveConfig(cfg);
+  return { ok: true };
+});
+
 // Admin identity
 ipc('settings:saveAdminUser', (_, username) => {
   const cfg = getConfig();
@@ -736,7 +752,14 @@ ipc('folder:lockAccess', async (_, folderId) => {
   try {
     const user = adminGuard.getFullUsername();
     // Use SID *S-1-5-32-544 for Administrators (locale-independent — works on any Windows language)
-    await execAsync(`icacls "${folderPath}" /inheritance:r /grant:r "${user}:(OI)(CI)F" /grant:r "SYSTEM:(OI)(CI)F" /grant:r "*S-1-5-32-544:(OI)(CI)F"`, { timeout: 15000 });
+    let cmd = `icacls "${folderPath}" /inheritance:r /grant:r "${user}:(OI)(CI)F" /grant:r "SYSTEM:(OI)(CI)F" /grant:r "*S-1-5-32-544:(OI)(CI)F"`;
+    // Add AD principals stored in folder config (groups or users)
+    const adPrincipals = f.adPrincipals || [];
+    for (const p of adPrincipals) {
+      const sp = adminGuard.sanitize(p, 128);
+      if (sp) cmd += ` /grant:r "${sp}:(OI)(CI)F"`;
+    }
+    await execAsync(cmd, { timeout: 15000 });
     cfg.folders[folderId].locked = true;
     saveConfig(cfg);
     return { ok: true, message: `Acesso restrito à pasta "${f.label || f.path}" aplicado com sucesso.` };

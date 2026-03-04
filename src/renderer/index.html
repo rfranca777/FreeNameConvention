@@ -166,16 +166,26 @@
           <div class="settings-hint">Identifica quem é responsável por esta configuração. Aparece nos relatórios.</div>
         </div>
         <div class="cred-input-row">
-          <input type="text" id="admin-username" class="text-field" placeholder="Ex.: Ana Lima — TI" style="min-width:180px"/>
+          <input type="text" id="admin-username" class="text-field" placeholder="Ex.: Ana Lima — TI  ou  DOMINIO\ana.lima" style="min-width:180px"/>
           <button id="btn-save-admin-user" class="btn btn-outline btn-sm">Salvar</button>
         </div>
       </div>
       <div class="settings-row" style="margin-top:0.5rem">
         <div>
           <div class="settings-label">Arquivo de configuração</div>
-          <div class="settings-hint">Restringe o acesso ao usuário atual e SYSTEM</div>
+          <div class="settings-hint">Restringe o acesso ao usuário atual, SYSTEM e grupos/usuários AD informados</div>
         </div>
         <button id="btn-protect-config" class="btn btn-outline">Proteger agora</button>
+      </div>
+      <div class="settings-row" style="margin-top:0.5rem;align-items:flex-start">
+        <div>
+          <div class="settings-label">Grupos/Usuários AD adicionais</div>
+          <div class="settings-hint">Concede acesso ao arquivo de configuração a estes grupos/usuários AD além do usuário atual e Administrators</div>
+        </div>
+        <div class="cred-input-row">
+          <input type="text" id="config-ad-principals" class="text-field" placeholder="Ex.: DOMINIO\GrupoTI, DOMINIO\usuario" style="min-width:220px"/>
+          <button id="btn-validate-config-ad" class="btn btn-outline btn-sm">🔍 Verificar</button>
+        </div>
       </div>
     </div>
     <div class="settings-card">
@@ -205,9 +215,9 @@
         </label>
         <div id="runas-creds" class="runas-creds" style="display:none">
           <div class="cred-row">
-            <label for="runas-username">Nome de usuário Windows</label>
+            <label for="runas-username">Nome de usuário Windows (local ou AD)</label>
             <div class="cred-input-row">
-              <input type="text" id="runas-username" class="text-field" placeholder="Ex.: EMPRESA\joao.silva"/>
+              <input type="text" id="runas-username" class="text-field" placeholder="Ex.: EMPRESA\joao.silva ou joao.silva"/>
               <button id="btn-test-user" class="btn btn-outline btn-sm">Verificar</button>
             </div>
             <span id="runas-user-feedback" class="cred-feedback"></span>
@@ -307,6 +317,7 @@
         <button class="help-tab" data-htab="tokens">🔤 Tokens</button>
         <button class="help-tab" data-htab="builder">🔧 Construtor</button>
         <button class="help-tab" data-htab="fiscal">📑 Fiscal BR</button>
+        <button class="help-tab" data-htab="security">🔐 Segurança</button>
         <button class="help-tab" data-htab="faq">❓ FAQ</button>
       </div>
     </div>
@@ -332,13 +343,13 @@
           <div class="help-step-num">3</div>
           <div class="help-step-body">
             <div class="help-step-title">▶ Inicie o Guardião</div>
-            <div class="help-step-desc">Clique em <strong>▶ Iniciar</strong> na barra superior (ou <kbd>Ctrl+G</kbd>). O Guardião passa a monitorar todas as pastas habilitadas em tempo real usando chokidar.</div>
+            <div class="help-step-desc">Clique em <strong>▶ Iniciar</strong> na barra superior (ou <kbd>Ctrl+G</kbd>). O Guardião passa a monitorar todas as pastas habilitadas em tempo real por meio de eventos do sistema de arquivos (<a href="https://learn.microsoft.com/dotnet/api/system.io.filesystemwatcher" style="color:var(--accent)">FileSystemWatcher</a>).</div>
           </div>
         </div>
         <div class="help-step">
           <div class="help-step-num">4</div>
           <div class="help-step-body">
-            <div class="help-step-title">⚠️ Quando um arquivo não conformes é detectado</div>
+            <div class="help-step-title">⚠️ Quando um arquivo não conforme é detectado</div>
             <div class="help-step-desc">Uma janela nativa do Windows aparece com o nome do arquivo, exemplos válidos e uma <strong>sugestão automática de nome em conformidade</strong>. Você pode renomear com 1 clique, mover para quarentena ou ignorar. Alertas também chegam por notificação do Windows e/ou e-mail.</div>
           </div>
         </div>
@@ -465,6 +476,59 @@
       </div>
     </div>
 
+    <!-- Security -->
+    <div id="htab-security" class="help-panel" style="display:none">
+      <p class="help-intro">O FreeNameConvention foi projetado seguindo o modelo de ameaças <strong>Microsoft STRIDE</strong> e as melhores práticas de segurança para aplicações desktop Windows.</p>
+      <table class="help-token-table">
+        <thead><tr><th>Proteção</th><th>Como funciona</th><th>Referência técnica</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>🔒 Senha PBKDF2-SHA512</strong></td>
+            <td>A senha do administrador é armazenada usando <strong>PBKDF2</strong> com 100.000 iterações, salt aleatório de 16 bytes e SHA-512. Comparação em tempo constante (<code>timingSafeEqual</code>) evita ataques de timing.</td>
+            <td><a href="https://learn.microsoft.com/dotnet/api/system.security.cryptography.rfc2898derivebytes" style="color:var(--accent)">RFC 2898 / PBKDF2</a></td>
+          </tr>
+          <tr>
+            <td><strong>🛡️ Rate Limiting</strong></td>
+            <td>Máximo de 5 tentativas em 15 minutos. Após exceder, o acesso é bloqueado por 5 minutos. Protege contra ataques de força bruta.</td>
+            <td><a href="https://learn.microsoft.com/azure/architecture/patterns/rate-limiting-pattern" style="color:var(--accent)">Rate Limiting Pattern</a></td>
+          </tr>
+          <tr>
+            <td><strong>🔐 Controle de Acesso (icacls)</strong></td>
+            <td>Usa o comando nativo <code>icacls</code> do Windows para aplicar ACLs NTFS. Suporta SIDs independentes de idioma (ex.: <code>*S-1-5-32-544</code> para Administrators). Aceita grupos e usuários do Active Directory.</td>
+            <td><a href="https://learn.microsoft.com/windows-server/administration/windows-commands/icacls" style="color:var(--accent)">icacls — Windows Commands</a></td>
+          </tr>
+          <tr>
+            <td><strong>👥 Active Directory</strong></td>
+            <td>Valida usuários e grupos AD (local e domínio) via <code>net user</code>, <code>net localgroup</code> e <code>net group /domain</code>. Aceita formatos <code>DOMÍNIO\Usuário</code> e <code>DOMÍNIO\Grupo</code>.</td>
+            <td><a href="https://learn.microsoft.com/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview" style="color:var(--accent)">Active Directory Domain Services</a></td>
+          </tr>
+          <tr>
+            <td><strong>🧱 STRIDE Threat Model</strong></td>
+            <td><strong>S</strong>poofing: PBKDF2 + rate-limit · <strong>T</strong>ampering: sanitize + icacls · <strong>R</strong>epudiation: resultados estruturados · <strong>I</strong>nfo Disclosure: timingSafeEqual · <strong>D</strong>oS: execAsync + timeout · <strong>E</strong>levation: checagem explícita de admin</td>
+            <td><a href="https://learn.microsoft.com/azure/security/develop/threat-modeling-tool-threats" style="color:var(--accent)">STRIDE — Threat Modeling Tool</a></td>
+          </tr>
+          <tr>
+            <td><strong>🔗 Context Isolation</strong></td>
+            <td>O Electron roda com <code>contextIsolation: true</code> e <code>nodeIntegration: false</code>. Comunicação via <code>contextBridge</code> com whitelist de canais IPC. Previne execução de código arbitrário no renderer.</td>
+            <td><a href="https://www.electronjs.org/docs/latest/tutorial/context-isolation" style="color:var(--accent)">Electron Context Isolation</a></td>
+          </tr>
+          <tr>
+            <td><strong>📋 Agendador de Tarefas</strong></td>
+            <td>O auto-start usa <code>schtasks</code> com fallback para registro <code>HKCU\Run</code>. Suporta RunAs com credenciais AD.</td>
+            <td><a href="https://learn.microsoft.com/windows-server/administration/windows-commands/schtasks-create" style="color:var(--accent)">schtasks /create</a></td>
+          </tr>
+          <tr>
+            <td><strong>🧹 Sanitização de Entrada</strong></td>
+            <td>Toda entrada do usuário passa por <code>sanitize()</code> que remove caracteres de controle (<code>\x00-\x1f</code>) e limita o tamanho. Previne injeção de comando e path traversal.</td>
+            <td><a href="https://learn.microsoft.com/dotnet/standard/security/secure-coding-guidelines" style="color:var(--accent)">Secure Coding Guidelines</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="help-tip-box">
+        <strong>💡 Recomendação:</strong> Em ambientes corporativos, proteja o arquivo de configuração (<em>Configurações → Proteger agora</em>) e defina grupos AD no Controle de Acesso para garantir que somente pessoas autorizadas possam alterar as regras de nomenclatura.
+      </div>
+    </div>
+
     <!-- FAQ -->
     <div id="htab-faq" class="help-panel" style="display:none">
       <div class="faq-list">
@@ -474,7 +538,7 @@
         </details>
         <details class="faq-item">
           <summary>O que é a pasta <code>_NONCOMPLIANT</code>?</summary>
-          <p>Quando a ação é <em>Mover para quarentena</em> ou <em>Bloquear</em>, arquivos fora do padrão são movidos automaticamente para esta subpasta. A pasta é criada com acesso restrito ao grupo <strong>Administrators</strong> e <strong>SYSTEM</strong> usando <code>icacls</code>. Você pode definir uma pasta de quarentena personalizada em cada pasta monitorada.</p>
+          <p>Quando a ação é <em>Mover para quarentena</em> ou <em>Bloquear</em>, arquivos fora do padrão são movidos automaticamente para esta subpasta. A pasta é criada com acesso restrito ao grupo <strong>Administrators</strong>, <strong>SYSTEM</strong> e os <strong>grupos/usuários AD configurados</strong>, usando <code>icacls</code>. Você pode definir uma pasta de quarentena personalizada em cada pasta monitorada.</p>
         </details>
         <details class="faq-item">
           <summary>Posso ter múltiplos padrões por pasta?</summary>
@@ -499,6 +563,18 @@
         <details class="faq-item">
           <summary>Posso usar o Guardião sem o aplicativo aberto?</summary>
           <p>Sim. O aplicativo fica na bandeja do sistema (system tray) mesmo com a janela fechada. Configure <strong>Iniciar com o Windows</strong> em Configurações para que o Guardião inicie automaticamente.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como funciona o Controle de Acesso com Active Directory?</summary>
+          <p>No modal <strong>Editar</strong> da pasta, na seção <em>🔑 Controle de Acesso (AD)</em>, informe grupos ou usuários do AD (ex.: <code>DOMÍNIO\GrupoTI</code>). Ao clicar em <strong>🔒 Bloquear acesso</strong>, o app aplica ACLs NTFS via <code>icacls</code> concedendo acesso Full Control ao usuário atual, Administrators, SYSTEM e todos os grupos/usuários AD listados. Use <strong>🔍 Verificar todos</strong> para validar se cada principal existe no AD antes de aplicar. Referência: <a href="https://learn.microsoft.com/windows-server/administration/windows-commands/icacls" style="color:var(--accent)">icacls — Microsoft Learn</a>.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Posso usar grupos do Active Directory para proteger o arquivo de configuração?</summary>
+          <p>Sim. Em <strong>Configurações → Segurança → Grupos/Usuários AD adicionais</strong>, informe os grupos ou usuários separados por vírgula. Ao clicar em <strong>Proteger agora</strong>, o app aplica as ACLs NTFS incluindo esses principais. Formato: <code>DOMÍNIO\Grupo</code> ou <code>nome.usuario</code>.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Qual algoritmo é usado para proteger a senha do administrador?</summary>
+          <p><strong>PBKDF2-SHA512</strong> com 100.000 iterações e salt aleatório de 16 bytes. A verificação usa comparação em tempo constante (<code>crypto.timingSafeEqual</code>) para evitar ataques de timing. Após 5 tentativas erradas em 15 minutos, o acesso é bloqueado por 5 minutos. Referência: <a href="https://learn.microsoft.com/dotnet/api/system.security.cryptography.rfc2898derivebytes" style="color:var(--accent)">RFC 2898 — Microsoft Learn</a>.</p>
         </details>
       </div>
     </div>
@@ -706,6 +782,21 @@
           <button id="btn-edit-quarantine-browse" class="btn btn-outline btn-sm">📂 Procurar</button>
         </div>
       </div>
+      <!-- Controle de Acesso AD (grupos e usuários) -->
+      <div class="edit-sect">
+        <div class="edit-sect-label">🔑 Controle de Acesso (AD)
+          <span class="settings-hint" style="font-weight:normal">— grupos e usuários do Active Directory com permissão de acesso</span>
+        </div>
+        <div class="settings-hint" style="margin-bottom:8px">
+          Informe grupos ou usuários do AD que terão acesso à pasta quando bloqueada com <code>icacls</code>. Formato: <strong>DOMÍNIO\Grupo</strong> ou <strong>DOMÍNIO\Usuário</strong>. Um por linha. Além destes, o usuário atual, Administrators e SYSTEM sempre terão acesso.
+        </div>
+        <textarea id="edit-ad-principals" class="text-field text-area-sm" rows="3"
+                  placeholder="Ex.:&#10;BRADESCO\GrupoTI&#10;BRADESCO\joao.silva&#10;Financeiro"></textarea>
+        <div class="ext-add-row" style="margin-top:6px">
+          <button id="btn-edit-validate-ad" class="btn btn-outline btn-sm">🔍 Verificar todos</button>
+          <span id="edit-ad-feedback" class="cred-feedback"></span>
+        </div>
+      </div>
       <!-- Opções avançadas -->
       <details class="edit-advanced" id="edit-advanced">
         <summary class="edit-advanced-summary">⚙ Opções avançadas</summary>
@@ -720,7 +811,7 @@
             <button id="btn-edit-unlock-folder" class="btn btn-outline btn-sm" style="display:none">
               🔓 Restaurar permissões da pasta
             </button>
-            <div class="settings-hint" style="margin-top:4px">Usa <code>icacls</code> para restringir o acesso à pasta somente ao usuário atual, Administrators e SYSTEM. Requer privilégio de administrador.</div>
+            <div class="settings-hint" style="margin-top:4px">Usa <code>icacls</code> para restringir o acesso à pasta ao usuário atual, Administrators, SYSTEM e os grupos/usuários AD informados acima. Requer privilégio de administrador.</div>
           </div>
           <div id="edit-script-block" class="edit-script-block" style="display:none">
             <button id="btn-edit-export-script" class="btn btn-outline btn-sm">
