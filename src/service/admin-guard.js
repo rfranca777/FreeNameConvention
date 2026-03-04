@@ -216,15 +216,64 @@ async function testWindowsUser(username) {
   return { ok: false, error: `Usuário "${u}" não encontrado no sistema local nem no domínio` };
 }
 
+/**
+ * Validate an AD principal (user OR group) — local or domain.
+ * Tries: local user → domain user → local group → domain group.
+ * Accepts formats: "username", "DOMAIN\username", "DOMAIN\GroupName"
+ * @returns {{ ok: boolean, type?: string, scope?: string, error?: string }}
+ */
+async function testWindowsPrincipal(name) {
+  if (process.platform !== 'win32') return { ok: true, type: 'unknown', scope: 'non-windows' };
+  const u = sanitize(name, 128);
+  if (!u) return { ok: false, error: 'Nome não pode estar vazio' };
+
+  const hasDomain = u.includes('\\');
+  const principalName = hasDomain ? u.split('\\').pop() : u;
+
+  // 1. Try local user
+  try {
+    await execAsync(`net user "${principalName}"`, { timeout: 8000 });
+    return { ok: true, type: 'user', scope: 'local' };
+  } catch { /* not local user */ }
+
+  // 2. Try domain user
+  try {
+    await execAsync(`net user "${principalName}" /domain`, { timeout: 10000 });
+    return { ok: true, type: 'user', scope: 'domain' };
+  } catch { /* not domain user */ }
+
+  // 3. Try local group
+  try {
+    await execAsync(`net localgroup "${principalName}"`, { timeout: 8000 });
+    return { ok: true, type: 'group', scope: 'local' };
+  } catch { /* not local group */ }
+
+  // 4. Try domain group
+  try {
+    await execAsync(`net group "${principalName}" /domain`, { timeout: 10000 });
+    return { ok: true, type: 'group', scope: 'domain' };
+  } catch { /* not domain group */ }
+
+  return { ok: false, error: `"${u}" não encontrado como usuário ou grupo (local/domínio)` };
+}
+
 // ── STRIDE-T: Config file ACL protection ─────────────────────────────────────
-async function protectConfigFile(filePath) {
+async function protectConfigFile(filePath, additionalPrincipals) {
   if (process.platform !== 'win32') return { ok: false, error: 'Apenas Windows' };
   const safe = sanitize(filePath, 512);
   if (!safe || !fs.existsSync(safe)) return { ok: false, error: 'Arquivo não encontrado' };
   try {
     const user = getFullUsername();
     // Use SID for Administrators (locale-independent) + current user + SYSTEM
-    await execAsync(`icacls "${safe}" /inheritance:r /grant:r "${user}:F" /grant:r "SYSTEM:F" /grant:r "*S-1-5-32-544:F"`, { timeout: 10_000 });
+    let cmd = `icacls "${safe}" /inheritance:r /grant:r "${user}:F" /grant:r "SYSTEM:F" /grant:r "*S-1-5-32-544:F"`;
+    // Add any additional AD principals (groups or users)
+    if (Array.isArray(additionalPrincipals)) {
+      for (const p of additionalPrincipals) {
+        const sp = sanitize(p, 128);
+        if (sp) cmd += ` /grant:r "${sp}:(OI)(CI)F"`;
+      }
+    }
+    await execAsync(cmd, { timeout: 10_000 });
     return { ok: true };
   } catch (err) {
     return { ok: false, error: `Não foi possível proteger: ${err.message}` };
@@ -308,6 +357,6 @@ if ($Mode -eq 'monitor') {
 module.exports = {
   isAdmin, getCurrentUsername, getFullUsername, isDomainJoined,
   hashPassword, verifyPassword, verifyPasswordRateLimited,
-  setAutoStart, isAutoStartEnabled, testWindowsUser,
+  setAutoStart, isAutoStartEnabled, testWindowsUser, testWindowsPrincipal,
   protectConfigFile, exportProtectionScript, sanitize
 };

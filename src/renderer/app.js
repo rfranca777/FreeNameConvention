@@ -38,94 +38,94 @@ const NORM_CATEGORIES = [
     normIds: ['iso9001','iso13485','iso15489','iso27001','iso14001','iso45001','iso19650','pci_dss','internal_generic'] },
   { id: 'br', label: 'Brasil', emoji: '🇧🇷', color: 'var(--cat-fiscal)',
     normIds: ['nfe','nfse','cte','sped','esocial','bacen4893','cvm','cfm1821','anvisa','lgpd','cnj065','clt_rh','conarq','decreto10278','abnt_nbr','mapa_agro'] },
-  { id: 'us', label: 'USA', emoji: '🇺🇸', color: 'var(--cat-financial)',
+  { id: 'us', label: 'EUA', emoji: '🇺🇸', color: 'var(--cat-financial)',
     normIds: ['sox','hipaa','fda21cfr11','finra','dod5015','nist80053','ferpa'] },
-  { id: 'latam', label: 'Latin America', emoji: '🌎', color: 'var(--cat-other)',
+  { id: 'latam', label: 'América Latina', emoji: '🌎', color: 'var(--cat-other)',
     normIds: ['cfdi_mx','lfpdppp_mx','afip_ar','dian_co','sii_cl','pipeda_ca'] },
-  { id: 'eu', label: 'European Union', emoji: '🇪🇺', color: 'var(--cat-legal)',
+  { id: 'eu', label: 'União Europeia', emoji: '🇪🇺', color: 'var(--cat-legal)',
     normIds: ['gdpr','eidas','nis2_eu','dora_eu','gobd_de','facturae_es','fatturapa_it','cnil_fr'] },
-  { id: 'uk', label: 'United Kingdom', emoji: '🇬🇧', color: 'var(--cat-quality)',
+  { id: 'uk', label: 'Reino Unido', emoji: '🇬🇧', color: 'var(--cat-quality)',
     normIds: ['uk_gdpr'] },
-  { id: 'apac', label: 'Asia-Pacific', emoji: '🌏', color: 'var(--cat-health)',
+  { id: 'apac', label: 'Ásia-Pacífico', emoji: '🌏', color: 'var(--cat-health)',
     normIds: ['appi_jp','privacy_au','apra_au','dpdp_in','pipa_kr','pipl_cn','pdpa_sg','pdpa_th'] },
-  { id: 'mena', label: 'Middle East', emoji: '🕌', color: 'var(--cat-gov)',
+  { id: 'mena', label: 'Oriente Médio', emoji: '🕌', color: 'var(--cat-gov)',
     normIds: ['israel_archives','israel_privacy','pdpl_sa','difc_ae'] },
-  { id: 'africa', label: 'Africa', emoji: '🌍', color: 'var(--cat-other)',
+  { id: 'africa', label: 'África', emoji: '🌍', color: 'var(--cat-other)',
     normIds: ['popia_za','ndpr_ng','dpa_ke'] },
 ];
 
 // ══ NORMATIVE FRIENDLY DISPLAY CONFIG ════════════════════════════════════════
 const NORM_FRIENDLY = {
   // ── Global / ISO ──
-  iso9001:         { emoji: '📋', short: 'ISO 9001',        desc: 'Quality Management — any organization' },
-  iso13485:        { emoji: '🔬', short: 'ISO 13485',       desc: 'Medical Devices QMS — batch traceability' },
-  iso15489:        { emoji: '🗂️', short: 'ISO 15489',      desc: 'Records Management — corporate filing' },
-  iso27001:        { emoji: '🔒', short: 'ISO 27001',       desc: 'Information Security — classification' },
-  iso14001:        { emoji: '🌿', short: 'ISO 14001',       desc: 'Environmental Management — licenses' },
-  iso45001:        { emoji: '🦺', short: 'ISO 45001',       desc: 'Occupational Health & Safety — OH&S' },
-  iso19650:        { emoji: '🏗️', short: 'ISO 19650',      desc: 'BIM — construction & engineering models' },
-  pci_dss:         { emoji: '💳', short: 'PCI DSS v4.0',    desc: 'Payment Card security — global' },
-  internal_generic:{ emoji: '✏️', short: 'Internal Policy', desc: 'Flexible templates for any company' },
-  // ── Brazil ──
+  iso9001:         { emoji: '📋', short: 'ISO 9001',        desc: 'Gestão da Qualidade — qualquer organização' },
+  iso13485:        { emoji: '🔬', short: 'ISO 13485',       desc: 'Dispositivos Médicos — rastreabilidade de lotes' },
+  iso15489:        { emoji: '🗂️', short: 'ISO 15489',      desc: 'Gestão de Registros — arquivamento corporativo' },
+  iso27001:        { emoji: '🔒', short: 'ISO 27001',       desc: 'Segurança da Informação — classificação' },
+  iso14001:        { emoji: '🌿', short: 'ISO 14001',       desc: 'Gestão Ambiental — licenças' },
+  iso45001:        { emoji: '🦺', short: 'ISO 45001',       desc: 'Saúde e Segurança do Trabalho — SST' },
+  iso19650:        { emoji: '🏗️', short: 'ISO 19650',      desc: 'BIM — modelos de construção e engenharia' },
+  pci_dss:         { emoji: '💳', short: 'PCI DSS v4.0',    desc: 'Segurança de Cartão de Pagamento — global' },
+  internal_generic:{ emoji: '✏️', short: 'Política Interna', desc: 'Modelos flexíveis para qualquer empresa' },
+  // ── Brasil ──
   nfe:             { emoji: '🧾', short: 'NF-e (SEFAZ)',    desc: 'Nota Fiscal eletrônica — XML & DANFE' },
   nfse:            { emoji: '🧾', short: 'NFS-e',           desc: 'Nota Fiscal de Serviços eletrônica' },
   cte:             { emoji: '🚛', short: 'CT-e',            desc: 'Conhecimento de Transporte eletrônico' },
-  sped:            { emoji: '📊', short: 'SPED',            desc: 'Public Digital Bookkeeping — ECD/ECF/EFD' },
-  esocial:         { emoji: '👥', short: 'eSocial',         desc: 'Labor & social events — MTE/RFB' },
-  bacen4893:       { emoji: '🏦', short: 'BACEN 4.893',     desc: 'Cybersecurity policy — banks & fintechs' },
-  cvm:             { emoji: '📈', short: 'CVM 480',         desc: 'Publicly traded companies — DFP/ITR' },
-  cfm1821:         { emoji: '🏥', short: 'CFM 1.821',       desc: 'Electronic Medical Records — Brazil' },
-  anvisa:          { emoji: '💊', short: 'ANVISA GMP',      desc: 'Good Manufacturing Practices — pharma' },
-  lgpd:            { emoji: '🛡️', short: 'LGPD',           desc: 'Data Protection — Brazil (RIPD/DPIA)' },
-  cnj065:          { emoji: '⚖️', short: 'CNJ 65/2008',    desc: 'Judicial case numbering — NUP format' },
-  clt_rh:          { emoji: '👔', short: 'CLT / HR',        desc: 'Payslips, contracts & labor docs' },
-  conarq:          { emoji: '🏛️', short: 'CONARQ',         desc: 'Public archives — e-ARQ Brasil' },
-  decreto10278:    { emoji: '📄', short: 'Decree 10.278',   desc: 'Digitization of public/private docs' },
-  abnt_nbr:        { emoji: '📐', short: 'ABNT NBR 13531', desc: 'Building design — architecture & eng.' },
-  mapa_agro:       { emoji: '🌾', short: 'MAPA / SISLEGIS', desc: 'Agricultural traceability & certs' },
-  // ── USA ──
-  sox:             { emoji: '🔍', short: 'SOX',             desc: 'Sarbanes-Oxley — audit workpapers' },
-  hipaa:           { emoji: '🔏', short: 'HIPAA',           desc: 'Health records privacy — USA' },
-  fda21cfr11:      { emoji: '🔬', short: 'FDA 21 CFR 11',   desc: 'Electronic records — pharma/FDA' },
-  finra:           { emoji: '📉', short: 'FINRA 4511',      desc: 'Broker-dealer records — Wall Street' },
-  dod5015:         { emoji: '🪖', short: 'DoD 5015.02',     desc: 'US Defense records management' },
-  nist80053:       { emoji: '🛡️', short: 'NIST 800-53',    desc: 'Federal information security controls' },
-  ferpa:           { emoji: '🎓', short: 'FERPA',           desc: 'Student education records privacy' },
-  // ── Latin America ──
-  cfdi_mx:         { emoji: '🇲🇽', short: 'CFDI (SAT)',    desc: 'Mexico — electronic invoicing' },
-  lfpdppp_mx:      { emoji: '🔐', short: 'LFPDPPP',        desc: 'Mexico — data protection law' },
-  afip_ar:         { emoji: '🇦🇷', short: 'AFIP',          desc: 'Argentina — electronic invoicing' },
-  dian_co:         { emoji: '🇨🇴', short: 'DIAN',          desc: 'Colombia — electronic invoicing' },
-  sii_cl:          { emoji: '🇨🇱', short: 'SII DTE',       desc: 'Chile — electronic tax documents' },
-  pipeda_ca:       { emoji: '🇨🇦', short: 'PIPEDA',        desc: 'Canada — privacy & data protection' },
-  // ── Europe ──
-  gdpr:            { emoji: '🇪🇺', short: 'GDPR',          desc: 'EU Data Protection — DPIA/ROPA' },
-  eidas:           { emoji: '✍️', short: 'eIDAS',           desc: 'EU digital signatures & trust' },
-  nis2_eu:         { emoji: '🔐', short: 'NIS2',            desc: 'EU cybersecurity for critical infra' },
-  dora_eu:         { emoji: '🏦', short: 'DORA',            desc: 'EU digital resilience — finance' },
-  uk_gdpr:         { emoji: '🇬🇧', short: 'UK GDPR',       desc: 'UK data protection + DPA 2018' },
-  gobd_de:         { emoji: '🇩🇪', short: 'GoBD',          desc: 'Germany — tax document archiving' },
-  facturae_es:     { emoji: '🇪🇸', short: 'Factura-e',     desc: 'Spain — electronic invoicing' },
-  fatturapa_it:    { emoji: '🇮🇹', short: 'FatturaPA',     desc: 'Italy — electronic invoicing via SDI' },
-  cnil_fr:         { emoji: '🇫🇷', short: 'CNIL',          desc: 'France — data protection guidelines' },
-  // ── Asia-Pacific ──
-  appi_jp:         { emoji: '🇯🇵', short: 'APPI',          desc: 'Japan — personal information act' },
-  privacy_au:      { emoji: '🇦🇺', short: 'Privacy Act',   desc: 'Australia — privacy & NDB scheme' },
-  apra_au:         { emoji: '🏦', short: 'APRA CPS 234',   desc: 'Australia — prudential info security' },
-  dpdp_in:         { emoji: '🇮🇳', short: 'DPDP Act',      desc: 'India — digital personal data' },
-  pipa_kr:         { emoji: '🇰🇷', short: 'PIPA',          desc: 'South Korea — personal info act' },
-  pipl_cn:         { emoji: '🇨🇳', short: 'PIPL',          desc: 'China — personal info protection' },
-  pdpa_sg:         { emoji: '🇸🇬', short: 'PDPA',          desc: 'Singapore — personal data protection' },
-  pdpa_th:         { emoji: '🇹🇭', short: 'PDPA',          desc: 'Thailand — personal data protection' },
-  // ── Middle East ──
-  israel_archives: { emoji: '📜', short: 'IL Archives',    desc: 'Israel — state archives law' },
-  israel_privacy:  { emoji: '🔐', short: 'IL Privacy',     desc: 'Israel — privacy protection law' },
-  pdpl_sa:         { emoji: '🇸🇦', short: 'PDPL',          desc: 'Saudi Arabia — personal data law' },
-  difc_ae:         { emoji: '🇦🇪', short: 'DIFC DPL',      desc: 'UAE/DIFC — data protection law' },
-  // ── Africa ──
-  popia_za:        { emoji: '🇿🇦', short: 'POPIA',         desc: 'South Africa — personal info act' },
-  ndpr_ng:         { emoji: '🇳🇬', short: 'NDPR/NDPA',     desc: 'Nigeria — data protection' },
-  dpa_ke:          { emoji: '🇰🇪', short: 'DPA 2019',      desc: 'Kenya — data protection act' },
+  sped:            { emoji: '📊', short: 'SPED',            desc: 'Escrituração Pública Digital — ECD/ECF/EFD' },
+  esocial:         { emoji: '👥', short: 'eSocial',         desc: 'Eventos trabalhistas e sociais — MTE/RFB' },
+  bacen4893:       { emoji: '🏦', short: 'BACEN 4.893',     desc: 'Política de segurança cibernética — bancos e fintechs' },
+  cvm:             { emoji: '📈', short: 'CVM 480',         desc: 'Empresas de capital aberto — DFP/ITR' },
+  cfm1821:         { emoji: '🏥', short: 'CFM 1.821',       desc: 'Prontuário Eletrônico — Brasil' },
+  anvisa:          { emoji: '💊', short: 'ANVISA BPF',      desc: 'Boas Práticas de Fabricação — farmacêutica' },
+  lgpd:            { emoji: '🛡️', short: 'LGPD',           desc: 'Proteção de Dados — Brasil (RIPD/DPIA)' },
+  cnj065:          { emoji: '⚖️', short: 'CNJ 65/2008',    desc: 'Numeração única de processos judiciais — NUP' },
+  clt_rh:          { emoji: '👔', short: 'CLT / RH',        desc: 'Holerites, contratos e documentos trabalhistas' },
+  conarq:          { emoji: '🏛️', short: 'CONARQ',         desc: 'Arquivos públicos — e-ARQ Brasil' },
+  decreto10278:    { emoji: '📄', short: 'Decreto 10.278',  desc: 'Digitalização de documentos públicos/privados' },
+  abnt_nbr:        { emoji: '📐', short: 'ABNT NBR 13531', desc: 'Projeto de edificações — arquitetura e engenharia' },
+  mapa_agro:       { emoji: '🌾', short: 'MAPA / SISLEGIS', desc: 'Rastreabilidade agropecuária e certificados' },
+  // ── EUA ──
+  sox:             { emoji: '🔍', short: 'SOX',             desc: 'Sarbanes-Oxley — papéis de trabalho de auditoria' },
+  hipaa:           { emoji: '🔏', short: 'HIPAA',           desc: 'Privacidade de registros de saúde — EUA' },
+  fda21cfr11:      { emoji: '🔬', short: 'FDA 21 CFR 11',   desc: 'Registros eletrônicos — farma/FDA' },
+  finra:           { emoji: '📉', short: 'FINRA 4511',      desc: 'Registros de corretoras — Wall Street' },
+  dod5015:         { emoji: '🪖', short: 'DoD 5015.02',     desc: 'Gestão de registros — Defesa dos EUA' },
+  nist80053:       { emoji: '🛡️', short: 'NIST 800-53',    desc: 'Controles federais de segurança da informação' },
+  ferpa:           { emoji: '🎓', short: 'FERPA',           desc: 'Privacidade de registros educacionais' },
+  // ── América Latina ──
+  cfdi_mx:         { emoji: '🇲🇽', short: 'CFDI (SAT)',    desc: 'México — faturamento eletrônico' },
+  lfpdppp_mx:      { emoji: '🔐', short: 'LFPDPPP',        desc: 'México — lei de proteção de dados' },
+  afip_ar:         { emoji: '🇦🇷', short: 'AFIP',          desc: 'Argentina — faturamento eletrônico' },
+  dian_co:         { emoji: '🇨🇴', short: 'DIAN',          desc: 'Colômbia — faturamento eletrônico' },
+  sii_cl:          { emoji: '🇨🇱', short: 'SII DTE',       desc: 'Chile — documentos fiscais eletrônicos' },
+  pipeda_ca:       { emoji: '🇨🇦', short: 'PIPEDA',        desc: 'Canadá — privacidade e proteção de dados' },
+  // ── União Europeia ──
+  gdpr:            { emoji: '🇪🇺', short: 'GDPR',          desc: 'Proteção de Dados da UE — DPIA/ROPA' },
+  eidas:           { emoji: '✍️', short: 'eIDAS',           desc: 'Assinaturas digitais e confiança — UE' },
+  nis2_eu:         { emoji: '🔐', short: 'NIS2',            desc: 'Cibersegurança para infraestrutura crítica — UE' },
+  dora_eu:         { emoji: '🏦', short: 'DORA',            desc: 'Resiliência digital — setor financeiro UE' },
+  uk_gdpr:         { emoji: '🇬🇧', short: 'UK GDPR',       desc: 'Proteção de dados do Reino Unido + DPA 2018' },
+  gobd_de:         { emoji: '🇩🇪', short: 'GoBD',          desc: 'Alemanha — arquivamento de documentos fiscais' },
+  facturae_es:     { emoji: '🇪🇸', short: 'Factura-e',     desc: 'Espanha — faturamento eletrônico' },
+  fatturapa_it:    { emoji: '🇮🇹', short: 'FatturaPA',     desc: 'Itália — faturamento eletrônico via SDI' },
+  cnil_fr:         { emoji: '🇫🇷', short: 'CNIL',          desc: 'França — diretrizes de proteção de dados' },
+  // ── Ásia-Pacífico ──
+  appi_jp:         { emoji: '🇯🇵', short: 'APPI',          desc: 'Japão — lei de informações pessoais' },
+  privacy_au:      { emoji: '🇦🇺', short: 'Privacy Act',   desc: 'Austrália — privacidade e esquema NDB' },
+  apra_au:         { emoji: '🏦', short: 'APRA CPS 234',   desc: 'Austrália — segurança prudencial de informações' },
+  dpdp_in:         { emoji: '🇮🇳', short: 'DPDP Act',      desc: 'Índia — dados pessoais digitais' },
+  pipa_kr:         { emoji: '🇰🇷', short: 'PIPA',          desc: 'Coreia do Sul — lei de informações pessoais' },
+  pipl_cn:         { emoji: '🇨🇳', short: 'PIPL',          desc: 'China — proteção de informações pessoais' },
+  pdpa_sg:         { emoji: '🇸🇬', short: 'PDPA',          desc: 'Singapura — proteção de dados pessoais' },
+  pdpa_th:         { emoji: '🇹🇭', short: 'PDPA',          desc: 'Tailândia — proteção de dados pessoais' },
+  // ── Oriente Médio ──
+  israel_archives: { emoji: '📜', short: 'IL Arquivos',    desc: 'Israel — lei de arquivos estatais' },
+  israel_privacy:  { emoji: '🔐', short: 'IL Privacidade', desc: 'Israel — lei de proteção da privacidade' },
+  pdpl_sa:         { emoji: '🇸🇦', short: 'PDPL',          desc: 'Arábia Saudita — lei de dados pessoais' },
+  difc_ae:         { emoji: '🇦🇪', short: 'DIFC DPL',      desc: 'EAU/DIFC — lei de proteção de dados' },
+  // ── África ──
+  popia_za:        { emoji: '🇿🇦', short: 'POPIA',         desc: 'África do Sul — lei de informações pessoais' },
+  ndpr_ng:         { emoji: '🇳🇬', short: 'NDPR/NDPA',     desc: 'Nigéria — proteção de dados' },
+  dpa_ke:          { emoji: '🇰🇪', short: 'DPA 2019',      desc: 'Quênia — lei de proteção de dados' },
 };
 
 // ══ STATE ═══════════════════════════════════════════════════════════════════
@@ -760,6 +760,11 @@ function openEditModal(folderId) {
   document.getElementById('edit-script-block').style.display = f.patterns?.length ? 'flex' : 'none';
   // Lock / unlock buttons
   updateLockButtons(!!f.locked);
+  // AD principals
+  const adEl = document.getElementById('edit-ad-principals');
+  if (adEl) adEl.value = (f.adPrincipals || []).join('\n');
+  const adFb = document.getElementById('edit-ad-feedback');
+  if (adFb) { adFb.textContent = ''; adFb.className = 'cred-feedback'; }
   openModal('modal-edit');
 }
 
@@ -910,7 +915,14 @@ document.getElementById('btn-edit-export-script').addEventListener('click', asyn
 document.getElementById('btn-edit-lock-folder')?.addEventListener('click', async () => {
   if (!_editFolderId) return;
   const f = state.folders[_editFolderId];
-  if (!confirm(`Deseja restringir o acesso à pasta "${f?.label || f?.path}"?\n\nSomente o usuário atual, Administrators e SYSTEM terão acesso.\nRequer privilégio de administrador.`)) return;
+  if (!confirm(`Deseja restringir o acesso à pasta "${f?.label || f?.path}"?\n\nSomente o usuário atual, Administrators, SYSTEM e os grupos/usuários AD configurados terão acesso.\nRequer privilégio de administrador.`)) return;
+  // Save AD principals from the textarea before locking
+  const adRaw = (document.getElementById('edit-ad-principals')?.value || '').trim();
+  const adPrincipals = adRaw ? adRaw.split(/[\n,;]+/).map(s => s.trim()).filter(Boolean) : [];
+  if (adPrincipals.length > 0 || (f.adPrincipals || []).length > 0) {
+    await fnc.invoke('config:setAdPrincipals', _editFolderId, adPrincipals);
+    state.folders[_editFolderId].adPrincipals = adPrincipals;
+  }
   const r = await fnc.invoke('folder:lockAccess', _editFolderId);
   if (r?.ok) {
     state.folders[_editFolderId].locked = true;
@@ -942,6 +954,32 @@ function updateLockButtons(locked) {
   if (unlockBtn) unlockBtn.style.display = locked ? '' : 'none';
 }
 
+// ── AD Principals validation (folder edit modal) ──────────────────────────
+document.getElementById('btn-edit-validate-ad')?.addEventListener('click', async () => {
+  const fb = document.getElementById('edit-ad-feedback');
+  const raw = (document.getElementById('edit-ad-principals')?.value || '').trim();
+  if (!raw) { fb.textContent = 'Nenhum grupo/usuário informado'; fb.className = 'cred-feedback'; return; }
+  const principals = raw.split(/[\n,;]+/).map(s => s.trim()).filter(Boolean);
+  fb.textContent = 'Verificando…'; fb.className = 'cred-feedback';
+  const results = [];
+  for (const p of principals) {
+    const r = await fnc.invoke('settings:testAdPrincipal', p);
+    results.push({ name: p, ...r });
+  }
+  const allOk  = results.every(r => r.ok);
+  const detail = results.map(r => {
+    if (r.ok) {
+      const typeLabel = r.type === 'group' ? 'grupo' : 'usuário';
+      const scopeLabel = r.scope === 'domain' ? 'domínio' : 'local';
+      return `✔ ${r.name} (${typeLabel} ${scopeLabel})`;
+    }
+    return `✖ ${r.name}: ${r.error || 'não encontrado'}`;
+  }).join('\n');
+  fb.textContent = allOk ? `✔ Todos verificados (${principals.length})` : detail;
+  fb.className   = `cred-feedback ${allOk ? 'ok' : 'err'}`;
+  fb.style.whiteSpace = 'pre-line';
+});
+
 document.getElementById('btn-edit-save').addEventListener('click', async () => {
   const action      = document.querySelector('input[name="edit-action"]:checked')?.value || 'log';
   const labelVal    = document.getElementById('edit-folder-label-input')?.value.trim();
@@ -950,6 +988,9 @@ document.getElementById('btn-edit-save').addEventListener('click', async () => {
   const deptVal     = document.getElementById('edit-folder-dept')?.value.trim();
   const priorityVal = document.getElementById('edit-folder-priority')?.value || 'medium';
   const quarPath    = document.getElementById('edit-quarantine-path')?.value.trim();
+  // AD principals (groups/users) — one per line
+  const adRaw       = (document.getElementById('edit-ad-principals')?.value || '').trim();
+  const adPrincipals = adRaw ? adRaw.split(/[\n,;]+/).map(s => s.trim()).filter(Boolean) : [];
   const updates = {
     action,
     label:            labelVal  || state.folders[_editFolderId]?.path || '',
@@ -959,6 +1000,7 @@ document.getElementById('btn-edit-save').addEventListener('click', async () => {
     priority:         priorityVal,
     color:            _editFolderColor,
     quarantineFolder: quarPath    || '',
+    adPrincipals,
   };
   await fnc.invoke('config:updateFolder', _editFolderId, updates);
   Object.assign(state.folders[_editFolderId], updates);
@@ -1245,9 +1287,15 @@ document.getElementById('btn-test-user').addEventListener('click', async () => {
   const fb       = document.getElementById('runas-user-feedback');
   if (!username) { fb.textContent = 'Digite um nome de usuário'; fb.className = 'cred-feedback err'; return; }
   fb.textContent = 'Verificando…'; fb.className = 'cred-feedback';
-  const r = await fnc.invoke('settings:testWindowsUser', username);
-  fb.textContent = r?.ok ? '✔ Usuário encontrado' : (r?.error || 'Usuário não encontrado');
-  fb.className   = `cred-feedback ${r?.ok ? 'ok' : 'err'}`;
+  const r = await fnc.invoke('settings:testAdPrincipal', username);
+  if (r?.ok) {
+    const typeLabel = r.type === 'group' ? 'grupo' : 'usuário';
+    const scopeLabel = r.scope === 'domain' ? 'domínio' : 'local';
+    fb.textContent = `✔ ${typeLabel} encontrado (${scopeLabel})`;
+  } else {
+    fb.textContent = r?.error || 'Usuário/grupo não encontrado';
+  }
+  fb.className = `cred-feedback ${r?.ok ? 'ok' : 'err'}`;
 });
 
 document.getElementById('autostart-toggle').addEventListener('change', async (e) => {
@@ -1281,8 +1329,34 @@ document.getElementById('autostart-toggle').addEventListener('change', async (e)
 });
 
 document.getElementById('btn-protect-config').addEventListener('click', async () => {
-  const r = await fnc.invoke('settings:protectConfig');
+  // Collect AD principals from the settings field
+  const adInput = document.getElementById('config-ad-principals')?.value.trim() || '';
+  const principals = adInput ? adInput.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
+  const r = await fnc.invoke('settings:protectConfig', principals);
   toast(r?.ok ? 'Arquivo de configuração protegido' : (r?.error || 'Erro'), r?.ok ? 'ok' : 'err');
+});
+
+// Validate AD principals for config protection
+document.getElementById('btn-validate-config-ad')?.addEventListener('click', async () => {
+  const input = document.getElementById('config-ad-principals')?.value.trim() || '';
+  if (!input) { toast('Informe pelo menos um grupo/usuário AD', 'warn'); return; }
+  const principals = input.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
+  const results = [];
+  for (const p of principals) {
+    const r = await fnc.invoke('settings:testAdPrincipal', p);
+    results.push({ name: p, ...r });
+  }
+  const allOk = results.every(r => r.ok);
+  if (allOk) {
+    const detail = results.map(r => {
+      const typeLabel = r.type === 'group' ? 'grupo' : 'usuário';
+      return `${r.name} (${typeLabel})`;
+    }).join(', ');
+    toast(`✔ Verificados: ${detail}`);
+  } else {
+    const failed = results.filter(r => !r.ok).map(r => r.name).join(', ');
+    toast(`✖ Não encontrado: ${failed}`, 'err');
+  }
 });
 
 // Admin username
@@ -1756,17 +1830,17 @@ function showAboutModal() {
         </svg>
       </div>
       <h2 style="margin:.5rem 0 .25rem">FreeNameConvention</h2>
-      <p style="color:var(--text-secondary);margin:0 0 .75rem">v${state.version || '3.1.0'} &nbsp;·&nbsp; Electron 32 &nbsp;·&nbsp; 62+ Normatives</p>
+      <p style="color:var(--text-secondary);margin:0 0 .75rem">v${state.version || '3.2.0'} &nbsp;·&nbsp; Electron 32 &nbsp;·&nbsp; 62+ Normativas</p>
       <p style="font-size:.85rem;line-height:1.6;color:var(--text-secondary)">
-        Open-source file naming compliance guardian.<br>
-        Enforce international naming standards on your folders.<br><br>
-        62+ regulations from every continent: ISO, GDPR, HIPAA,<br>
-        NF-e, SOX, LGPD, APPI, POPIA, and many more.<br>
-        Compatible with domain accounts (AD).<br><br>
-        <em>Guardian running in the background</em>
+        Guardião de conformidade de nomenclatura de arquivos — código aberto.<br>
+        Aplique padrões internacionais de nomenclatura nas suas pastas.<br><br>
+        62+ regulamentações de todos os continentes: ISO, GDPR, HIPAA,<br>
+        NF-e, SOX, LGPD, APPI, POPIA e muito mais.<br>
+        Compatível com contas de domínio e grupos AD.<br><br>
+        <em>Guardião rodando em segundo plano</em>
       </p>
       <div style="margin:.75rem 0;padding:.6rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">
-        <div style="font-weight:600;margin-bottom:.3rem">👨‍💻 Created by</div>
+        <div style="font-weight:600;margin-bottom:.3rem">👨‍💻 Criado por</div>
         <p style="font-size:.8rem;color:var(--text-secondary);margin:0;line-height:1.7">
           <strong>Rafael França</strong><br>
           ✉️ <a href="#" class="about-donate-link" data-url="mailto:rafael.franca@live.com">rafael.franca@live.com</a><br>
@@ -1774,9 +1848,9 @@ function showAboutModal() {
         </p>
       </div>
       <div style="margin:.5rem 0;padding:.6rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">
-        <div style="font-weight:600;margin-bottom:.3rem">🛡️ odefender Community</div>
+        <div style="font-weight:600;margin-bottom:.3rem">🛡️ Comunidade odefender</div>
         <p style="font-size:.8rem;color:var(--text-secondary);margin:0 0 .3rem">
-          Join our open-source security community:
+          Participe da nossa comunidade open-source de segurança:
         </p>
         <div style="font-size:.8rem;line-height:1.7">
           <a href="#" class="about-donate-link" data-url="https://github.com/rfranca777/FreeNameConvention">GitHub</a> ·
@@ -1785,10 +1859,10 @@ function showAboutModal() {
         </div>
       </div>
       <div style="margin:.5rem 0;padding:.6rem;background:var(--bg-tertiary);border-radius:8px;text-align:left">
-        <div style="font-weight:600;margin-bottom:.3rem">💚 Donations — Help those in need</div>
+        <div style="font-weight:600;margin-bottom:.3rem">💚 Doações — Ajude quem precisa</div>
         <p style="font-size:.8rem;color:var(--text-secondary);margin:0 0 .3rem">
-          FreeNameConvention is 100% free & open source.<br>
-          Please consider donating to one of these amazing causes:
+          O FreeNameConvention é 100% gratuito e open source.<br>
+          Considere fazer uma doação para uma dessas causas:
         </p>
         <div style="font-size:.85rem;line-height:2">
           <a href="#" class="about-donate-link" data-url="https://cufa.org.br/doar">🇧🇷 CUFA — Central Única das Favelas</a><br>

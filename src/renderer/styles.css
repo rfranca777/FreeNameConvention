@@ -206,7 +206,7 @@ body { display: grid; grid-template-rows: 40px 1fr; grid-template-columns: 64px 
 .log-table td { padding: 8px 12px; font-size: 12px; border-bottom: 1px solid var(--border); }
 .log-table tr:last-child td { border-bottom: none; }
 .log-table tr:hover td { background: var(--bg-hover); }
-.log-file { font-family: 'Cascadia Code','Consolas',monospace; color: var(--danger); }
+.log-file { font-family: 'Cascadia Code','Consolas',monospace; color: var(--accent); }
 .log-time { color: var(--text-muted); white-space: nowrap; }
 .log-action-moved    { color: var(--warning); }
 .log-action-blocked  { color: var(--danger); }
@@ -688,10 +688,10 @@ body { display: grid; grid-template-rows: 40px 1fr; grid-template-columns: 64px 
   border-radius: 4px;
   white-space: nowrap;
 }
-.fc-priority.info     { background: #e3f2fd; color: #1565c0; }
-.fc-priority.medium   { background: #fff8e1; color: #e65100; }
-.fc-priority.high     { background: #fce4ec; color: #c62828; }
-.fc-priority.critical { background: #f3e5f5; color: #6a1b9a; }
+.fc-priority.info     { background: rgba(21,101,192,0.15); color: #64b5f6; }
+.fc-priority.medium   { background: rgba(230,81,0,0.15);   color: #ffb74d; }
+.fc-priority.high     { background: rgba(198,40,40,0.15);  color: #ef5350; }
+.fc-priority.critical { background: rgba(106,27,154,0.15); color: #ce93d8; }
 
 /* Folder identity grid in edit modal */
 .folder-meta-grid { display: flex; flex-direction: column; gap: 0.65rem; }
@@ -785,10 +785,10 @@ textarea.text-field,
 
 /* tip box */
 .help-tip-box {
-  background: #e8f5e9; border-left: 4px solid #2e7d32;
+  background: rgba(46,125,50,0.1); border-left: 4px solid #66bb6a;
   border-radius: 0 8px 8px 0; padding: .7rem 1rem;
   font-size: .82rem; line-height: 1.6;
-  color: #1b5e20; margin-bottom: 1rem;
+  color: #a5d6a7; margin-bottom: 1rem;
 }
 
 /* ── Token reference table ─────────────────────────── */
